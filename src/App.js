@@ -1,9 +1,15 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import Layout from './Components/Main/Layout';
+import DashboardCarousel from './Components/Pages/Dashboard_Slider/Dashboard_Slider';
 
 function App() {
-	return <div className="App">Neostore</div>;
+	return (
+		<div className="App">
+			<Layout>
+				<DashboardCarousel />
+			</Layout>
+		</div>
+	);
 }
 
 export default App;
