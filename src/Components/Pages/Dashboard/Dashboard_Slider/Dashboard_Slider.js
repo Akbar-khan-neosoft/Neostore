@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import './Dashboard_Slider.css';
+import '../../Dashboard/Dashboard_Slider/Dashboard_Slider.css';
 
 class DashboardCarousel extends Component {
 	constructor() {
@@ -25,7 +25,8 @@ class DashboardCarousel extends Component {
 							<div class={`carousel-item ${index == 0 ? 'active' : ''}`} key={index}>
 								<img
 									src={'http://180.149.241.208:3022/' + item.product_image}
-									class="d-block w-100"
+									width="100%"
+									height="350px"
 									alt="..."
 								/>
 							</div>
