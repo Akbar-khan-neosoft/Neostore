@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import '../../Dashboard/Dashboard_Slider/Dashboard_Slider.css';
+import '../../../../Assets/CSS/Dashboard_Slider.css';
 
 class DashboardCarousel extends Component {
 	constructor() {

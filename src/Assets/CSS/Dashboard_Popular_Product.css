@@ -1,0 +1,37 @@
+.Dashboard_Popular_Product_Body {
+	width: 85%;
+	margin: auto;
+}
+
+.Dashboard_Popular_Product_Heading {
+	text-align: center;
+	color: black;
+	font-size: 25px;
+	font-weight: 700;
+}
+
+.Dashboard_Popular_Product_Link {
+	text-align: center;
+}
+
+.Dashboard_Popular_Product_Card {
+	display: flex;
+	flex-direction: 'row';
+	flex-wrap: wrap;
+}
+
+.card {
+	height: 300px;
+	width: 250px;
+	margin: 15px;
+	background-color: #fff;
+	border: 1px solid #ddd;
+	border-radius: 4px;
+}
+
+.class-thumbnail {
+	width: 230px;
+	margin: 10px;
+	margin-right: 10px;
+	align-items: center;
+}
