@@ -1,0 +1,43 @@
+.login_buttons {
+	padding: 15px;
+	margin-right: 10px;
+	border-right: 2px solid black;
+}
+
+.loginButton {
+	height: 75px;
+	width: 400px;
+	margin: 10px;
+	border-radius: 10px;
+	color: white;
+	font-weight: 700;
+	text-align: center;
+}
+
+.login_container {
+	width: 85%;
+	margin: auto;
+	margin-top: 50px;
+	margin-bottom: 50px;
+}
+
+.login_main {
+	display: flex;
+	margin: auto;
+	margin-top: 10px;
+	width: 90%;
+	padding: 10px;
+}
+
+.login_form {
+	width: 500px;
+	height: auto;
+	margin-left: 10px;
+	margin-top: 15px;
+}
+
+.login_others {
+	width: 90%;
+	margin: auto;
+	text-align: center;
+}

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import '../../../Assets/CSS/Header.css';
+import { BrowserRouter as Router, Link } from 'react-router-dom';
 
 class Header extends Component {
 	render() {
@@ -13,9 +14,9 @@ class Header extends Component {
 				<div className="Header-Links">
 					<ul className="navbar">
 						<li>
-							<a style={{ textDecoration: 'none' }} href="#">
+							<Link to="/">
 								<span style={{ fontSize: '20px', fontWeight: 'bold', color: 'white' }}>Home</span>
-							</a>
+							</Link>
 						</li>
 						<li>
 							<a style={{ textDecoration: 'none' }} href="#">
@@ -57,55 +58,17 @@ class Header extends Component {
 									<i class="fa fa-user-circle" aria-hidden="true"></i>
 								</a>
 								<div class="dropdown-menu" aria-labelledby="navbarDropdown">
-									<a class="dropdown-item" href="#">
+									<Link to="/login" class="dropdown-item">
 										Login
-									</a>
-									<a class="dropdown-item" href="#">
+									</Link>
+									<Link to="/register" class="dropdown-item">
 										Register
-									</a>
+									</Link>
 								</div>
 							</div>
 						</button>
 					</div>
 				</div>
-
-				{/* <nav class="navbar navbar-expand-lg ">
-					<a class="navbar-brand" href="#">
-						
-					</a>
-
-					<div class="collapse navbar-collapse" id="navbarSupportedContent">
-						<ul class="navbar-nav mr-auto">
-							<li class="nav-item active">
-								<a class="nav-link" href="#">
-									Home <span class="sr-only">(current)</span>
-								</a>
-							</li>
-							<li class="nav-item">
-								<a class="nav-link" href="#">
-									Link
-								</a>
-							</li>
-
-							<li class="nav-item">
-								<a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">
-									Disabled
-								</a>
-							</li>
-						</ul>
-						<form class="form-inline my-2 my-lg-0">
-							<input
-								class="form-control mr-sm-2"
-								type="search"
-								placeholder="Search"
-								aria-label="Search"
-							/>
-							<button class="btn btn-outline-success my-2 my-sm-0" type="submit">
-								Search
-							</button>
-						</form>
-					</div>
-				</nav> */}
 			</div>
 		);
 	}

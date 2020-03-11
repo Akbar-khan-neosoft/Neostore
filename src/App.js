@@ -1,15 +1,20 @@
 import React from 'react';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import Dashboard from './Components/Pages/Dashboard/Dashboard';
+import Login from './Components/Pages/Login';
 import Layout from './Components/Main/Layout';
-import DashboardCarousel from './Components/Pages/Dashboard/Dashboard_Slider/Dashboard_Slider';
-import Dashboard_Popular_Product from './Components/Pages/Dashboard/Dashboard_Popular_Product/Dashboard_Popular_Product';
 
 function App() {
 	return (
 		<div className="App">
-			<Layout>
-				<DashboardCarousel />
-				<Dashboard_Popular_Product />
-			</Layout>
+			<Router>
+				<Layout>
+					<Switch>
+						<Route exact path="/" component={Dashboard} />
+						<Route exact path="/login" component={Login} />
+					</Switch>
+				</Layout>
+			</Router>
 		</div>
 	);
 }
