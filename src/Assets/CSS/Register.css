@@ -1,0 +1,40 @@
+.register {
+	width: 85%;
+	margin: auto;
+	margin-top: 5%;
+	margin-bottom: 10%;
+}
+
+.registerButton {
+	width: 250px;
+	height: 80px;
+	margin-left: 10px;
+	margin-right: 10px;
+	border-radius: 10px;
+	color: white;
+}
+
+.register_button {
+	width: 80%;
+
+	margin-left: 20%;
+	margin-right: 20%;
+}
+
+.form-control {
+	padding: 10px;
+	margin: auto;
+}
+
+.form_textfield {
+	margin: 10px;
+}
+
+.register_form {
+	width: 80%;
+	margin: auto;
+}
+
+.form_card {
+	border: 1px solid rgb(240, 238, 238);
+}

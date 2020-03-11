@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import '../../Assets/CSS/Login.css';
+import { Link } from 'react-router-dom';
 
 class Login extends Component {
 	constructor() {
@@ -48,9 +49,9 @@ class Login extends Component {
 				</div>
 				<div className="login_others">
 					<button style={{ backgroundColor: 'transparent', border: 'none' }}>
-						<a href="#" style={{ color: 'black' }}>
+						<Link to="/register" style={{ color: 'black' }}>
 							Register Now
-						</a>
+						</Link>
 					</button>
 					|
 					<button style={{ backgroundColor: 'transparent', border: 'none' }}>
