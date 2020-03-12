@@ -6,6 +6,7 @@ import Login from './Components/Pages/Login';
 import Layout from './Components/Main/Layout';
 import Register from './Components/Pages/Register';
 import store from '../src/Redux/Store';
+import ContactForm from './Components/Common/ContactForm';
 // console.log(store.getState());
 
 function App() {
@@ -18,6 +19,7 @@ function App() {
 							<Route exact path="/" component={Dashboard} />
 							<Route exact path="/login" component={Login} />
 							<Route exact path="/register" component={Register} />
+							<Route exact path="/contactus" component={ContactForm} />
 						</Switch>
 					</Layout>
 				</Router>

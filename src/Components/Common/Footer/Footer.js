@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import '../../../Assets/CSS/Footer.css';
+import { Link } from 'react-router-dom';
 
 class Footer extends Component {
 	render() {
@@ -40,9 +41,9 @@ class Footer extends Component {
 									</a>
 								</li>
 								<li>
-									<a style={{ textDecoration: 'none', color: 'white' }} href="#">
+									<Link to="/contactus" style={{ textDecoration: 'none', color: 'white' }}>
 										Contact Us
-									</a>
+									</Link>
 								</li>
 								<li>
 									<a style={{ textDecoration: 'none', color: 'white' }} href="#">

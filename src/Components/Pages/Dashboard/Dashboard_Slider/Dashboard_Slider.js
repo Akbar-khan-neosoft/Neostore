@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import axios from 'axios';
+import { connect } from 'react-redux';
 import '../../../../Assets/CSS/Dashboard_Slider.css';
+import { fetchSliderData } from '../../../../Redux/Actions/sliderAction';
 
 class DashboardCarousel extends Component {
 	constructor() {
@@ -11,9 +12,9 @@ class DashboardCarousel extends Component {
 	}
 
 	componentDidMount() {
-		axios.get('http://180.149.241.208:3022/getAllCategories').then(result => {
-			this.setState({ data: result.data.category_details });
-		});
+		this.props.onFetch();
+
+		// this.setState({ data: result.data.category_details });
 	}
 
 	render() {
@@ -21,8 +22,11 @@ class DashboardCarousel extends Component {
 			<div className="dashboard-slider">
 				<div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
 					<div class="carousel-inner">
-						{this.state.data.map((item, index) => (
+						{console.log('dashboard : ', this.props.data)}
+						{[this.props.data].map((item, index) => (
 							<div class={`carousel-item ${index == 0 ? 'active' : ''}`} key={index}>
+								{console.log('inside : ', item.sliderReducer.data.data)}
+
 								<img
 									src={'http://180.149.241.208:3022/' + item.product_image}
 									width="100%"
@@ -46,4 +50,15 @@ class DashboardCarousel extends Component {
 	}
 }
 
-export default DashboardCarousel;
+const mapStateToProps = state => {
+	{
+		console.log('redu:', state);
+	}
+	return { data: state };
+};
+
+const mapDispatchToProps = dispatch => ({
+	onFetch: () => dispatch(fetchSliderData()),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(DashboardCarousel);
