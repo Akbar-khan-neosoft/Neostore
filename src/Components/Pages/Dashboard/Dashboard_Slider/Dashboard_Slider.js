@@ -7,9 +7,9 @@ import { URL } from '../../../../Redux/Constants/index';
 class DashboardCarousel extends Component {
 	constructor() {
 		super();
-		this.state = {
-			data: [],
-		};
+		// this.state = {
+		// 	data: [],
+		// };
 	}
 
 	componentDidMount() {

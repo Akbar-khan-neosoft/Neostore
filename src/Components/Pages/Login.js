@@ -1,31 +1,44 @@
 import React, { Component } from 'react';
 import '../../Assets/CSS/Login.css';
-// import { customErrorMessages, EMAIL_REGEX } from '../../Utils';
+import { EMAIL_REGEX } from '../../Utils/validation';
 import { Link } from 'react-router-dom';
 
+let errorMessage = '';
 class Login extends Component {
 	constructor() {
 		super();
 		this.state = {
 			email: '',
 			password: '',
-			error: false,
-			errorMessage: 'error',
 			disableButton: true,
+
+			emailError: false,
+			passwordError: false,
 		};
 	}
 
 	onChangeHandler = e => {
-		console.log('hey');
-
 		const name = e.target.name;
 		const value = e.target.value;
 		this.setState({ [name]: value });
 	};
 
 	validate = () => {
+		errorMessage = '';
+		this.setState({ passwordError: false, emailError: false });
+
 		if (this.state.email === '') {
-			this.setState({ error: true });
+			this.setState({ emailError: true });
+			errorMessage = "Email Field Can't Be Left Blank";
+		} else if (this.state.email.match(EMAIL_REGEX)) {
+			this.setState({ emailError: true });
+			errorMessage = 'Invalid Email';
+		} else if (this.state.password === '') {
+			this.setState({ passwordError: true });
+			errorMessage = "Password Field Can't Be Left Blank";
+		} else if (this.state.password.length < 8) {
+			this.setState({ passwordError: true });
+			errorMessage = 'Password Length Should Be More Than 8';
 		}
 	};
 
@@ -66,7 +79,7 @@ class Login extends Component {
 									name="email"
 									onBlur={this.validate}
 								/>
-								{this.state.error ? <span>{this.state.errorMessage}</span> : null}
+								{this.state.emailError ? <span>{errorMessage}</span> : null}
 							</div>
 							<div class="form-group" style={{ marginTop: '25px' }}>
 								<input
@@ -76,8 +89,9 @@ class Login extends Component {
 									value={this.state.password}
 									onChange={this.onChangeHandler}
 									name="password"
+									onBlur={this.validate}
 								/>
-								{this.state.error ? <span>{this.state.errorMessage}</span> : null}
+								{this.state.passwordError ? <span>{errorMessage}</span> : null}
 							</div>
 
 							<button type="submit" style={{ marginTop: '15px' }} class="btn btn-primary">
