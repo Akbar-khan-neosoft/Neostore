@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import axios from 'axios';
 import '../../../../Assets/CSS/Dashboard_Popular_Product.css';
 import { connect } from 'react-redux';
 import { fetchPopularProductData } from '../../../../Redux/Actions/popularProductAction';
+import { URL } from '../../../../Redux/Constants';
+import StarRatingComponent from 'react-star-rating-component';
 
 class Dashboard_Popular_Product extends Component {
 	constructor() {
@@ -11,8 +12,6 @@ class Dashboard_Popular_Product extends Component {
 
 	componentDidMount() {
 		this.props.onFetch();
-		// axios.get('http://180.149.241.208:3022/defaultTopRatingProduct').then(result => {
-		// 	this.setState({ data: result.data.product_details });
 	}
 
 	render() {
@@ -23,7 +22,6 @@ class Dashboard_Popular_Product extends Component {
 					<button style={{ background: 'transparent', border: 'none' }}>View All</button>
 				</div>
 				<div className="Dashboard_Popular_Product_Card">
-					{console.log('dashboard', this.props.data)}
 					{this.props.data.map(item => {
 						return [item].map(result => {
 							return (
@@ -31,10 +29,7 @@ class Dashboard_Popular_Product extends Component {
 									<div className="class-thumbnail">
 										<img
 											style={{ height: '120px', width: '230px', borderRadius: '10px' }}
-											src={
-												'http://180.149.241.208:3022/' +
-												result.DashboardProducts[0].product_image
-											}
+											src={URL + result.DashboardProducts[0].product_image}
 											class="card-img-top"
 											alt="..."
 										/>
@@ -91,6 +86,13 @@ class Dashboard_Popular_Product extends Component {
 													</a>
 												</button>
 											</div>
+											<div className="text-center">
+												<StarRatingComponent
+													value={result.DashboardProducts[0].product_rating}
+													editing={false}
+													starCount={5}
+												/>
+											</div>
 										</div>
 									</div>
 								</div>
@@ -104,8 +106,6 @@ class Dashboard_Popular_Product extends Component {
 }
 
 const mapStateToProps = state => {
-	console.log('redux:- ', state);
-
 	return { data: state.popularProductReducer.data || [] };
 };
 

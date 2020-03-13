@@ -7,6 +7,8 @@ import Layout from './Components/Main/Layout';
 import Register from './Components/Pages/Register';
 import store from '../src/Redux/Store';
 import ContactForm from './Components/Common/ContactForm';
+import ForgotPassword from './Components/Common/ForgotPassword';
+import Product from './Components/Pages/Dashboard/Product';
 // console.log(store.getState());
 
 function App() {
@@ -20,6 +22,8 @@ function App() {
 							<Route exact path="/login" component={Login} />
 							<Route exact path="/register" component={Register} />
 							<Route exact path="/contactus" component={ContactForm} />
+							<Route excat path="/forgotpassword" component={ForgotPassword} />
+							<Route excat path="/product" component={Product} />
 						</Switch>
 					</Layout>
 				</Router>

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import '../../../../Assets/CSS/Dashboard_Slider.css';
 import { fetchSliderData } from '../../../../Redux/Actions/sliderAction';
+import { URL } from '../../../../Redux/Constants/index';
 
 class DashboardCarousel extends Component {
 	constructor() {
@@ -22,12 +23,7 @@ class DashboardCarousel extends Component {
 					<div class="carousel-inner">
 						{this.props.data.map((item, index) => (
 							<div class={`carousel-item ${index == 0 ? 'active' : ''}`} key={index}>
-								<img
-									src={'http://180.149.241.208:3022/' + item.product_image}
-									width="100%"
-									height="350px"
-									alt="..."
-								/>
+								<img src={URL + item.product_image} width="100%" height="350px" alt="..." />
 							</div>
 						))}
 					</div>

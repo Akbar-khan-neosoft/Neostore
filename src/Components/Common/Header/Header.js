@@ -14,14 +14,14 @@ class Header extends Component {
 				<div className="Header-Links">
 					<ul className="navbar">
 						<li>
-							<Link to="/">
+							<Link to="/" style={{ textDecoration: 'none' }}>
 								<span style={{ fontSize: '20px', fontWeight: 'bold', color: 'white' }}>Home</span>
 							</Link>
 						</li>
 						<li>
-							<a style={{ textDecoration: 'none' }} href="#">
+							<Link to="/product" style={{ textDecoration: 'none' }}>
 								<span style={{ fontSize: '20px', fontWeight: 'bold', color: 'white' }}>Products</span>
-							</a>
+							</Link>
 						</li>
 						<li>
 							<a style={{ textDecoration: 'none' }} href="#">

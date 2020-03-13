@@ -1,11 +1,33 @@
 import React, { Component } from 'react';
 import '../../Assets/CSS/Login.css';
+// import { customErrorMessages, EMAIL_REGEX } from '../../Utils';
 import { Link } from 'react-router-dom';
 
 class Login extends Component {
 	constructor() {
 		super();
+		this.state = {
+			email: '',
+			password: '',
+			error: false,
+			errorMessage: 'error',
+			disableButton: true,
+		};
 	}
+
+	onChangeHandler = e => {
+		console.log('hey');
+
+		const name = e.target.name;
+		const value = e.target.value;
+		this.setState({ [name]: value });
+	};
+
+	validate = () => {
+		if (this.state.email === '') {
+			this.setState({ error: true });
+		}
+	};
 
 	render() {
 		return (
@@ -35,10 +57,27 @@ class Login extends Component {
 						<form>
 							<h3>Login to NeoSTORE</h3>
 							<div class="form-group" style={{ marginTop: '25px' }}>
-								<input type="email" class="form-control" placeholder="Email Address" />
+								<input
+									type="email"
+									class="form-control"
+									placeholder="Email Address"
+									value={this.state.email}
+									onChange={this.onChangeHandler}
+									name="email"
+									onBlur={this.validate}
+								/>
+								{this.state.error ? <span>{this.state.errorMessage}</span> : null}
 							</div>
 							<div class="form-group" style={{ marginTop: '25px' }}>
-								<input type="password" class="form-control" placeholder="Password" />
+								<input
+									type="password"
+									class="form-control"
+									placeholder="Password"
+									value={this.state.password}
+									onChange={this.onChangeHandler}
+									name="password"
+								/>
+								{this.state.error ? <span>{this.state.errorMessage}</span> : null}
 							</div>
 
 							<button type="submit" style={{ marginTop: '15px' }} class="btn btn-primary">
@@ -55,9 +94,9 @@ class Login extends Component {
 					</button>
 					|
 					<button style={{ backgroundColor: 'transparent', border: 'none' }}>
-						<a href="#" style={{ color: 'black' }}>
+						<Link to="/forgotpassword" style={{ color: 'black' }}>
 							Forgot Password
-						</a>
+						</Link>
 					</button>
 				</div>
 			</div>
