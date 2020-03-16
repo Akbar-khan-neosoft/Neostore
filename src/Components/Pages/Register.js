@@ -12,8 +12,9 @@ import { RadioGroup, FormControlLabel } from '@material-ui/core';
 import Radio from '@material-ui/core/Radio';
 
 const emailRegex = RegExp(/^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/);
+const allOk = true;
 const formValid = ({ formErrors, ...rest }) => {
-	let valid = true;
+	let valid = false;
 
 	Object.values(formErrors).forEach(val => {
 		val.length > 0 && (valid = false);
@@ -49,8 +50,10 @@ class Register extends Component {
 
 	handleSubmit = async e => {
 		e.preventDefault();
+		// formValid(this.state)
+		console.log(allOk);
 
-		if (formValid(this.state)) {
+		if (allOk === false) {
 			const { firstName, lastName, email, password, mobile, confirmPassword, gender } = this.state;
 			let registrationData = {
 				first_name: `${firstName}`,
@@ -78,11 +81,22 @@ class Register extends Component {
 		switch (name) {
 			case 'firstName':
 				formErrors.firstName =
-					value.length === 0 ? "Firstname field can't be left blank,minimum 3 characaters required" : '';
+					value.length === 0
+						? "Firstname field can't be left blank,minimum 3 characaters required"
+						: isNaN(value)
+						? ''
+						: 'Numbers not allowed in Firstname';
+
+				allOk = true;
 				break;
 			case 'lastName':
 				formErrors.lastName =
-					value.length === 0 ? "Lastname field can't be left blank,minimum 3 characaters required" : '';
+					value.length === 0
+						? "Lastname field can't be left blank,minimum 3 characaters required"
+						: isNaN(value)
+						? ''
+						: 'Numbers not allowed in Lastname';
+				allOk = true;
 				break;
 			case 'email':
 				formErrors.email =
@@ -91,6 +105,8 @@ class Register extends Component {
 						: emailRegex.test(value)
 						? ''
 						: 'invalid email address';
+
+				allOk = true;
 				break;
 			case 'password':
 				formErrors.password =
@@ -99,6 +115,8 @@ class Register extends Component {
 						: value.length < 8
 						? 'minimum 8 characaters required'
 						: '';
+
+				allOk = true;
 				break;
 			case 'confirmPassword':
 				formErrors.confirmPassword =
@@ -107,23 +125,32 @@ class Register extends Component {
 						: value.length < 8
 						? 'minimum 8 characaters required'
 						: '';
+
+				allOk = true;
 				break;
 			case 'mobile':
 				formErrors.mobile =
 					value.length === 0
 						? "Mobile Number field can't be left blank"
+						: isNaN(value)
+						? 'Only Numbers allowed in Mobile'
 						: value.length < 10 || value.length > 10
 						? 'Only 10 characaters allowed'
 						: '';
+
+				allOk = true;
 				break;
 			case 'gender':
 				formErrors.gender = value.length === 0 ? "Gender field can't be left blank" : '';
+
+				allOk = true;
 				break;
 			default:
 				break;
 		}
 
 		this.setState({ formErrors, [name]: value });
+		// return allOk;
 	};
 
 	render() {
