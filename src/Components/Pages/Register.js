@@ -1,4 +1,7 @@
 import React, { Component } from 'react';
+import axios from 'axios';
+import { useHistory } from 'react-router-dom';
+import { URL } from '../../Redux/Constants/index';
 import '../../Assets/CSS/Register.css';
 import { TextField, FormControl, InputAdornment } from '@material-ui/core';
 
@@ -12,12 +15,10 @@ const emailRegex = RegExp(/^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\
 const formValid = ({ formErrors, ...rest }) => {
 	let valid = true;
 
-	// validate form errors being empty
 	Object.values(formErrors).forEach(val => {
 		val.length > 0 && (valid = false);
 	});
 
-	// validate the form was filled out
 	Object.values(rest).forEach(val => {
 		val === null && (valid = false);
 	});
@@ -33,6 +34,7 @@ class Register extends Component {
 			password: '',
 			confirmPassword: '',
 			mobile: '',
+			gender: '',
 			formErrors: {
 				firstName: '',
 				lastName: '',
@@ -40,30 +42,35 @@ class Register extends Component {
 				password: '',
 				confirmPassword: '',
 				mobile: '',
+				gender: '',
 			},
 		};
 	}
 
-	handleSubmit = e => {
+	handleSubmit = async e => {
 		e.preventDefault();
 
 		if (formValid(this.state)) {
-			console.log(`
-        --SUBMITTING--
-        First Name: ${this.state.firstName}
-        Last Name: ${this.state.lastName}
-        Email: ${this.state.email}
-		Password: ${this.state.password}
-		 mobile: ${this.state.mobile}
-        confirm Password: ${this.state.confirmPassword}
-      `);
+			const { firstName, lastName, email, password, mobile, confirmPassword, gender } = this.state;
+			let registrationData = {
+				first_name: `${firstName}`,
+				last_name: `${lastName}`,
+				email: `${email}`,
+				pass: `${password}`,
+				phone_no: `${mobile}`,
+				confirmPass: `${confirmPassword}`,
+				gender: `${gender}`,
+			};
+
+			const res = await axios.post(URL + 'register', registrationData);
+			alert(res.data.message);
+			this.props.history.push('login');
 		} else {
 			alert('FORM INVALID - Kindly Fill The form Completly');
 		}
 	};
 
 	handleChange = e => {
-		// setValues({ ...values, [prop]: event.target.value });
 		e.preventDefault();
 		const { name, value } = e.target;
 		let formErrors = { ...this.state.formErrors };
@@ -71,15 +78,15 @@ class Register extends Component {
 		switch (name) {
 			case 'firstName':
 				formErrors.firstName =
-					value.length == 0 ? "Firstname field can't be left blank,minimum 3 characaters required" : '';
+					value.length === 0 ? "Firstname field can't be left blank,minimum 3 characaters required" : '';
 				break;
 			case 'lastName':
 				formErrors.lastName =
-					value.length == 0 ? "Lastname field can't be left blank,minimum 3 characaters required" : '';
+					value.length === 0 ? "Lastname field can't be left blank,minimum 3 characaters required" : '';
 				break;
 			case 'email':
 				formErrors.email =
-					value.length == 0
+					value.length === 0
 						? "Email field can't be left blank"
 						: emailRegex.test(value)
 						? ''
@@ -87,7 +94,7 @@ class Register extends Component {
 				break;
 			case 'password':
 				formErrors.password =
-					value.length == 0
+					value.length === 0
 						? "Password field can't be left blank"
 						: value.length < 8
 						? 'minimum 8 characaters required'
@@ -95,7 +102,7 @@ class Register extends Component {
 				break;
 			case 'confirmPassword':
 				formErrors.confirmPassword =
-					value.length == 0
+					value.length === 0
 						? "Confirm password field can't be left blank"
 						: value.length < 8
 						? 'minimum 8 characaters required'
@@ -103,17 +110,20 @@ class Register extends Component {
 				break;
 			case 'mobile':
 				formErrors.mobile =
-					value.length == 0
+					value.length === 0
 						? "Mobile Number field can't be left blank"
 						: value.length < 10 || value.length > 10
 						? 'Only 10 characaters allowed'
 						: '';
 				break;
+			case 'gender':
+				formErrors.gender = value.length === 0 ? "Gender field can't be left blank" : '';
+				break;
 			default:
 				break;
 		}
 
-		this.setState({ formErrors, [name]: value }, () => console.log(this.state));
+		this.setState({ formErrors, [name]: value });
 	};
 
 	render() {
@@ -139,7 +149,7 @@ class Register extends Component {
 							<div className="form_textfield">
 								<FormControl fullWidth>
 									<TextField
-										id="outlined-basic"
+										id="outlined-firstName"
 										label="First Name"
 										name="firstName"
 										value={this.state.firstName}
@@ -162,7 +172,7 @@ class Register extends Component {
 							<div className="form_textfield">
 								<FormControl fullWidth>
 									<TextField
-										id="outlined-basic"
+										id="outlined-lastName"
 										label="Last Name"
 										name="lastName"
 										variant="outlined"
@@ -184,7 +194,7 @@ class Register extends Component {
 							<div className="form_textfield">
 								<FormControl fullWidth>
 									<TextField
-										id="outlined-basic"
+										id="outlined-email"
 										label="Email Address"
 										name="email"
 										variant="outlined"
@@ -206,7 +216,7 @@ class Register extends Component {
 							<div className="form_textfield">
 								<FormControl fullWidth>
 									<TextField
-										id="outlined-basic"
+										id="outlined-password"
 										label="Password"
 										name="password"
 										type="password"
@@ -222,25 +232,13 @@ class Register extends Component {
 							<div className="form_textfield">
 								<FormControl fullWidth>
 									<TextField
-										id="outlined-basic"
+										id="outlined-confirmPassword"
 										label="Confirm Password"
 										name="confirmPassword"
 										variant="outlined"
 										type="password"
 										placeholder="Confirm Password"
 										onChange={this.handleChange}
-										// endAdornment={
-										// 	<InputAdornment position="end">
-										// 		<IconButton
-										// 			aria-label="toggle password visibility"
-										// 			onClick={handleClickShowPassword}
-										// 			onMouseDown={handleMouseDownPassword}
-										// 			edge="end"
-										// 		>
-										// 			{values.showPassword ? <Visibility /> : <VisibilityOff />}
-										// 		</IconButton>
-										// 	</InputAdornment>
-										// }
 									/>
 								</FormControl>
 								{formErrors.confirmPassword.length > 0 && (
@@ -250,7 +248,7 @@ class Register extends Component {
 							<div className="form_textfield">
 								<FormControl fullWidth>
 									<TextField
-										id="outlined-basic"
+										id="outlined-mobile"
 										label="Mobile Number"
 										name="mobile"
 										variant="outlined"
@@ -272,9 +270,9 @@ class Register extends Component {
 							<div className="form_textfield">
 								<FormControl component="fieldset">
 									<RadioGroup
-										defaultValue="male"
+										//defaultValue="male"
 										aria-label="gender"
-										name="customized-radios"
+										name="gender"
 										onChange={this.handleChange}
 									>
 										<FormControlLabel value="male" control={<Radio />} label="Male" />
