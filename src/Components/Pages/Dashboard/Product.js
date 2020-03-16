@@ -2,13 +2,14 @@ import React, { Component } from 'react';
 import '../../../Assets/CSS/Product.css';
 import { connect } from 'react-redux';
 import { fetchProductData } from '../../../Redux/Actions/productAction';
-import Pagination from 'react-js-pagination';
 import ProductCard from './ProductCard';
+import Pagination from './Pagination';
 
 class Product extends Component {
 	constructor() {
 		super();
 		this.state = {
+			post: [],
 			currentPage: 1,
 			cardsPerPage: 9,
 		};
@@ -19,10 +20,14 @@ class Product extends Component {
 	}
 
 	handlePageChange = pageNumber => {
+		console.log(pageNumber);
+
 		this.setState({ currentPage: pageNumber });
 	};
 
 	render() {
+		console.log('cc : ', this.state.currentPage);
+
 		const indexOfLastPost = this.state.currentPage * this.state.cardsPerPage;
 		const indexOfFirstPost = indexOfLastPost - this.state.cardsPerPage;
 		const currentCard = this.props.data.slice(indexOfFirstPost, indexOfLastPost);
@@ -39,11 +44,9 @@ class Product extends Component {
 				</div>
 				<div className="product_pagination">
 					<Pagination
-						activePage={this.state.currentPage}
-						itemsCountPerPage={this.state.cardsPerPage}
-						totalItemsCount={40}
-						pageRangeDisplayed={5}
-						onChange={this.handlePageChange}
+						cardsPerPage={this.state.cardsPerPage}
+						totalPosts={this.props.data.length}
+						paginate={this.handlePageChange}
 					/>
 				</div>
 			</div>
