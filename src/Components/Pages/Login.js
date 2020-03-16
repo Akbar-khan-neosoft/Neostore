@@ -14,6 +14,7 @@ class Login extends Component {
 
 			emailError: false,
 			passwordError: false,
+			errorMessage: '',
 		};
 	}
 
@@ -24,21 +25,30 @@ class Login extends Component {
 	};
 
 	validate = () => {
-		errorMessage = '';
-		this.setState({ passwordError: false, emailError: false });
+		this.setState({ passwordError: false, emailError: false, errorMessage: '' });
 
 		if (this.state.email === '') {
-			this.setState({ emailError: true });
-			errorMessage = "Email Field Can't Be Left Blank";
-		} else if (this.state.email.match(EMAIL_REGEX)) {
-			this.setState({ emailError: true });
-			errorMessage = 'Invalid Email';
+			this.setState({ emailError: true, errorMessage: "Email Field Can't Be Left Blank", disableButton: true });
 		} else if (this.state.password === '') {
-			this.setState({ passwordError: true });
-			errorMessage = "Password Field Can't Be Left Blank";
+			this.setState({
+				passwordError: true,
+				errorMessage: "Password Field Can't Be Left Blank",
+				disableButton: true,
+			});
+			// return false;
+			// errorMessage = "Password Field Can't Be Left Blank";
 		} else if (this.state.password.length < 8) {
-			this.setState({ passwordError: true });
-			errorMessage = 'Password Length Should Be More Than 8';
+			this.setState({
+				passwordError: true,
+				errorMessage: 'Password Length Should Be More Than 8',
+				disableButton: true,
+			});
+			// return false;
+			// errorMessage = 'Password Length Should Be More Than 8';
+		} else {
+			this.setState({
+				disableButton: false,
+			});
 		}
 	};
 
@@ -79,7 +89,11 @@ class Login extends Component {
 									name="email"
 									onBlur={this.validate}
 								/>
-								{this.state.emailError ? <span>{errorMessage}</span> : null}
+								{this.state.emailError ? (
+									<span style={{ color: 'red', fontSize: '10px', fontWeight: '700' }}>
+										{this.state.errorMessage}
+									</span>
+								) : null}
 							</div>
 							<div class="form-group" style={{ marginTop: '25px' }}>
 								<input
@@ -91,10 +105,19 @@ class Login extends Component {
 									name="password"
 									onBlur={this.validate}
 								/>
-								{this.state.passwordError ? <span>{errorMessage}</span> : null}
+								{this.state.passwordError ? (
+									<span style={{ color: 'red', fontSize: '10px', fontWeight: '700' }}>
+										{this.state.errorMessage}
+									</span>
+								) : null}
 							</div>
 
-							<button type="submit" style={{ marginTop: '15px' }} class="btn btn-primary">
+							<button
+								type="submit"
+								disabled={this.state.disableButton}
+								style={{ marginTop: '15px' }}
+								class="btn btn-primary"
+							>
 								Login
 							</button>
 						</form>

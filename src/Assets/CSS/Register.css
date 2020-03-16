@@ -16,7 +16,6 @@
 
 .register_button {
 	width: 80%;
-
 	margin-left: 20%;
 	margin-right: 20%;
 }
@@ -37,4 +36,10 @@
 
 .form_card {
 	border: 1px solid rgb(240, 238, 238);
+}
+
+.errorMessage {
+	color: red;
+	font-size: 12px;
+	font-weight: 700;
 }
