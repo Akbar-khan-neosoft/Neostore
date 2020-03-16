@@ -7,13 +7,7 @@ function ProductCard(props) {
 	return (
 		<div className="all_product_card">
 			{[props.data].map(res => {
-				{
-					console.log('res - ', res);
-				}
 				return res.map(d => {
-					{
-						console.log('d - ', d.product_name);
-					}
 					return (
 						<div className="card" key={d.product_id}>
 							<div className="product_card_thumbnail">
