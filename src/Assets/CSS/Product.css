@@ -1,12 +1,10 @@
 .product_container {
-	border: 1px solid black;
 	width: 100%;
 	display: flex;
 	flex-direction: column;
 }
 
 .product {
-	border: 1px solid black;
 	width: 90%;
 	display: flex;
 	margin-left: 10%;
@@ -15,18 +13,15 @@
 
 .side_filter {
 	margin-top: 3%;
-	border: 1px solid black;
 	width: 20%;
 }
 
 .all_product {
 	margin-top: 3%;
-	border: 1px solid black;
 	width: 80%;
 }
 
 .all_product_header {
-	border: 1px solid black;
 	width: 100%;
 }
 
@@ -59,28 +54,24 @@
 }
 
 .allProductButton {
-	border: 1px solid black;
 	width: 100%;
 	margin-top: 4%;
 	margin-bottom: 3%
 }
 
 .allCategoryExpansionPanel {
-	border: 1px solid black;
 	width: 100%;
 	margin-top: 3%;
 	margin-bottom: 8%
 }
 
 .allColorExpansionPanel {
-	border: 1px solid black;
 	width: 100%;
 	margin-top: 8%;
 	margin-bottom: 3%
 }
 
 .colorfilter {
-	border: 1px solid black;
 	width: 30%;
 	height: 40px;
 	margin-top: 2%;

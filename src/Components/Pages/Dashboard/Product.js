@@ -48,8 +48,10 @@ class Product extends Component {
 	allColorHandler = async color_id => {
 		const colorData = await axios.get(URL + 'getProductByColor/' + color_id);
 
-		console.log('color data - >', colorData.data.product_details, Array.isArray(colorData.data));
-		// this.setState({ post: colorData.data.product_details, currentPage: 1, cardsPerPage: 9 });
+		// console.log('color data - >', colorData.data.product_details, Array.isArray(colorData.data.product_details));
+		Array.isArray(colorData.data.product_details)
+			? this.setState({ post: colorData.data.product_details, currentPage: 1, cardsPerPage: 9 })
+			: this.setState({ post: [], currentPage: 1, cardsPerPage: 9 });
 	};
 
 	onAllProductClickHandle = () => {
@@ -132,8 +134,14 @@ class Product extends Component {
 					</div>
 					<div className="all_product">
 						<div className="all_product_header"></div>
-						{/* {console.log('zdfsdfdsf', currentCard === [], currentCard)} */}
-						<ProductCard data={currentCard} />
+						{console.log('zdfsdfdsf', currentCard.length === 0, currentCard)}
+						{currentCard.length !== 0 ? (
+							<ProductCard data={currentCard} />
+						) : (
+							<div>
+								<h2>error</h2>
+							</div>
+						)}
 						{/* {currentCard.length !== 9 ? <ProductCard data={currentCard} /> : <div>"error"</div>} */}
 					</div>
 				</div>

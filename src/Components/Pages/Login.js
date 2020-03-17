@@ -81,24 +81,6 @@ class Login extends Component {
 						<FacebookButton />
 						<GoogleButton />
 						<TwitterButton />
-						{/* <div>
-							<button className="loginButton" style={{ backgroundColor: 'blue' }}>
-								<i class="fa fa-4x fa-facebook" aria-hidden="true"></i>
-								Login with Facebook
-							</button>
-						</div>
-						<div>
-							<button className="loginButton" style={{ backgroundColor: 'red' }}>
-								<i class=" fa fa-4x fa-google" aria-hidden="true"></i>
-								Login with Google
-							</button>
-						</div>
-						<div>
-							<button className="loginButton" style={{ backgroundColor: 'skyblue' }}>
-								<i class="fa fa-4x fa-twitter" aria-hidden="true"></i>
-								Login with Twitter
-							</button>
-						</div> */}
 					</div>
 					<div className="login_form">
 						<form>
