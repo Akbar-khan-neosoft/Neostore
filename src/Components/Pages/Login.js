@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { fetchlogin } from '../../Redux/Actions/loginAction';
 import '../../Assets/CSS/Login.css';
-import { EMAIL_REGEX } from '../../Utils/validation';
 import { Link } from 'react-router-dom';
 
 let errorMessage = '';
@@ -17,6 +18,21 @@ class Login extends Component {
 			errorMessage: '',
 		};
 	}
+
+	onSubmitHandler = async () => {
+		console.log('button clicked');
+
+		const data = {
+			email: this.state.email,
+			pass: this.state.password,
+		};
+
+		await this.props.onFetch(data);
+		console.log('data - >', this.props.data);
+
+		localStorage.setItem('loginData', JSON.stringify(this.props.data));
+		this.props.history.push('/');
+	};
 
 	onChangeHandler = e => {
 		const name = e.target.name;
@@ -53,6 +69,8 @@ class Login extends Component {
 	};
 
 	render() {
+		console.log('local storege -> ', localStorage.getItem('logindata'));
+
 		return (
 			<div className="login_container">
 				<div className="login_main">
@@ -113,10 +131,11 @@ class Login extends Component {
 							</div>
 
 							<button
-								type="submit"
+								type="button"
 								disabled={this.state.disableButton}
 								style={{ marginTop: '15px' }}
 								class="btn btn-primary"
+								onClick={this.onSubmitHandler}
 							>
 								Login
 							</button>
@@ -141,4 +160,14 @@ class Login extends Component {
 	}
 }
 
-export default Login;
+const mapStateToProps = state => {
+	console.log('state - >', state.loginReducer.data);
+
+	return { data: state.loginReducer.data || [] };
+};
+
+const mapDispatchToProps = dispatch => ({
+	onFetch: data => dispatch(fetchlogin(data)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login);

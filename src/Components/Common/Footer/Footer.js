@@ -1,8 +1,35 @@
 import React, { Component } from 'react';
+import axios from 'axios';
 import '../../../Assets/CSS/Footer.css';
 import { Link } from 'react-router-dom';
+import { URL } from '../../../Redux/Constants/index';
 
 class Footer extends Component {
+	constructor() {
+		super();
+		this.state = {
+			getTermsAndConditions_res: '',
+			getGuarantee_res: '',
+			getData: '',
+		};
+	}
+	componentDidMount() {
+		let one = URL + 'getTermsAndConditions';
+		let two = URL + 'getGuarantee';
+		let three = URL + 'getData';
+		const getTermsAndConditions = axios.get(one);
+		const getGuarantee = axios.get(two);
+		const getData = axios.get(three);
+
+		axios.all([getTermsAndConditions, getGuarantee, getData]).then(
+			axios.spread((...res) => {
+				this.setState({ getTermsAndConditions_res: res[0].data });
+				this.setState({ getGuarantee_res: res[1].data });
+				this.setState({ getData_res: res[2].data });
+			})
+		);
+	}
+
 	render() {
 		return (
 			<div className="container-footer">
@@ -10,36 +37,60 @@ class Footer extends Component {
 					<div className="footer-content-container">
 						<div className="footer-content-title">About Company</div>
 						<br></br>
-						<div className="footer-content-body">
-							NeoSOFT Technologies is here at your quick and easy service for shooping .<br></br>
-							Contact information
-							<br></br>Email: contact@neosofttech.com
-							<br></br>
-							Phone: +91 0000000000
-							<br></br>MUMBAI, INDIA
-						</div>
+
+						{this.state.getData_res
+							? [this.state.getData_res].map(res => {
+									return (
+										<div className="footer-content-body">
+											{res.company_details[0].about_company}
+											<br></br>
+											Contact information
+											<br></br>
+											Email : {res.company_details[0].email}
+											<br></br>
+											Phone : {res.company_details[0].phone_no}
+											<br></br>
+											{res.company_details[0].address}
+										</div>
+									);
+							  })
+							: []}
 					</div>
 					<div className="footer-content-container">
 						<div className="footer-content-title">Information</div>
 						<br></br>
 						<div className="footer-content-body">
 							<ul style={{ listStyle: 'none' }}>
-								<li>
-									<a
-										style={{ textDecoration: 'none', color: 'white' }}
-										href="http://180.149.241.208:3022/2019-06-28T06-10-29.263ZTerms_and_Conditions.pdf"
-									>
-										Terms and Conditions
-									</a>
-								</li>
-								<li>
-									<a
-										style={{ textDecoration: 'none', color: 'white' }}
-										href="http://180.149.241.208:3022/2019-06-28T06-11-38.277ZGuarantee_ReturnPolicy.pdf"
-									>
-										Gurantee and Return Policy
-									</a>
-								</li>
+								{this.state.getTermsAndConditions_res
+									? [this.state.getTermsAndConditions_res].map(res => {
+											return (
+												<li>
+													<a
+														style={{ textDecoration: 'none', color: 'white' }}
+														target="_blank"
+														href={URL + res.termsAndConditions_details[0].fileName}
+													>
+														Terms and Conditions
+													</a>
+												</li>
+											);
+									  })
+									: ''}
+								{this.state.getGuarantee_res
+									? [this.state.getGuarantee_res].map(res => {
+											return (
+												<li>
+													<a
+														style={{ textDecoration: 'none', color: 'white' }}
+														target="_blank"
+														href={URL + res.guarantee_details[0].fileName}
+													>
+														Gurantee and Return Policy
+													</a>
+												</li>
+											);
+									  })
+									: ''}
 								<li>
 									<Link to="/contactus" style={{ textDecoration: 'none', color: 'white' }}>
 										Contact Us

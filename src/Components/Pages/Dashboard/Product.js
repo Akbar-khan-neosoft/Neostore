@@ -5,11 +5,13 @@ import { fetchProductData } from '../../../Redux/Actions/productAction';
 import ProductCard from './ProductCard';
 import Pagination from './Pagination';
 
+let indexOfLastPost;
+let indexOfFirstPost;
+let currentCard;
 class Product extends Component {
 	constructor() {
 		super();
 		this.state = {
-			post: [],
 			currentPage: 1,
 			cardsPerPage: 9,
 		};
@@ -25,17 +27,35 @@ class Product extends Component {
 		this.setState({ currentPage: pageNumber });
 	};
 
-	render() {
-		console.log('cc : ', this.state.currentPage);
+	onAllProductClickHandle = () => {
+		this.setState({ currentPage: 1, cardsPerPage: 9 });
+	};
 
-		const indexOfLastPost = this.state.currentPage * this.state.cardsPerPage;
-		const indexOfFirstPost = indexOfLastPost - this.state.cardsPerPage;
-		const currentCard = this.props.data.slice(indexOfFirstPost, indexOfLastPost);
+	render() {
+		console.log('state - >', this.state);
+
+		console.log('cc : ', this.state.currentPage);
+		console.log('currentPage ->', this.state.currentPage);
+		console.log('cardsPerPage ->', this.state.cardsPerPage);
+		console.log('indexOfLastPost ->', indexOfLastPost);
+		console.log('indexOfFirstPost ->', indexOfFirstPost);
+		console.log('currentPage ->', currentCard);
+
+		indexOfLastPost = this.state.currentPage * this.state.cardsPerPage;
+		indexOfFirstPost = indexOfLastPost - this.state.cardsPerPage;
+		currentCard = this.props.data.slice(indexOfFirstPost, indexOfLastPost);
+		console.log('a indexOfLastPost ->', indexOfLastPost);
+		console.log('a indexOfFirstPost ->', indexOfFirstPost);
+		console.log('a currentPage ->', currentCard);
 
 		return (
 			<div className="product_container">
 				<div className="product">
-					<div className="side_filter"></div>
+					<div className="side_filter">
+						<div>
+							<button onClick={this.onAllProductClickHandle}>All Products</button>
+						</div>
+					</div>
 					<div className="all_product">
 						<div className="all_product_header"></div>
 

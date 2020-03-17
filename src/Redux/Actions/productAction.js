@@ -6,12 +6,9 @@ const ProductDataSuccess = data => ({ type: PRODUCT_DATA_SUCCESS, payload: data 
 const ProductDataFailure = error => ({ type: PRODUCT_DATA_FAILURE, error: error });
 
 export const fetchProductData = () => async dispatch => {
-	console.log('onfetch');
-
 	dispatch(ProductDataRequest());
 	try {
 		const res = await axios.get(URL + 'commonProducts');
-		console.log('z');
 
 		dispatch(ProductDataSuccess(res.data.product_details));
 	} catch (error) {

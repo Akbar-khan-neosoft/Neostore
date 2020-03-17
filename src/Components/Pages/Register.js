@@ -12,7 +12,7 @@ import { RadioGroup, FormControlLabel } from '@material-ui/core';
 import Radio from '@material-ui/core/Radio';
 
 const emailRegex = RegExp(/^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/);
-const allOk = true;
+let allOk = false;
 const formValid = ({ formErrors, ...rest }) => {
 	let valid = false;
 
@@ -77,80 +77,100 @@ class Register extends Component {
 		e.preventDefault();
 		const { name, value } = e.target;
 		let formErrors = { ...this.state.formErrors };
+		allOk = false;
 
 		switch (name) {
 			case 'firstName':
-				formErrors.firstName =
-					value.length === 0
-						? "Firstname field can't be left blank,minimum 3 characaters required"
-						: isNaN(value)
-						? ''
-						: 'Numbers not allowed in Firstname';
+				if (value.length === 0) {
+					formErrors.firstName = "Firstname field can't be left blank,minimum 3 characaters required";
+					allOk = true;
+				} else if (!isNaN(value)) {
+					formErrors.firstName = 'Numbers not allowed in Firstname';
+					allOk = true;
+				} else {
+					formErrors.firstName = '';
+				}
 
-				allOk = true;
 				break;
 			case 'lastName':
-				formErrors.lastName =
-					value.length === 0
-						? "Lastname field can't be left blank,minimum 3 characaters required"
-						: isNaN(value)
-						? ''
-						: 'Numbers not allowed in Lastname';
-				allOk = true;
+				if (value.length === 0) {
+					formErrors.lastName = "Lastname field can't be left blank,minimum 3 characaters required";
+					allOk = true;
+				} else if (!isNaN(value)) {
+					formErrors.lastName = 'Numbers not allowed in Lastname';
+					allOk = true;
+				} else {
+					formErrors.lastName = '';
+				}
+
 				break;
 			case 'email':
-				formErrors.email =
-					value.length === 0
-						? "Email field can't be left blank"
-						: emailRegex.test(value)
-						? ''
-						: 'invalid email address';
+				if (value.length === 0) {
+					formErrors.email = "Email field can't be left blank";
+					allOk = true;
+				} else if (!emailRegex.test(value)) {
+					formErrors.email = 'invalid email address';
+					allOk = true;
+				} else {
+					formErrors.email = '';
+				}
 
-				allOk = true;
 				break;
 			case 'password':
-				formErrors.password =
-					value.length === 0
-						? "Password field can't be left blank"
-						: value.length < 8
-						? 'minimum 8 characaters required'
-						: '';
+				if (value.length === 0) {
+					formErrors.password = "Password field can't be left blank";
+					allOk = true;
+				} else if (value.length < 8) {
+					formErrors.password = 'invalid email address';
+					allOk = true;
+				} else {
+					formErrors.password = '';
+				}
 
-				allOk = true;
 				break;
 			case 'confirmPassword':
-				formErrors.confirmPassword =
-					value.length === 0
-						? "Confirm password field can't be left blank"
-						: value.length < 8
-						? 'minimum 8 characaters required'
-						: '';
+				if (value.length === 0) {
+					formErrors.confirmPassword = "Confirm Password field can't be left blank";
+					allOk = true;
+				} else if (value.length < 8) {
+					formErrors.confirmPassword = 'invalid email address';
+					allOk = true;
+				} else if (!(this.state.password === value)) {
+					formErrors.confirmPassword = 'Password and Confirm Password Mismatched';
+				} else {
+					formErrors.confirmPassword = '';
+				}
 
-				allOk = true;
 				break;
 			case 'mobile':
-				formErrors.mobile =
-					value.length === 0
-						? "Mobile Number field can't be left blank"
-						: isNaN(value)
-						? 'Only Numbers allowed in Mobile'
-						: value.length < 10 || value.length > 10
-						? 'Only 10 characaters allowed'
-						: '';
+				if (value.length === 0) {
+					formErrors.mobile = "Mobile Number field can't be left blank";
+					allOk = true;
+				} else if (isNaN(value)) {
+					formErrors.mobile = 'Only Numbers allowed in Mobile';
+					allOk = true;
+				} else if (value.length < 10 || value.length > 10) {
+					formErrors.mobile = 'Only 10 characaters allowed';
+					allOk = true;
+				} else {
+					formErrors.mobile = '';
+				}
 
-				allOk = true;
 				break;
 			case 'gender':
-				formErrors.gender = value.length === 0 ? "Gender field can't be left blank" : '';
+				if (value.length === 0) {
+					formErrors.gender = "Gender field can't be left blank";
+					allOk = true;
+				} else {
+					formErrors.gender = '';
+				}
 
-				allOk = true;
 				break;
 			default:
 				break;
 		}
 
 		this.setState({ formErrors, [name]: value });
-		// return allOk;
 	};
 
 	render() {
