@@ -2,6 +2,11 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { fetchlogin } from '../../Redux/Actions/loginAction';
 import '../../Assets/CSS/Login.css';
+import {
+	FacebookButton,
+	GoogleButton,
+	TwitterButton,
+} from '../../Components/Common/SocialLoginButtons/SocialLoginButtons';
 import { Link } from 'react-router-dom';
 
 let errorMessage = '';
@@ -69,13 +74,14 @@ class Login extends Component {
 	};
 
 	render() {
-		console.log('local storege -> ', localStorage.getItem('logindata'));
-
 		return (
 			<div className="login_container">
 				<div className="login_main">
 					<div className="login_buttons">
-						<div>
+						<FacebookButton />
+						<GoogleButton />
+						<TwitterButton />
+						{/* <div>
 							<button className="loginButton" style={{ backgroundColor: 'blue' }}>
 								<i class="fa fa-4x fa-facebook" aria-hidden="true"></i>
 								Login with Facebook
@@ -92,7 +98,7 @@ class Login extends Component {
 								<i class="fa fa-4x fa-twitter" aria-hidden="true"></i>
 								Login with Twitter
 							</button>
-						</div>
+						</div> */}
 					</div>
 					<div className="login_form">
 						<form>

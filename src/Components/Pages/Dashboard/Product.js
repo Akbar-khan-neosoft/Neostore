@@ -1,65 +1,140 @@
 import React, { Component } from 'react';
+import axios from 'axios';
 import '../../../Assets/CSS/Product.css';
 import { connect } from 'react-redux';
+import { ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails, Typography } from '@material-ui/core';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { fetchProductData } from '../../../Redux/Actions/productAction';
+import { URL } from '../../../Redux/Constants';
 import ProductCard from './ProductCard';
 import Pagination from './Pagination';
 
 let indexOfLastPost;
 let indexOfFirstPost;
 let currentCard;
+
 class Product extends Component {
 	constructor() {
 		super();
 		this.state = {
+			post: [],
+			allCategories: [],
+			allColor: [],
 			currentPage: 1,
 			cardsPerPage: 9,
 		};
 	}
 
-	componentDidMount() {
-		this.props.onFetch();
+	async componentDidMount() {
+		await this.props.onFetch();
+		this.setState({ post: this.props.data });
+
+		const categoriesData = await axios.get(URL + 'getAllCategories');
+		this.setState({ allCategories: categoriesData.data.category_details });
+
+		const colorData = await axios.get(URL + 'getAllColors');
+		this.setState({ allColor: colorData.data.color_details });
 	}
 
 	handlePageChange = pageNumber => {
-		console.log(pageNumber);
-
 		this.setState({ currentPage: pageNumber });
 	};
 
+	allCategoriesHandler = async category_id => {
+		const categoriesData = await axios.get(URL + 'getProductByCateg/' + category_id);
+		this.setState({ post: categoriesData.data.product_details, currentPage: 1, cardsPerPage: 9 });
+	};
+
+	allColorHandler = async color_id => {
+		const colorData = await axios.get(URL + 'getProductByColor/' + color_id);
+
+		console.log('color data - >', colorData.data.product_details, Array.isArray(colorData.data));
+		// this.setState({ post: colorData.data.product_details, currentPage: 1, cardsPerPage: 9 });
+	};
+
 	onAllProductClickHandle = () => {
-		this.setState({ currentPage: 1, cardsPerPage: 9 });
+		this.setState({ post: this.props.data, currentPage: 1, cardsPerPage: 9 });
 	};
 
 	render() {
-		console.log('state - >', this.state);
-
-		console.log('cc : ', this.state.currentPage);
-		console.log('currentPage ->', this.state.currentPage);
-		console.log('cardsPerPage ->', this.state.cardsPerPage);
-		console.log('indexOfLastPost ->', indexOfLastPost);
-		console.log('indexOfFirstPost ->', indexOfFirstPost);
-		console.log('currentPage ->', currentCard);
+		console.log('allColor -=- >', this.state.allColor);
+		const categories = this.state.allCategories;
+		const colors = this.state.allColor;
 
 		indexOfLastPost = this.state.currentPage * this.state.cardsPerPage;
 		indexOfFirstPost = indexOfLastPost - this.state.cardsPerPage;
-		currentCard = this.props.data.slice(indexOfFirstPost, indexOfLastPost);
-		console.log('a indexOfLastPost ->', indexOfLastPost);
-		console.log('a indexOfFirstPost ->', indexOfFirstPost);
-		console.log('a currentPage ->', currentCard);
+		currentCard = this.state.post.slice(indexOfFirstPost, indexOfLastPost);
 
 		return (
 			<div className="product_container">
 				<div className="product">
 					<div className="side_filter">
-						<div>
-							<button onClick={this.onAllProductClickHandle}>All Products</button>
+						<div className="allProductButton btn" onClick={this.onAllProductClickHandle}>
+							All Products
+						</div>
+						<div className="allCategoryExpansionPanel">
+							<ExpansionPanel>
+								<ExpansionPanelSummary
+									expandIcon={<ExpandMoreIcon />}
+									aria-controls="panel1a-content"
+									id="panel1a-header"
+								>
+									<Typography>Categories</Typography>
+								</ExpansionPanelSummary>
+								<ExpansionPanelDetails>
+									<Typography className="col-12 mb-2 ">
+										{categories
+											? categories.map(res => {
+													return (
+														<div
+															className="btn"
+															style={{ textAlign: 'center', width: '100%' }}
+															key={res._id}
+															onClick={() => this.allCategoriesHandler(res.category_id)}
+														>
+															{res.category_name}
+															<hr></hr>
+														</div>
+													);
+											  })
+											: []}
+									</Typography>
+								</ExpansionPanelDetails>
+							</ExpansionPanel>
+						</div>
+						<div className="allColorExpansionPanel">
+							<ExpansionPanel>
+								<ExpansionPanelSummary
+									expandIcon={<ExpandMoreIcon />}
+									aria-controls="panel1a-content"
+									id="panel1a-header"
+								>
+									<Typography>Colors</Typography>
+								</ExpansionPanelSummary>
+								<ExpansionPanelDetails>
+									<Typography className="col-12 mb-2 ">
+										{colors
+											? colors.map(res => {
+													return (
+														<div
+															className="colorfilter btn"
+															style={{ backgroundColor: res.color_code }}
+															key={res._id}
+															onClick={() => this.allColorHandler(res.color_id)}
+														></div>
+													);
+											  })
+											: []}
+									</Typography>
+								</ExpansionPanelDetails>
+							</ExpansionPanel>
 						</div>
 					</div>
 					<div className="all_product">
 						<div className="all_product_header"></div>
-
+						{/* {console.log('zdfsdfdsf', currentCard === [], currentCard)} */}
 						<ProductCard data={currentCard} />
+						{/* {currentCard.length !== 9 ? <ProductCard data={currentCard} /> : <div>"error"</div>} */}
 					</div>
 				</div>
 				<div className="product_pagination">

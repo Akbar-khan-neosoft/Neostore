@@ -10,6 +10,7 @@ import CallIcon from '@material-ui/icons/Call';
 import EmailIcon from '@material-ui/icons/Email';
 import { RadioGroup, FormControlLabel } from '@material-ui/core';
 import Radio from '@material-ui/core/Radio';
+import { GoogleButton, FacebookButton } from '../Common/SocialLoginButtons/SocialLoginButtons';
 
 const emailRegex = RegExp(/^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/);
 let allOk = false;
@@ -178,15 +179,8 @@ class Register extends Component {
 		return (
 			<div className="register">
 				<div className="register_button">
-					<button className="registerButton" style={{ backgroundColor: 'blue' }}>
-						<i class="fa fa-4x fa-facebook" aria-hidden="true"></i>
-						Login with Facebook
-					</button>
-
-					<button className="registerButton" style={{ backgroundColor: 'red' }}>
-						<i class=" fa fa-4x fa-google" aria-hidden="true"></i>
-						Login with Google
-					</button>
+					<FacebookButton />
+					<GoogleButton />
 				</div>
 				<hr></hr>
 				<div class="form_card" style={{ width: '90%' }}>
