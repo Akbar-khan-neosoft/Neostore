@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
+import axios from "axios"
 import '../../Assets/CSS/RecoverPassword.css';
+import {URL} from "../../Redux/Constants"
 import { FormControl, TextField } from '@material-ui/core';
 
 class RecoverPassword extends Component {
@@ -28,11 +30,18 @@ class RecoverPassword extends Component {
         this.setState({ [name]: value });
     };
 
-    onSubmitHandle = () =>{
+    onSubmitHandle = async() =>{
 
         if(this.validate())
         {
-            console.log("no error call api");
+            const data = {
+                otpCode: this.state.verificationcode,
+                newPass : this.state.newpassword,
+                confirmPass :this.state.confirmpassword}
+                console.log("data>>",data);
+                
+                 const res = await axios.post(URL + 'recoverPassword' , data)
+                 console.log("res =-" ,res);
             
             }
             else{
