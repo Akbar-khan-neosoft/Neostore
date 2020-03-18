@@ -44,11 +44,22 @@ class RecoverPassword extends Component {
 
     validate = () => {
         // this.setState({ passwordError: false, emailError: false, errorMessage: '' });
-
+        const otp = localStorage.getItem("otp");
+        console.log("otp:",otp);
+        
         if (this.state.verificationcode === '') {
             this.setState({ verificationcodeError: true, verificationcodeerrorMessage: "Verification Code Field Can't Be Left Blank" });
             return false;
-        } else if (this.state.newpassword === '') {
+        }else if (this.state.verificationcode !== otp) {
+            this.setState({
+                verificationcodeError: true,
+                verificationcodeerrorMessage: "OTP Mismatched",
+                
+            });
+            return false;
+
+        }  
+        else if (this.state.newpassword === '') {
             this.setState({
                 newpasswordError: true,
                 newpassworderrorMessage: "New Password Field Can't Be Left Blank",
