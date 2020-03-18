@@ -8,6 +8,7 @@ import { fetchProductData } from '../../../Redux/Actions/productAction';
 import { URL } from '../../../Redux/Constants';
 import ProductCard from './ProductCard';
 import Pagination from './Pagination';
+import ErrorPage from "../../Common/ErrorPage"
 
 let indexOfLastPost;
 let indexOfFirstPost;
@@ -137,12 +138,7 @@ class Product extends Component {
 						{console.log('zdfsdfdsf', currentCard.length === 0, currentCard)}
 						{currentCard.length !== 0 ? (
 							<ProductCard data={currentCard} />
-						) : (
-							<div>
-								<h2>error</h2>
-							</div>
-						)}
-						{/* {currentCard.length !== 9 ? <ProductCard data={currentCard} /> : <div>"error"</div>} */}
+						) : (<ErrorPage/>)}
 					</div>
 				</div>
 				<div className="product_pagination">

@@ -9,6 +9,7 @@ import store from '../src/Redux/Store';
 import ContactForm from './Components/Common/ContactForm';
 import ForgotPassword from './Components/Common/ForgotPassword';
 import Product from './Components/Pages/Dashboard/Product';
+import RecoverPassword from './Components/Pages/RecoverPassword';
 // console.log(store.getState());
 
 function App() {
@@ -24,6 +25,8 @@ function App() {
 							<Route exact path="/contactus" component={ContactForm} />
 							<Route excat path="/forgotpassword" component={ForgotPassword} />
 							<Route excat path="/product" component={Product} />
+							<Route excat path="/recoverpassword" component={RecoverPassword} />
+
 						</Switch>
 					</Layout>
 				</Router>

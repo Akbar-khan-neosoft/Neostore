@@ -1,8 +1,37 @@
-import React from 'react';
+import React, { Component } from 'react';
+import axios from "axios";
 import '../../Assets/CSS/ForgotPassword.css';
 import { FormControl, TextField } from '@material-ui/core';
+import {URL} from "../../Redux/Constants"
 
-function ForgotPassword() {
+class ForgotPassword extends Component {
+
+	constructor(){
+		super()
+		this.state={
+			email:''
+		}
+	}
+
+	onChangeHandle=(e)=>{
+		this.setState({email:e.target.value})
+	}
+
+	onSubmitHandle= async()=>{
+		const data ={
+			email : this.state.email
+		} ;
+			console.log("button clicked");
+		const res = await axios.post(URL + 'forgotPassword' , data);
+		if(res.data.success){
+			alert(res.data.message)
+			this.props.history.push("recoverpassword")
+		}
+		
+		
+	}
+
+	render(){
 	return (
 		<div className="forgotpassword">
 			<div className="forgotpasswordform">
@@ -13,7 +42,9 @@ function ForgotPassword() {
 				<form>
 					<div className="forgotpasswordformcontrol">
 						<FormControl fullWidth>
-							<TextField id="outlined-basic" label="Email" variant="outlined" placeholder="Email" />
+							<TextField id="outlined-basic"
+							 label="Email" 
+							 variant="outlined" placeholder="Email" name="email" value={this.state.email} onChange={this.onChangeHandle}/>
 						</FormControl>
 					</div>
 
@@ -21,8 +52,9 @@ function ForgotPassword() {
 						<FormControl component="fieldset">
 							<button
 								class="btn"
-								type="submit"
+								type="button"
 								style={{ backgroundColor: 'rgb(21, 103, 226)', color: 'white' }}
+								onClick={this.onSubmitHandle}
 							>
 								Submit
 							</button>
@@ -32,6 +64,6 @@ function ForgotPassword() {
 			</div>
 		</div>
 	);
-}
+}}
 
 export default ForgotPassword;
