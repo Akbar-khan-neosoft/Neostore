@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import '../../../Assets/CSS/Header.css';
 import { BrowserRouter as Router, Link } from 'react-router-dom';
+import {connect} from "react-redux"
 
 class Header extends Component {
 	render() {
@@ -57,14 +58,23 @@ class Header extends Component {
 								>
 									<i class="fa fa-user-circle" aria-hidden="true"></i>
 								</a>
-								<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+								{console.log("login - >>",this.props.data)
+								}
+								{this.props.data ? <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+									<Link to="#" class="dropdown-item">
+										Profile
+									</Link>
+									<Link to="#" class="dropdown-item">
+										Logout
+									</Link>
+								</div> : <div class="dropdown-menu" aria-labelledby="navbarDropdown">
 									<Link to="/login" class="dropdown-item">
 										Login
 									</Link>
 									<Link to="/register" class="dropdown-item">
 										Register
 									</Link>
-								</div>
+								</div>}
 							</div>
 						</button>
 					</div>
@@ -74,4 +84,9 @@ class Header extends Component {
 	}
 }
 
-export default Header;
+const mapStateToProps = state => {
+
+	return { data: state.loginReducer.isAuthenticated };
+};
+
+export default connect(mapStateToProps,null)(Header);
