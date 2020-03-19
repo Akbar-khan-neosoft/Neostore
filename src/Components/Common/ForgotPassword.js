@@ -25,8 +25,9 @@ class ForgotPassword extends Component {
 		const res = await axios.post(URL + 'forgotPassword' , data);
 		if(res.data.success){
 			
-			localStorage.setItem('otp', JSON.stringify(res.data.otp));
-			alert(res.data.message)
+			localStorage.setItem('data', JSON.stringify(res.data));
+			
+			alert(res.data.otp)
 			this.props.history.push("recoverpassword")
 		}
 		

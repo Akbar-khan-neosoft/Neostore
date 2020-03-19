@@ -4,6 +4,8 @@ import '../../Assets/CSS/RecoverPassword.css';
 import {URL} from "../../Redux/Constants"
 import { FormControl, TextField } from '@material-ui/core';
 
+
+
 class RecoverPassword extends Component {
 
     constructor() {
@@ -12,8 +14,6 @@ class RecoverPassword extends Component {
             verificationcode: '',
             newpassword: '',
             confirmpassword: '',
-
-
             newpasswordError: false,
             verificationcodeError: false,
             confirmpasswordError: false,
@@ -34,13 +34,16 @@ class RecoverPassword extends Component {
 
         if(this.validate())
         {
-            const data = {
+            const localData = JSON.parse(localStorage.getItem("data"));
+                const data = {
                 otpCode: this.state.verificationcode,
                 newPass : this.state.newpassword,
                 confirmPass :this.state.confirmpassword}
                 console.log("data>>",data);
+               
+                console.log(localData)
                 
-                 const res = await axios.post(URL + 'recoverPassword' , data)
+                 const res = await axios.post(URL + 'recoverPassword' , data, {headers:{"Authorization": 'Bearer ' + localData.token}})
                  console.log("res =-" ,res);
             
             }
@@ -52,14 +55,13 @@ class RecoverPassword extends Component {
     }
 
     validate = () => {
-        // this.setState({ passwordError: false, emailError: false, errorMessage: '' });
-        const otp = localStorage.getItem("otp");
-        console.log("otp:",otp);
-        
+        // const data = JSON.parse(localStorage.getItem("data"));
+
+          
         if (this.state.verificationcode === '') {
             this.setState({ verificationcodeError: true, verificationcodeerrorMessage: "Verification Code Field Can't Be Left Blank" });
             return false;
-        }else if (this.state.verificationcode !== otp) {
+        }else if (this.state.verificationcode === 1 ) {
             this.setState({
                 verificationcodeError: true,
                 verificationcodeerrorMessage: "OTP Mismatched",
@@ -109,8 +111,10 @@ class RecoverPassword extends Component {
    
 
     render() {
-        const otp = localStorage.getItem("otp");
-        console.log("otp:",otp);
+        console.log(this.state.verificationcode)
+        
+        
+        
         return (
             <div className="recoverpassword">
                 <div className="recoverpasswordform">
