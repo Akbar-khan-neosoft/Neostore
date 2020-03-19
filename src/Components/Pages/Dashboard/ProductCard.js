@@ -7,8 +7,8 @@ import '../../../Assets/CSS/Product.css';
 function ProductCard(props) {
 	return (
 		<div className="all_product_card">
-			{[props.data].map(res => {
-				return res.map(d => {
+			{props.data ? props.data.map(res => {
+				return [res].map(d => {
 					return (
 						<div className="card" key={d.product_id}>
 							<div className="product_card_thumbnail">
@@ -95,7 +95,7 @@ function ProductCard(props) {
 						</div>
 					);
 				});
-			})}
+			}) : []}
 		</div>
 	);
 }

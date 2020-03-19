@@ -13,7 +13,7 @@ function loginReducer(state = initialState, action) {
 		case LOGIN_AUTHENTICATION:
 			return { ...state, isAuthenticated: true };
 		case LOGIN_SUCCESS:
-			return { ...state, data: action.payload };
+			return { ...state, data: action.payload,isFetching: false };
 		case LOGIN_FAILURE:
 			return { ...state, error: action.error };
 		default:

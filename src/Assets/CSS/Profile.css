@@ -1,0 +1,16 @@
+.profilecontainer{
+    display: flex;
+    flex-direction: column;
+}
+.leftsidebox{
+    display: flex;
+    flex-direction: column;
+    width: 30%;
+}
+
+.profilebox{
+    display: flex;
+}
+.rightsidebox{
+    width: 70%;
+}

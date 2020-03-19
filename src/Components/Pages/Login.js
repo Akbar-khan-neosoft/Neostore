@@ -33,7 +33,8 @@ class Login extends Component {
 		};
 
 		await this.props.onFetch(data);
-		console.log('data - >', this.props.data);
+			
+		// console.log('data - >', this.props.data);
 
 		localStorage.setItem('loginData', JSON.stringify(this.props.data));
 		this.props.history.push('/');
@@ -149,7 +150,7 @@ class Login extends Component {
 }
 
 const mapStateToProps = state => {
-	console.log('state - >', state.loginReducer.data);
+	console.log('state - >', state.loginReducer);
 
 	return { data: state.loginReducer.data || [] };
 };

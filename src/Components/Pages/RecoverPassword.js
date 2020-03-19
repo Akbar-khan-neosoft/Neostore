@@ -111,8 +111,7 @@ class RecoverPassword extends Component {
    
 
     render() {
-        console.log(this.state.verificationcode)
-        
+    
         
         
         return (

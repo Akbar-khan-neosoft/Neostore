@@ -21,7 +21,7 @@ class ProductDetails extends Component {
     async componentDidMount() {
         const res = await axios.get(URL + "getProductByProdId/" + this.props.location.state.productid)
         this.setState({ productDetails: res.data.product_details[0] })
-        console.log("akbar >", this.state.productDetails)
+       
 
     }
 
@@ -67,7 +67,6 @@ class ProductDetails extends Component {
                     <div className="productdetailsimages">
                         <div className="mainimagecontainer">
                             {imageData}
-                            {/* {this.state.changeImage ? <img src="#" /> : <img scr="#"/>} */}
                         </div>
                         <div className="subimagescontainer">
                             {productData.subImages_id ? [productData.subImages_id].map((res) => {

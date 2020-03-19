@@ -10,6 +10,8 @@ import ProductCard from './ProductCard';
 import Pagination from './Pagination';
 import ErrorPage from "../../Common/ErrorPage"
 
+
+
 let indexOfLastPost;
 let indexOfFirstPost;
 let currentCard;
@@ -69,6 +71,7 @@ class Product extends Component {
 		currentCard = this.state.post.slice(indexOfFirstPost, indexOfLastPost);
 
 		return (
+			
 			<div className="product_container">
 				<div className="product">
 					<div className="side_filter">

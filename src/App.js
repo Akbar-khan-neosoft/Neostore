@@ -11,6 +11,7 @@ import ForgotPassword from './Components/Common/ForgotPassword';
 import Product from './Components/Pages/Dashboard/Product';
 import RecoverPassword from './Components/Pages/RecoverPassword';
 import ProductDetails from './Components/Pages/ProductDetails';
+import Profile from './Components/Pages/Profile';
 // console.log(store.getState());
 
 function App() {
@@ -28,6 +29,8 @@ function App() {
 							<Route excat path="/product" component={Product} />
 							<Route excat path="/recoverpassword" component={RecoverPassword} />
 							<Route excat path="/productdetails" component={ProductDetails} />
+							<Route excat path="/myaccount" component={Profile} />
+
 
 
 						</Switch>
