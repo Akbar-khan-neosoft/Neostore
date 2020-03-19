@@ -109,6 +109,8 @@ class RecoverPassword extends Component {
    
 
     render() {
+        const otp = localStorage.getItem("otp");
+        console.log("otp:",otp);
         return (
             <div className="recoverpassword">
                 <div className="recoverpasswordform">
@@ -132,6 +134,7 @@ class RecoverPassword extends Component {
                         <div className="recoverpasswordformcontrol">
                             <FormControl fullWidth>
                                 <TextField id="outlined-basic"
+                                type="password"
                                     label="New Password"
                                     variant="outlined" placeholder="New Password" name="newpassword" value={this.state.newpassword} onChange={this.onChangeHandle} />
                             </FormControl>
@@ -145,6 +148,7 @@ class RecoverPassword extends Component {
                             <FormControl fullWidth>
                                 <TextField id="outlined-basic"
                                     label="Confirm Password"
+                                    type="password"
                                     variant="outlined" placeholder="Confirm Password" name="confirmpassword" value={this.state.confirmpassword} onChange={this.onChangeHandle} />
                             </FormControl>
                             {this.state.confirmpasswordError ? (

@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { fetchPopularProductData } from '../../../../Redux/Actions/popularProductAction';
 import { URL } from '../../../../Redux/Constants';
 import StarRatingComponent from 'react-star-rating-component';
+import { Link } from 'react-router-dom';
 
 class Dashboard_Popular_Product extends Component {
 	constructor() {
@@ -47,7 +48,15 @@ class Dashboard_Popular_Product extends Component {
 														textAlign: 'center',
 													}}
 												>
-													<a href="#">{result.DashboardProducts[0].product_name}</a>
+													{console.log("testgg - >",)}
+													
+													<Link to={{
+														pathname: "/productdetails",
+														state: {
+															productid: result.DashboardProducts[0].product_id
+														}
+													}}>{result.DashboardProducts[0].product_name}</Link>
+
 												</p>
 											</div>
 											<div>

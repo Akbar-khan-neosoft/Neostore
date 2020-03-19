@@ -10,6 +10,7 @@ import ContactForm from './Components/Common/ContactForm';
 import ForgotPassword from './Components/Common/ForgotPassword';
 import Product from './Components/Pages/Dashboard/Product';
 import RecoverPassword from './Components/Pages/RecoverPassword';
+import ProductDetails from './Components/Pages/ProductDetails';
 // console.log(store.getState());
 
 function App() {
@@ -26,6 +27,8 @@ function App() {
 							<Route excat path="/forgotpassword" component={ForgotPassword} />
 							<Route excat path="/product" component={Product} />
 							<Route excat path="/recoverpassword" component={RecoverPassword} />
+							<Route excat path="/productdetails" component={ProductDetails} />
+
 
 						</Switch>
 					</Layout>
