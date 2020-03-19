@@ -63,8 +63,11 @@ class Product extends Component {
 
 	render() {
 		console.log('allColor -=- >', this.state.allColor);
-		const categories = this.state.allCategories;
-		const colors = this.state.allColor;
+		const {allCategories,allColor} = this.state
+		console.log("jhjhfjhhf ===",this.state,allCategories,allColor)
+
+
+
 
 		indexOfLastPost = this.state.currentPage * this.state.cardsPerPage;
 		indexOfFirstPost = indexOfLastPost - this.state.cardsPerPage;
@@ -89,8 +92,8 @@ class Product extends Component {
 								</ExpansionPanelSummary>
 								<ExpansionPanelDetails>
 									<Typography className="col-12 mb-2 ">
-										{categories
-											? categories.map(res => {
+										{allCategories
+											? allCategories.map(res => {
 													return (
 														<div
 															className="btn"
@@ -119,8 +122,8 @@ class Product extends Component {
 								</ExpansionPanelSummary>
 								<ExpansionPanelDetails>
 									<Typography className="col-12 mb-2 ">
-										{colors
-											? colors.map(res => {
+										{allColor
+											? allColor.map(res => {
 													return (
 														<div
 															className="colorfilter btn"
