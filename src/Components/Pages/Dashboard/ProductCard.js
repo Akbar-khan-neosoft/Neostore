@@ -1,4 +1,5 @@
 import React from 'react';
+import {Link } from "react-router-dom"
 import { URL } from '../../../Redux/Constants/index';
 import StarRatingComponent from 'react-star-rating-component';
 import '../../../Assets/CSS/Product.css';
@@ -36,7 +37,13 @@ function ProductCard(props) {
 												textAlign: 'center',
 											}}
 										>
-											<a href="#">{d.product_name}</a>
+											<Link to={{
+														pathname: "/productdetails",
+														state: {
+															productid: d.product_id
+														}
+													}}>{d.product_name}</Link>
+											{/* <a href="#">{d.product_name}</a> */}
 										</p>
 									</div>
 									<div>
