@@ -50,7 +50,7 @@ class MyProfile extends Component{
                 </div>
                 <hr></hr>
                 <div className="profileeditbuttom"><button onClick={this.onClickEditHandle}>Edit</button></div>
-            </div> : <EditProfile/>
+            </div> : <EditProfile data = {this.state.custData}/>
         )
     }
 }

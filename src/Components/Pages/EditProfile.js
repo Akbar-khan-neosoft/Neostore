@@ -3,8 +3,7 @@ import axios from 'axios';
 import { useHistory } from 'react-router-dom';
 import { URL } from '../../Redux/Constants/index';
 import '../../Assets/CSS/Register.css';
-import { TextField, FormControl, InputAdornment } from '@material-ui/core';
-
+import { TextField, FormControl, InputAdornment, Button } from '@material-ui/core';
 import TextFieldsIcon from '@material-ui/icons/TextFields';
 import CallIcon from '@material-ui/icons/Call';
 import EmailIcon from '@material-ui/icons/Email';
@@ -27,22 +26,20 @@ const formValid = ({ formErrors, ...rest }) => {
 	return valid;
 };
 class EditProfile extends Component {
-	constructor() {
-		super();
+	constructor(props) {
+		super(props);
 		this.state = {
 			firstName: '',
 			lastName: '',
 			email: '',
-			password: '',
-			confirmPassword: '',
+			dob: '',
+			profilePic: '',
 			mobile: '',
 			gender: '',
 			formErrors: {
 				firstName: '',
 				lastName: '',
 				email: '',
-				password: '',
-				confirmPassword: '',
 				mobile: '',
 				gender: '',
 			},
@@ -60,9 +57,9 @@ class EditProfile extends Component {
 				first_name: `${firstName}`,
 				last_name: `${lastName}`,
 				email: `${email}`,
-				pass: `${password}`,
+				// pass: `${password}`,
 				phone_no: `${mobile}`,
-				confirmPass: `${confirmPassword}`,
+				// confirmPass: `${confirmPassword}`,
 				gender: `${gender}`,
 			};
 
@@ -116,32 +113,32 @@ class EditProfile extends Component {
 				}
 
 				break;
-			case 'password':
-				if (value.length === 0) {
-					formErrors.password = "Password field can't be left blank";
-					allOk = true;
-				} else if (value.length < 8) {
-					formErrors.password = 'invalid email address';
-					allOk = true;
-				} else {
-					formErrors.password = '';
-				}
+			// // case 'password':
+			// // 	if (value.length === 0) {
+			// // 		formErrors.password = "Password field can't be left blank";
+			// // 		allOk = true;
+			// // 	} else if (value.length < 8) {
+			// // 		formErrors.password = 'invalid email address';
+			// // 		allOk = true;
+			// // 	} else {
+			// // 		formErrors.password = '';
+			// // 	}
 
-				break;
-			case 'confirmPassword':
-				if (value.length === 0) {
-					formErrors.confirmPassword = "Confirm Password field can't be left blank";
-					allOk = true;
-				} else if (value.length < 8) {
-					formErrors.confirmPassword = 'invalid email address';
-					allOk = true;
-				} else if (!(this.state.password === value)) {
-					formErrors.confirmPassword = 'Password and Confirm Password Mismatched';
-				} else {
-					formErrors.confirmPassword = '';
-				}
+			// // 	break;
+			// // case 'confirmPassword':
+			// // 	if (value.length === 0) {
+			// // 		formErrors.confirmPassword = "Confirm Password field can't be left blank";
+			// // 		allOk = true;
+			// // 	} else if (value.length < 8) {
+			// // 		formErrors.confirmPassword = 'invalid email address';
+			// // 		allOk = true;
+			// // 	} else if (!(this.state.password === value)) {
+			// // 		formErrors.confirmPassword = 'Password and Confirm Password Mismatched';
+			// // 	} else {
+			// // 		formErrors.confirmPassword = '';
+			// // 	}
 
-				break;
+			// 	break;
 			case 'mobile':
 				if (value.length === 0) {
 					formErrors.mobile = "Mobile Number field can't be left blank";
@@ -174,6 +171,7 @@ class EditProfile extends Component {
 	};
 
 	render() {
+		const{first_name,last_name,gender,email,phone_no,dob} = this.props.data
 		const { formErrors } = this.state;
 		return (
 			<div className="register">
@@ -187,7 +185,8 @@ class EditProfile extends Component {
 										id="outlined-firstName"
 										label="First Name"
 										name="firstName"
-										value={this.state.firstName}
+										defaultValue={first_name}
+										// value={this.state.firstName}
 										variant="outlined"
 										placeholder="First Name"
 										InputProps={{
@@ -210,6 +209,7 @@ class EditProfile extends Component {
 										id="outlined-lastName"
 										label="Last Name"
 										name="lastName"
+										defaultValue={last_name}
 										variant="outlined"
 										placeholder="Last Name"
 										InputProps={{
@@ -227,11 +227,46 @@ class EditProfile extends Component {
 								)}
 							</div>
 							<div className="form_textfield">
+								<FormControl component="fieldset">
+									<RadioGroup
+										//defaultValue="male"
+										aria-label="gender"
+										name="gender"
+										defaultValue={gender}
+										onChange={this.handleChange}
+									>Gender :
+										<FormControlLabel value="male" control={<Radio />} label="Male" />
+										<FormControlLabel value="female" control={<Radio />} label="Female" />
+									</RadioGroup>
+								</FormControl>
+							</div>
+							<div className="form_textfield">
+								<FormControl fullWidth>
+								<TextField
+										id="outlined-dob"
+										label="Date Of Birth"
+										name="dob"
+										type="date"
+										variant="outlined"
+										// placeholder=""
+										defaultValue={dob}
+										onChange={this.handleChange}
+										InputLabelProps={{
+											shrink: true,
+										  }}
+									/>
+								</FormControl>
+								{/* {formErrors.dob.length > 0 && (
+									<span className="errorMessage">{formErrors.password}</span>
+								)} */}
+							</div>
+							<div className="form_textfield">
 								<FormControl fullWidth>
 									<TextField
 										id="outlined-email"
 										label="Email Address"
 										name="email"
+										defaultValue={email}
 										variant="outlined"
 										placeholder="Email Address"
 										InputProps={{
@@ -248,37 +283,21 @@ class EditProfile extends Component {
 									<span className="errorMessage">{formErrors.email}</span>
 								)}
 							</div>
+							
 							<div className="form_textfield">
-								<FormControl fullWidth>
-									<TextField
-										id="outlined-password"
-										label="Password"
-										name="password"
-										type="password"
-										variant="outlined"
-										placeholder="Password"
-										onChange={this.handleChange}
-									/>
-								</FormControl>
-								{formErrors.password.length > 0 && (
-									<span className="errorMessage">{formErrors.password}</span>
-								)}
-							</div>
-							<div className="form_textfield">
-								<FormControl fullWidth>
-									<TextField
-										id="outlined-confirmPassword"
-										label="Confirm Password"
-										name="confirmPassword"
-										variant="outlined"
-										type="password"
-										placeholder="Confirm Password"
-										onChange={this.handleChange}
-									/>
-								</FormControl>
-								{formErrors.confirmPassword.length > 0 && (
-									<span className="errorMessage">{formErrors.confirmPassword}</span>
-								)}
+							<input
+  accept="image/*"
+  
+  style={{ display: 'none' }}
+  id="raised-button-file"
+  multiple
+  type="file"
+/>
+<label htmlFor="raised-button-file">
+  <Button variant="raised" component="span">
+    Upload Profile Picture
+  </Button>
+</label> 
 							</div>
 							<div className="form_textfield">
 								<FormControl fullWidth>
@@ -287,6 +306,7 @@ class EditProfile extends Component {
 										label="Mobile Number"
 										name="mobile"
 										variant="outlined"
+										defaultValue={phone_no}
 										placeholder="Mobile Number"
 										InputProps={{
 											endAdornment: (
@@ -302,19 +322,7 @@ class EditProfile extends Component {
 									<span className="errorMessage">{formErrors.mobile}</span>
 								)}
 							</div>
-							<div className="form_textfield">
-								<FormControl component="fieldset">
-									<RadioGroup
-										//defaultValue="male"
-										aria-label="gender"
-										name="gender"
-										onChange={this.handleChange}
-									>
-										<FormControlLabel value="male" control={<Radio />} label="Male" />
-										<FormControlLabel value="female" control={<Radio />} label="Female" />
-									</RadioGroup>
-								</FormControl>
-							</div>
+							
 							<div className="form_textfield">
 								<FormControl component="fieldset">
 									<button
@@ -322,7 +330,16 @@ class EditProfile extends Component {
 										onClick={this.handleSubmit}
 										type="submit"
 									>
-										Register
+										save
+									</button>
+								</FormControl>
+								<FormControl component="fieldset">
+									<button
+										class="btn btn-danger text-uppercase float-left"
+										onClick={this.handleSubmit}
+										type="submit"
+									>
+										Cancel
 									</button>
 								</FormControl>
 							</div>
