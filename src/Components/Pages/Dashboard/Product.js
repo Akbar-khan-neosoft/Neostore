@@ -9,6 +9,7 @@ import { URL } from '../../../Redux/Constants';
 import ProductCard from './ProductCard';
 import Pagination from './Pagination';
 import ErrorPage from "../../Common/ErrorPage"
+import Loading from "../../Common/Loading"
 
 
 
@@ -73,9 +74,13 @@ class Product extends Component {
 		indexOfFirstPost = indexOfLastPost - this.state.cardsPerPage;
 		currentCard = this.state.post.slice(indexOfFirstPost, indexOfLastPost);
 
+		if(this.state.post.length > 0)
+		{console.log("true post",this.state.post)
+		}else 
+			{console.log("false",this.state.post)}
 		return (
-			
-			<div className="product_container">
+					 
+			 this.state.post.length > 0 ? <div className="product_container">
 				<div className="product">
 					<div className="side_filter">
 						<div className="allProductButton btn" onClick={this.onAllProductClickHandle}>
@@ -154,7 +159,7 @@ class Product extends Component {
 						paginate={this.handlePageChange}
 					/>
 				</div>
-			</div>
+			</div> : <Loading/>
 		);
 	}
 }
