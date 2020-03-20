@@ -2,7 +2,9 @@ import React, { Component } from 'react';
 import axios from "axios"
 import '../../Assets/CSS/ChangePassword.css';
 import {URL} from "../../Redux/Constants"
-import { FormControl, TextField } from '@material-ui/core';
+import { FormControl, TextField,OutlinedInput,InputLabel,IconButton ,InputAdornment } from '@material-ui/core';
+import {Visibility,VisibilityOff} from '@material-ui/icons';
+
 
 
 class ChangePassword extends Component{
@@ -18,7 +20,10 @@ class ChangePassword extends Component{
             confirmpasswordError: false,
             newpassworderrorMessage: '',
             oldpassworderrorMessage: '',
-            confirmpassworderrorMessage: ''
+            confirmpassworderrorMessage: '',
+            showOldPassword:false,
+            showNewPassword:false,
+            showConfirmPassword:false
 
         }
     }
@@ -29,6 +34,14 @@ class ChangePassword extends Component{
         this.setState({ [name]: value });
     };
 
+    handleClickShowPassword =(param)=>{
+        if(param==="showOldPassword")
+        this.setState({showOldPassword: !this.state.showOldPassword})
+        else  if(param==="showNewPassword")
+        this.setState({showNewPassword: !this.state.showNewPassword})
+        else  if(param==="showConfirmPassword")
+        this.setState({showConfirmPassword: !this.state.showConfirmPassword})
+    }
     onSubmitHandle = async() =>{
 
         if(this.validate())
@@ -124,10 +137,27 @@ class ChangePassword extends Component{
                     <hr></hr>
                     <form>
                         <div className="changepasswordformcontrol">
-                            <FormControl fullWidth>
-                                <TextField id="outlined-basic"
+                            <FormControl variant="outlined" fullWidth>
+                            <InputLabel htmlFor="outlined-adornment-password">Old Password</InputLabel>
+                                <OutlinedInput id="outlined-adornment-password"
                                     label="Old Password"
-                                    variant="outlined" placeholder="Old Password" name="oldpassword" value={this.state.oldpassword} onChange={this.onChangeHandle} />
+                                    // variant="outlined" 
+                                    type={this.state.showOldPassword ? 'text' : 'password'}
+                                    placeholder="Old Password"
+                                     name="oldpassword" 
+                                     value={this.state.oldpassword} 
+                                     onChange={this.onChangeHandle} 
+                                     endAdornment={
+              <InputAdornment position="end">
+                <IconButton
+                  aria-label="toggle password visibility"
+                  onClick={()=>{this.handleClickShowPassword("showOldPassword")}}
+                
+                >
+                  {this.state.showOldPassword ? <Visibility /> : <VisibilityOff />}
+                </IconButton>
+              </InputAdornment>
+            }/>
                             </FormControl>
                             {this.state.oldpasswordError ? (
                                 <span style={{ color: 'red', fontSize: '10px', fontWeight: '700' }}>
@@ -136,11 +166,25 @@ class ChangePassword extends Component{
                             ) : null}
                         </div>
                         <div className="changepasswordformcontrol">
-                            <FormControl fullWidth>
-                                <TextField id="outlined-basic"
-                                type="password"
+                        <FormControl variant="outlined" fullWidth>
+                            <InputLabel htmlFor="outlined-adornment-password">New Password</InputLabel>
+                                <OutlinedInput id="outlined-adornment-password"
+                                   type={this.state.showNewPassword ? 'text' : 'password'}
                                     label="New Password"
-                                    variant="outlined" placeholder="New Password" name="newpassword" value={this.state.newpassword} onChange={this.onChangeHandle} />
+                                    placeholder="New Password" 
+                                    name="newpassword" 
+                                    value={this.state.newpassword} 
+                                    onChange={this.onChangeHandle} endAdornment={
+                                        <InputAdornment position="end">
+                                          <IconButton
+                                            aria-label="toggle password visibility"
+                                            onClick={()=>{this.handleClickShowPassword("showNewPassword")}}
+                                          
+                                          >
+                                            {this.state.showNewPassword ? <Visibility /> : <VisibilityOff />}
+                                          </IconButton>
+                                        </InputAdornment>
+                                      }/>
                             </FormControl>
                             {this.state.newpasswordError ? (
                                 <span style={{ color: 'red', fontSize: '10px', fontWeight: '700' }}>
@@ -149,13 +193,27 @@ class ChangePassword extends Component{
                             ) : null}
                         </div>
                         <div className="changepasswordformcontrol">
-                            <FormControl fullWidth>
-                                <TextField id="outlined-basic"
-                                    label="Confirm Password"
-                                    type="password"
-                                    variant="outlined" placeholder="Confirm Password" name="confirmpassword" value={this.state.confirmpassword} onChange={this.onChangeHandle} />
+                        <FormControl variant="outlined" fullWidth>
+                            <InputLabel htmlFor="outlined-adornment-password">Confirm Password</InputLabel>
+                                <OutlinedInput id="outlined-adornment-password"
+                                   type={this.state.showConfirmPassword ? 'text' : 'password'}
+                                   label="Confirm Password"
+                                    placeholder="Confirm Password" 
+                                    name="confirmpassword" 
+                                    value={this.state.confirmpassword} 
+                                    onChange={this.onChangeHandle} endAdornment={
+                                        <InputAdornment position="end">
+                                          <IconButton
+                                            aria-label="toggle password visibility"
+                                            onClick={()=>{this.handleClickShowPassword("showConfirmPassword")}}
+                                          
+                                          >
+                                            {this.state.showConfirmPassword ? <Visibility /> : <VisibilityOff />}
+                                          </IconButton>
+                                        </InputAdornment>
+                                      }/>
                             </FormControl>
-                            {this.state.confirmpasswordError ? (
+                           {this.state.confirmpasswordError ? (
                                 <span style={{ color: 'red', fontSize: '10px', fontWeight: '700' }}>
                                     {this.state.confirmpassworderrorMessage}
                                 </span>

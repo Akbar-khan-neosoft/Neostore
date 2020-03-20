@@ -3,8 +3,8 @@ import axios from 'axios';
 import { useHistory } from 'react-router-dom';
 import { URL } from '../../Redux/Constants/index';
 import '../../Assets/CSS/Register.css';
-import { TextField, FormControl, InputAdornment } from '@material-ui/core';
-
+import { TextField, FormControl,OutlinedInput,InputLabel,IconButton , InputAdornment } from '@material-ui/core';
+import {Visibility,VisibilityOff} from '@material-ui/icons';
 import TextFieldsIcon from '@material-ui/icons/TextFields';
 import CallIcon from '@material-ui/icons/Call';
 import EmailIcon from '@material-ui/icons/Email';
@@ -37,6 +37,8 @@ class Register extends Component {
 			confirmPassword: '',
 			mobile: '',
 			gender: '',
+			showPassword:false,
+            showConfirmPassword:false,
 			formErrors: {
 				firstName: '',
 				lastName: '',
@@ -74,6 +76,12 @@ class Register extends Component {
 		}
 	};
 
+	handleClickShowPassword =(param)=>{
+        if(param==="showPassword")
+        this.setState({showPassword: !this.state.showPassword})
+        else  if(param==="showConfirmPassword")
+        this.setState({showConfirmPassword: !this.state.showConfirmPassword})
+    }
 	handleChange = e => {
 		e.preventDefault();
 		const { name, value } = e.target;
@@ -121,8 +129,8 @@ class Register extends Component {
 				if (value.length === 0) {
 					formErrors.password = "Password field can't be left blank";
 					allOk = true;
-				} else if (value.length < 8) {
-					formErrors.password = 'invalid email address';
+				} else if (value.length < 8 || value.length > 12) {
+					formErrors.password = 'Password should be inbetween 8-12 character';
 					allOk = true;
 				} else {
 					formErrors.password = '';
@@ -133,8 +141,8 @@ class Register extends Component {
 				if (value.length === 0) {
 					formErrors.confirmPassword = "Confirm Password field can't be left blank";
 					allOk = true;
-				} else if (value.length < 8) {
-					formErrors.confirmPassword = 'invalid email address';
+				} else if (value.length < 8 || value.length > 12) {
+					formErrors.confirmPassword = 'Password should be inbetween 8-12 character';;
 					allOk = true;
 				} else if (!(this.state.password === value)) {
 					formErrors.confirmPassword = 'Password and Confirm Password Mismatched';
@@ -255,33 +263,51 @@ class Register extends Component {
 								)}
 							</div>
 							<div className="form_textfield">
-								<FormControl fullWidth>
-									<TextField
-										id="outlined-password"
-										label="Password"
-										name="password"
-										type="password"
-										variant="outlined"
-										placeholder="Password"
-										onChange={this.handleChange}
-									/>
-								</FormControl>
+							<FormControl variant="outlined" fullWidth>
+                            <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
+                                <OutlinedInput id="outlined-adornment-password"
+                                   type={this.state.showPassword ? 'text' : 'password'}
+                                   label="Password"
+                                    placeholder="Password" 
+                                    name="password" 
+                                    // value={this.state.confirmpassword} 
+                                    onChange={this.handleChange} endAdornment={
+                                        <InputAdornment position="end">
+                                          <IconButton
+                                            aria-label="toggle password visibility"
+                                            onClick={()=>{this.handleClickShowPassword("showPassword")}}
+                                          
+                                          >
+                                            {this.state.showPassword ? <Visibility /> : <VisibilityOff />}
+                                          </IconButton>
+                                        </InputAdornment>
+                                      }/>
+                            </FormControl>
 								{formErrors.password.length > 0 && (
 									<span className="errorMessage">{formErrors.password}</span>
 								)}
 							</div>
 							<div className="form_textfield">
-								<FormControl fullWidth>
-									<TextField
-										id="outlined-confirmPassword"
-										label="Confirm Password"
-										name="confirmPassword"
-										variant="outlined"
-										type="password"
-										placeholder="Confirm Password"
-										onChange={this.handleChange}
-									/>
-								</FormControl>
+								<FormControl variant="outlined" fullWidth>
+                            <InputLabel htmlFor="outlined-adornment-password">Confirm Password</InputLabel>
+                                <OutlinedInput id="outlined-adornment-password"
+                                   type={this.state.showConfirmPassword ? 'text' : 'password'}
+                                   label="Confirm Password"
+                                    placeholder="Confirm Password" 
+                                    name="confirmpassword" 
+                                    // value={this.state.confirmpassword} 
+                                    onChange={this.handleChange} endAdornment={
+                                        <InputAdornment position="end">
+                                          <IconButton
+                                            aria-label="toggle password visibility"
+                                            onClick={()=>{this.handleClickShowPassword("showConfirmPassword")}}
+                                          
+                                          >
+                                            {this.state.showConfirmPassword ? <Visibility /> : <VisibilityOff />}
+                                          </IconButton>
+                                        </InputAdornment>
+                                      }/>
+                            </FormControl>
 								{formErrors.confirmPassword.length > 0 && (
 									<span className="errorMessage">{formErrors.confirmPassword}</span>
 								)}
