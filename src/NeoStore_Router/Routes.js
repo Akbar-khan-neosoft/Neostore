@@ -11,6 +11,7 @@ import ProductDetails from '../Components/Pages/ProductDetails';
 import Profile from '../Components/Pages/Profile';
 import AddNewAddress from '../Components/Pages/AddNewAddress';
 import ProtectedRoutes from './ProtectedRoutes'
+import ChangePassword from "../Components/Pages/ChangePassword";
 
 function Routes(){
     return(
@@ -28,6 +29,7 @@ function Routes(){
                         <Route excat path="/productdetails" component={ProductDetails} />
                         <Route excat path="/myaccount" component={Profile} />
                         <Route excat path="/address" component={AddNewAddress} />
+                        <Route excat path="/changepassword" component={ChangePassword} />
                         <ProtectedRoutes excat path="/order" component={Login} />
                     </Switch>
  
