@@ -13,6 +13,7 @@ import RecoverPassword from './Components/Pages/RecoverPassword';
 import ProductDetails from './Components/Pages/ProductDetails';
 import Profile from './Components/Pages/Profile';
 import Loading from './Components/Common/Loading';
+import AddNewAddress from './Components/Pages/AddNewAddress';
 // console.log(store.getState());
 
 function App() {
@@ -31,7 +32,7 @@ function App() {
 							<Route excat path="/recoverpassword" component={RecoverPassword} />
 							<Route excat path="/productdetails" component={ProductDetails} />
 							<Route excat path="/myaccount" component={Profile} />
-							{/* <Route excat path="/loading" component={Loading} /> */}
+							<Route excat path="/address" component={AddNewAddress} />
 
 							
 
