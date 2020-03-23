@@ -1,133 +1,143 @@
 import React, { Component } from 'react';
 import axios from "axios"
 import '../../Assets/CSS/ChangePassword.css';
-import {URL} from "../../Redux/Constants"
-import { FormControl, TextField,OutlinedInput,InputLabel,IconButton ,InputAdornment } from '@material-ui/core';
-import {Visibility,VisibilityOff} from '@material-ui/icons';
+import { URL } from "../../Redux/Constants"
+import { FormControl, TextField, OutlinedInput, inputProps, InputLabel, IconButton, InputAdornment } from '@material-ui/core';
+import { Visibility, VisibilityOff } from '@material-ui/icons';
+import { customErrorMessages } from '../../Utils/validation'
 
 
 
-class ChangePassword extends Component{
+class ChangePassword extends Component {
 
     constructor() {
         super()
         this.state = {
-            oldpassword: '',
-            newpassword: '',
-            confirmpassword: '',
-            newpasswordError: false,
-            oldpasswordError: false,
-            confirmpasswordError: false,
-            newpassworderrorMessage: '',
-            oldpassworderrorMessage: '',
-            confirmpassworderrorMessage: '',
-            showOldPassword:false,
-            showNewPassword:false,
-            showConfirmPassword:false
+            data: {
+                oldpassword: '',
+                newpassword: '',
+                confirmpassword: '',
+            },
+            error: {
+                newpasswordError: false,
+                oldpasswordError: false,
+                confirmpasswordError: false,
+                newpassworderrorMessage: '',
+                oldpassworderrorMessage: '',
+                confirmpassworderrorMessage: '',
+            },
+            showOldPassword: false,
+            showNewPassword: false,
+            showConfirmPassword: false
 
         }
     }
 
-    onChangeHandle = e => {
-        const name = e.target.name;
-        const value = e.target.value;
-        this.setState({ [name]: value });
+    onChangeHandle = ({ target: input }) => {
+        const data = { ...this.state.data };
+        data[input.name] = input.value;
+        this.setState({ data });
+        console.log(
+            data
+        )
+
     };
 
-    handleClickShowPassword =(param)=>{
-        if(param==="showOldPassword")
-        this.setState({showOldPassword: !this.state.showOldPassword})
-        else  if(param==="showNewPassword")
-        this.setState({showNewPassword: !this.state.showNewPassword})
-        else  if(param==="showConfirmPassword")
-        this.setState({showConfirmPassword: !this.state.showConfirmPassword})
+    handleClickShowPassword = (param) => {
+        if (param === "showOldPassword")
+            this.setState({ showOldPassword: !this.state.showOldPassword })
+        else if (param === "showNewPassword")
+            this.setState({ showNewPassword: !this.state.showNewPassword })
+        else if (param === "showConfirmPassword")
+            this.setState({ showConfirmPassword: !this.state.showConfirmPassword })
     }
-    onSubmitHandle = async() =>{
+    onSubmitHandle = async () => {
 
-        if(this.validate())
-        {
+        if (this.validate()) {
             const localData = JSON.parse(localStorage.getItem("data"));
-                const data = {
+            const data = {
                 oldpass: this.state.oldpassword,
-                newPass : this.state.newpassword,
-                confirmPass :this.state.confirmpassword}
-                console.log("data>>",data);
-               
-                console.log(localData)
-                
-                //  const res = await axios.post(URL + 'changepassword' , data, {headers:{"Authorization": 'Bearer ' + localData.token}})
-                //  console.log("res =-" ,res);
-            
+                newPass: this.state.newpassword,
+                confirmPass: this.state.confirmpassword
             }
-            else{
-                console.log("error ");
-                
-            }
+            console.log("data>>", data);
+
+            console.log(localData)
+
+            //  const res = await axios.post(URL + 'changepassword' , data, {headers:{"Authorization": 'Bearer ' + localData.token}})
+            //  console.log("res =-" ,res);
+
+        }
+        else {
+            console.log("error ");
+
+        }
 
     }
 
     validate = () => {
-        // const data = JSON.parse(localStorage.getItem("data"));
+        const { oldpassword, newpassword, confirmpassword } = this.state.data
 
-        this.setState({oldpasswordError:false,newpasswordError:false,confirmpasswordError:false})
+        this.setState({ error: { oldpasswordError: false, newpasswordError: false, confirmpasswordError: false } })
 
-          
-        if (this.state.oldpassword === '') {
-            this.setState({ oldpasswordError: true, oldpassworderrorMessage: "Old Password Field Can't Be Left Blank" });
+
+        if (oldpassword === '' || oldpassword !== "oldpassword") {//need to add old password here for validation
+            const { valueMissing } = customErrorMessages.password;
+            const errorpassword = oldpassword === "" ? valueMissing : "Old Password In Incorrect";
+            this.setState({ error: { oldpasswordError: true, oldpassworderrorMessage: errorpassword } });
             return false;
-        }else if (this.state.oldpassword !== "oldpassword" ) { //ned to add old password here for validation
+        }
+        else if (newpassword === '' || newpassword.length < 8 || newpassword.length > 12) {
+            const { valueMissing, patternMismatch } = customErrorMessages.password;
+            const errorpassword = newpassword === "" ? valueMissing : patternMismatch;
             this.setState({
-                oldpasswordError: true,
-                oldpassworderrorMessage: "Old Password In Incorrect",
-                
+                error: {
+                    newpasswordError: true,
+                    newpassworderrorMessage: errorpassword,
+
+                }
             });
             return false;
 
-        }  
-        else if (this.state.newpassword === '') {
+        } else if (confirmpassword === '' || confirmpassword.length < 8 || confirmpassword.length > 12) {
+            const { valueMissing, patternMismatch } = customErrorMessages.password;
+            const errorpassword = confirmpassword === "" ? valueMissing : patternMismatch;
             this.setState({
-                newpasswordError: true,
-                newpassworderrorMessage: "New Password Field Can't Be Left Blank",
-                
-            });
-            return false;
+                error: {
+                    confirmpasswordError: true,
+                    confirmpassworderrorMessage: "Confirm Password Field Can't Be Left Blank",
 
-        } else if (this.state.newpassword.length < 8 || this.state.newpassword.length > 12) {
-            this.setState({
-                newpasswordError: true,
-                newpassworderrorMessage: 'Password Length Should Be InBetween 8-12 characters',
-            });
-            return false;
-        } else if (this.state.confirmpassword === '') {
-            this.setState({
-                confirmpasswordError: true,
-                confirmpassworderrorMessage: "Confirm Password Field Can't Be Left Blank",
-
+                }
             });
             return false;
 
 
-        } else if (this.state.confirmpassword !== this.state.newpassword) {
+        } else if (confirmpassword !== newpassword) {
             this.setState({
-                confirmpasswordError: true,
-                confirmpassworderrorMessage: 'Password & ConfirmPassword Mismatched',
+                error: {
+                    confirmpasswordError: true,
+                    confirmpassworderrorMessage: 'Password & ConfirmPassword Mismatched',
+                }
             });
             return false;
-
-
-        } else{
+        } else {
             return true;
         }
 
 
     };
 
-   
+
 
     render() {
-    
-        
-        
+
+        const { newpasswordError,
+            oldpasswordError,
+            confirmpasswordError,
+            newpassworderrorMessage,
+            oldpassworderrorMessage,
+            confirmpassworderrorMessage } = this.state.error
+
         return (
             <div className="changepassword">
                 <div className="changepasswordform">
@@ -138,84 +148,92 @@ class ChangePassword extends Component{
                     <form>
                         <div className="changepasswordformcontrol">
                             <FormControl variant="outlined" fullWidth>
-                            <InputLabel htmlFor="outlined-adornment-password">Old Password</InputLabel>
+                                <InputLabel htmlFor="outlined-adornment-password">Old Password</InputLabel>
                                 <OutlinedInput id="outlined-adornment-password"
                                     label="Old Password"
-                                    // variant="outlined" 
                                     type={this.state.showOldPassword ? 'text' : 'password'}
                                     placeholder="Old Password"
-                                     name="oldpassword" 
-                                     value={this.state.oldpassword} 
-                                     onChange={this.onChangeHandle} 
-                                     endAdornment={
-              <InputAdornment position="end">
-                <IconButton
-                  aria-label="toggle password visibility"
-                  onClick={()=>{this.handleClickShowPassword("showOldPassword")}}
-                
-                >
-                  {this.state.showOldPassword ? <Visibility /> : <VisibilityOff />}
-                </IconButton>
-              </InputAdornment>
-            }/>
+                                    name="oldpassword"
+                                    inputProps={
+                                        { maxLength: 12 }
+                                    }
+                                    onChange={this.onChangeHandle}
+                                    onBlur={this.validate}
+                                    endAdornment={
+                                        <InputAdornment position="end">
+                                            <IconButton
+                                                aria-label="toggle password visibility"
+                                                onClick={() => { this.handleClickShowPassword("showOldPassword") }}
+
+                                            >
+                                                {this.state.showOldPassword ? <Visibility /> : <VisibilityOff />}
+                                            </IconButton>
+                                        </InputAdornment>
+                                    } />
                             </FormControl>
-                            {this.state.oldpasswordError ? (
+                            {oldpasswordError ? (
                                 <span style={{ color: 'red', fontSize: '10px', fontWeight: '700' }}>
-                                    {this.state.oldpassworderrorMessage}
+                                    {oldpassworderrorMessage}
                                 </span>
                             ) : null}
                         </div>
                         <div className="changepasswordformcontrol">
-                        <FormControl variant="outlined" fullWidth>
-                            <InputLabel htmlFor="outlined-adornment-password">New Password</InputLabel>
+                            <FormControl variant="outlined" fullWidth>
+                                <InputLabel htmlFor="outlined-adornment-password">New Password</InputLabel>
                                 <OutlinedInput id="outlined-adornment-password"
-                                   type={this.state.showNewPassword ? 'text' : 'password'}
+                                    type={this.state.showNewPassword ? 'text' : 'password'}
                                     label="New Password"
-                                    placeholder="New Password" 
-                                    name="newpassword" 
-                                    value={this.state.newpassword} 
-                                    onChange={this.onChangeHandle} endAdornment={
+                                    placeholder="New Password"
+                                    name="newpassword"
+                                    inputProps={
+                                        { maxLength: 12 }
+                                    }
+                                    onChange={this.onChangeHandle}
+                                    onBlur={this.validate} endAdornment={
                                         <InputAdornment position="end">
-                                          <IconButton
-                                            aria-label="toggle password visibility"
-                                            onClick={()=>{this.handleClickShowPassword("showNewPassword")}}
-                                          
-                                          >
-                                            {this.state.showNewPassword ? <Visibility /> : <VisibilityOff />}
-                                          </IconButton>
+                                            <IconButton
+                                                aria-label="toggle password visibility"
+                                                onClick={() => { this.handleClickShowPassword("showNewPassword") }}
+
+                                            >
+                                                {this.state.showNewPassword ? <Visibility /> : <VisibilityOff />}
+                                            </IconButton>
                                         </InputAdornment>
-                                      }/>
+                                    } />
                             </FormControl>
-                            {this.state.newpasswordError ? (
+                            {newpasswordError ? (
                                 <span style={{ color: 'red', fontSize: '10px', fontWeight: '700' }}>
-                                    {this.state.newpassworderrorMessage}
+                                    {newpassworderrorMessage}
                                 </span>
                             ) : null}
                         </div>
                         <div className="changepasswordformcontrol">
-                        <FormControl variant="outlined" fullWidth>
-                            <InputLabel htmlFor="outlined-adornment-password">Confirm Password</InputLabel>
+                            <FormControl variant="outlined" fullWidth>
+                                <InputLabel htmlFor="outlined-adornment-password">Confirm Password</InputLabel>
                                 <OutlinedInput id="outlined-adornment-password"
-                                   type={this.state.showConfirmPassword ? 'text' : 'password'}
-                                   label="Confirm Password"
-                                    placeholder="Confirm Password" 
-                                    name="confirmpassword" 
-                                    value={this.state.confirmpassword} 
-                                    onChange={this.onChangeHandle} endAdornment={
+                                    type={this.state.showConfirmPassword ? 'text' : 'password'}
+                                    label="Confirm Password"
+                                    placeholder="Confirm Password"
+                                    name="confirmpassword"
+                                    inputProps={
+                                        { maxLength: 12 }
+                                    }
+                                    onChange={this.onChangeHandle}
+                                    onBlur={this.validate} endAdornment={
                                         <InputAdornment position="end">
-                                          <IconButton
-                                            aria-label="toggle password visibility"
-                                            onClick={()=>{this.handleClickShowPassword("showConfirmPassword")}}
-                                          
-                                          >
-                                            {this.state.showConfirmPassword ? <Visibility /> : <VisibilityOff />}
-                                          </IconButton>
+                                            <IconButton
+                                                aria-label="toggle password visibility"
+                                                onClick={() => { this.handleClickShowPassword("showConfirmPassword") }}
+
+                                            >
+                                                {this.state.showConfirmPassword ? <Visibility /> : <VisibilityOff />}
+                                            </IconButton>
                                         </InputAdornment>
-                                      }/>
+                                    } />
                             </FormControl>
-                           {this.state.confirmpasswordError ? (
+                            {confirmpasswordError ? (
                                 <span style={{ color: 'red', fontSize: '10px', fontWeight: '700' }}>
-                                    {this.state.confirmpassworderrorMessage}
+                                    {confirmpassworderrorMessage}
                                 </span>
                             ) : null}
                         </div>

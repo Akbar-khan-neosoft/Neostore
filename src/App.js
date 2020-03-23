@@ -3,7 +3,7 @@ import { Provider } from 'react-redux';
 import { BrowserRouter as Router} from 'react-router-dom';
 import Layout from './Components/Main/Layout';
 import store from '../src/Redux/Store';
-import Routes from './NeoStore_Router/PublicRoutes';
+import Routes from './NeoStore_Router/Routes';
 
 
 function App() {
@@ -32,5 +32,6 @@ function App() {
 		</div>
 	);
 }
+
 
 export default App;

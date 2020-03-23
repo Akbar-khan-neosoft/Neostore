@@ -25,11 +25,10 @@ class Login extends Component {
 				passwordError: false,
 				errorMessage: '',
 			}
-			
 		};
 	}
 
-	onSubmitHandler = async () => {
+	onSubmitHandler =  () => {
 		console.log('button clicked');
 
 		const data = {
@@ -37,7 +36,7 @@ class Login extends Component {
 			pass: this.state.data.password,
 		};
 
-		await this.props.onFetch(data);
+		 this.props.onFetch(data);
 		localStorage.setItem('loginData', JSON.stringify(this.props.data));
 		this.props.history.push('/');
 	};
@@ -46,26 +45,16 @@ class Login extends Component {
 		const data = { ...this.state.data };
 		data[input.name] = input.value;
 		this.setState({ data });
-		console.log(data);
 		};
 
 	validate = () => {
 		const {email,password}=this.state.data
-		
-		
-		
 		this.setState({error: { passwordError: false, emailError: false, errorMessage: '' }});
 
 		if (email === ''||!EMAIL_REGEX.test(email)) {
 			const { valueMissing, typeMismatch } = customErrorMessages.email;
 			const erroremail = email === "" ? valueMissing : typeMismatch;
 			this.setState({error: { emailError: true, errorMessage: erroremail}, disableButton: true });
-		// }else if (!EMAIL_REGEX.test(email)) {
-		// 	this.setState({error: {
-		// 		emailError: true,
-		// 		errorMessage: "Invalid Email"},
-		// 		disableButton: true,
-		// 	});
 			
 		} else if (password === ''||password.length < 8) {
 			const { valueMissing, patternMismatch } = customErrorMessages.password;
@@ -76,13 +65,6 @@ class Login extends Component {
 				errorMessage: errorpassowrd},
 				disableButton: true,
 			});
-			
-		// } else if (password.length < 8) {
-		// 	this.setState({error: {
-		// 		passwordError: true,
-		// 		errorMessage: 'Password Length Should Be More Than 8'},
-		// 		disableButton: true,
-		// 	});
 			
 		} else {
 			this.setState({
@@ -172,7 +154,7 @@ class Login extends Component {
 
 const mapStateToProps = state => {
 	console.log('state - >', state.loginReducer);
-
+	// return { data: state.loginReducer || [] };
 	return { data: state.loginReducer.data || [] };
 };
 

@@ -4,7 +4,7 @@ export const MOBILE_REGEX = /^\d{10}$/;
 
 export const customErrorMessages = {
 	name: {
-		valueMissing: 'Please enter your name',
+		valueMissing: "Name field can't be left blank,minimum 3 characaters required",
 		patternMismatch: 'Invalid Name',
 	},
 	mobile: {
@@ -17,6 +17,6 @@ export const customErrorMessages = {
 	},
 	password: {
 		valueMissing: 'Please enter password',
-		patternMismatch: 'Password should have a minimum of 8 characters',
+		patternMismatch: 'Password should be inbetween 8-12 character',
 	},
 };

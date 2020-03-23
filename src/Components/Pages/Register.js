@@ -3,7 +3,7 @@ import axios from 'axios';
 import { useHistory } from 'react-router-dom';
 import { URL } from '../../Redux/Constants/index';
 import '../../Assets/CSS/Register.css';
-import { TextField, FormControl,OutlinedInput,InputLabel,IconButton , InputAdornment } from '@material-ui/core';
+import { TextField, FormControl,OutlinedInput,InputLabel,IconButton ,inputprops, InputAdornment } from '@material-ui/core';
 import {Visibility,VisibilityOff} from '@material-ui/icons';
 import TextFieldsIcon from '@material-ui/icons/TextFields';
 import CallIcon from '@material-ui/icons/Call';
@@ -11,9 +11,10 @@ import EmailIcon from '@material-ui/icons/Email';
 import { RadioGroup, FormControlLabel } from '@material-ui/core';
 import Radio from '@material-ui/core/Radio';
 import { GoogleButton, FacebookButton } from '../Common/SocialLoginButtons/SocialLoginButtons';
+import {EMAIL_REGEX,NAME_REGEX,customErrorMessages} from '../../Utils/validation'
+
 
 const emailRegex = RegExp(/^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/);
-let allOk = false;
 const formValid = ({ formErrors, ...rest }) => {
 	let valid = false;
 
@@ -30,15 +31,18 @@ class Register extends Component {
 	constructor() {
 		super();
 		this.state = {
+			data:{
 			firstName: '',
 			lastName: '',
 			email: '',
 			password: '',
 			confirmPassword: '',
 			mobile: '',
-			gender: '',
+			gender: ''
+			},
 			showPassword:false,
-            showConfirmPassword:false,
+			showConfirmPassword:false,
+			disableButton:true,
 			formErrors: {
 				firstName: '',
 				lastName: '',
@@ -52,13 +56,13 @@ class Register extends Component {
 	}
 
 	handleSubmit = async e => {
-		e.preventDefault();
-		// formValid(this.state)
-		console.log(allOk);
+		e.preventDefault()
+	
 
-		if (allOk === false) {
+		if (this.state.disableButton === false) {
 			const { firstName, lastName, email, password, mobile, confirmPassword, gender } = this.state;
 			let registrationData = {
+				
 				first_name: `${firstName}`,
 				last_name: `${lastName}`,
 				email: `${email}`,
@@ -71,10 +75,7 @@ class Register extends Component {
 			const res = await axios.post(URL + 'register', registrationData);
 			alert(res.data.message);
 			this.props.history.push('login');
-		} else {
-			alert('FORM INVALID - Kindly Fill The form Completly');
-		}
-	};
+		}};
 
 	handleClickShowPassword =(param)=>{
         if(param==="showPassword")
@@ -86,81 +87,73 @@ class Register extends Component {
 		e.preventDefault();
 		const { name, value } = e.target;
 		let formErrors = { ...this.state.formErrors };
-		allOk = false;
+		this.setState({disableButton:true})
 
 		switch (name) {
 			case 'firstName':
-				if (value.length === 0) {
-					formErrors.firstName = "Firstname field can't be left blank,minimum 3 characaters required";
-					allOk = true;
-				} else if (!isNaN(value)) {
-					formErrors.firstName = 'Numbers not allowed in Firstname';
-					allOk = true;
-				} else {
+				if (value.length === 0 ||!NAME_REGEX.test(value)) {
+					const { valueMissing, patternMismatch } = customErrorMessages.name;
+					formErrors.firstName = value === "" ? valueMissing : patternMismatch;
+					this.setState({disableButton:true})
+				}else {
 					formErrors.firstName = '';
+					
 				}
 
 				break;
+
 			case 'lastName':
-				if (value.length === 0) {
-					formErrors.lastName = "Lastname field can't be left blank,minimum 3 characaters required";
-					allOk = true;
-				} else if (!isNaN(value)) {
-					formErrors.lastName = 'Numbers not allowed in Lastname';
-					allOk = true;
+				if (value.length === 0|| !NAME_REGEX.test(value)) {
+					const { valueMissing, patternMismatch } = customErrorMessages.name;
+					formErrors.lastName = value === "" ? valueMissing : patternMismatch;
+					this.setState({disableButton:true})
 				} else {
 					formErrors.lastName = '';
+					
 				}
 
 				break;
 			case 'email':
-				if (value.length === 0) {
-					formErrors.email = "Email field can't be left blank";
-					allOk = true;
-				} else if (!emailRegex.test(value)) {
-					formErrors.email = 'invalid email address';
-					allOk = true;
+				if (value.length === 0|| !EMAIL_REGEX.test(value)) {
+					const { valueMissing, typeMismatch } = customErrorMessages.email;
+					formErrors.email = value === "" ? valueMissing : typeMismatch;
+					this.setState({disableButton:true})
 				} else {
 					formErrors.email = '';
+				
 				}
 
 				break;
 			case 'password':
-				if (value.length === 0) {
-					formErrors.password = "Password field can't be left blank";
-					allOk = true;
-				} else if (value.length < 8 || value.length > 12) {
-					formErrors.password = 'Password should be inbetween 8-12 character';
-					allOk = true;
-				} else {
+				if (value.length === 0 ||value.length < 8 || value.length > 12) {
+					const { valueMissing, patternMismatch } = customErrorMessages.password;
+					formErrors.password = value === "" ? valueMissing : patternMismatch;
+					this.setState({disableButton:true})
+				} else if(value===this.state.confirmPassword) {
+					formErrors.confirmPassword = '';
+				}else {
 					formErrors.password = '';
 				}
 
 				break;
 			case 'confirmPassword':
-				if (value.length === 0) {
-					formErrors.confirmPassword = "Confirm Password field can't be left blank";
-					allOk = true;
-				} else if (value.length < 8 || value.length > 12) {
-					formErrors.confirmPassword = 'Password should be inbetween 8-12 character';;
-					allOk = true;
+				if (value.length === 0 ||value.length < 8 || value.length > 12) {
+					const { valueMissing, patternMismatch } = customErrorMessages.password;
+					formErrors.confirmPassword = value === "" ? valueMissing : patternMismatch;
+					this.setState({disableButton:true})
 				} else if (!(this.state.password === value)) {
 					formErrors.confirmPassword = 'Password and Confirm Password Mismatched';
+					this.setState({disableButton:true})
 				} else {
 					formErrors.confirmPassword = '';
 				}
 
 				break;
 			case 'mobile':
-				if (value.length === 0) {
-					formErrors.mobile = "Mobile Number field can't be left blank";
-					allOk = true;
-				} else if (isNaN(value)) {
-					formErrors.mobile = 'Only Numbers allowed in Mobile';
-					allOk = true;
-				} else if (value.length < 10 || value.length > 10) {
-					formErrors.mobile = 'Only 10 characaters allowed';
-					allOk = true;
+				if (value.length === 0||isNaN(value)||value.length < 10 || value.length > 10) {
+					const { valueMissing, patternMismatch } = customErrorMessages.mobile;
+					formErrors.mobile = value === "" ? valueMissing : patternMismatch;
+					this.setState({disableButton:true})
 				} else {
 					formErrors.mobile = '';
 				}
@@ -169,7 +162,7 @@ class Register extends Component {
 			case 'gender':
 				if (value.length === 0) {
 					formErrors.gender = "Gender field can't be left blank";
-					allOk = true;
+					this.setState({disableButton:true})
 				} else {
 					formErrors.gender = '';
 				}
@@ -178,11 +171,22 @@ class Register extends Component {
 			default:
 				break;
 		}
+		
+		console.log("test : ",formErrors.firstName.length,);
+		
+		if(formErrors.firstName.length === 0 && formErrors.lastName.length === 0 && formErrors.email.length === 0 &&
+			formErrors.password.length === 0 && formErrors.confirmPassword.length === 0 && formErrors.mobile.length === 0 && 
+			formErrors.gender.length === 0){
+				this.setState({disableButton:false})
+			}
+
+
 
 		this.setState({ formErrors, [name]: value });
 	};
 
 	render() {
+		// const{firstName,lastName,email,password,confirmPassword,mobile,gender} =this.state.data
 		const { formErrors } = this.state;
 		return (
 			<div className="register">
@@ -201,7 +205,6 @@ class Register extends Component {
 										id="outlined-firstName"
 										label="First Name"
 										name="firstName"
-										value={this.state.firstName}
 										variant="outlined"
 										placeholder="First Name"
 										InputProps={{
@@ -269,8 +272,10 @@ class Register extends Component {
                                    type={this.state.showPassword ? 'text' : 'password'}
                                    label="Password"
                                     placeholder="Password" 
-                                    name="password" 
-                                    // value={this.state.confirmpassword} 
+									name="password" 
+									inputProps={
+										{ maxLength: 12 }
+									}
                                     onChange={this.handleChange} endAdornment={
                                         <InputAdornment position="end">
                                           <IconButton
@@ -294,8 +299,10 @@ class Register extends Component {
                                    type={this.state.showConfirmPassword ? 'text' : 'password'}
                                    label="Confirm Password"
                                     placeholder="Confirm Password" 
-                                    name="confirmpassword" 
-                                    // value={this.state.confirmpassword} 
+									name="confirmPassword" 
+									inputProps={
+										{ maxLength: 12 }
+									}
                                     onChange={this.handleChange} endAdornment={
                                         <InputAdornment position="end">
                                           <IconButton
@@ -320,6 +327,9 @@ class Register extends Component {
 										name="mobile"
 										variant="outlined"
 										placeholder="Mobile Number"
+										inputProps={
+											{ maxLength: 10 }
+										}
 										InputProps={{
 											endAdornment: (
 												<InputAdornment position="end">
@@ -337,9 +347,9 @@ class Register extends Component {
 							<div className="form_textfield">
 								<FormControl component="fieldset">
 									<RadioGroup
-										//defaultValue="male"
 										aria-label="gender"
 										name="gender"
+										defaultValue="male"
 										onChange={this.handleChange}
 									>
 										<FormControlLabel value="male" control={<Radio />} label="Male" />
@@ -353,6 +363,7 @@ class Register extends Component {
 										class="btn btn-danger text-uppercase float-left"
 										onClick={this.handleSubmit}
 										type="submit"
+										disabled={this.state.disableButton}
 									>
 										Register
 									</button>
