@@ -7,10 +7,12 @@ class Header extends Component {
 	render() {
 		return (
 			<div className="container-fluid">
-				<div className="Header-logo">
+				<div className="Header-logo btn">
+				<Link to="/" style={{ textDecoration: 'none' }}>
 					<h1 style={{ color: 'white', fontSize: '50px' }}>
 						Neo<span style={{ color: 'red' }}>Store</span>
 					</h1>
+					</Link>
 				</div>
 				<div className="Header-Links">
 					<ul className="navbar">
@@ -25,9 +27,9 @@ class Header extends Component {
 							</Link>
 						</li>
 						<li>
-							<a style={{ textDecoration: 'none' }} href="#">
+						<Link to="/order" style={{ textDecoration: 'none' }}>
 								<span style={{ fontSize: '20px', fontWeight: 'bold', color: 'white' }}>Order</span>
-							</a>
+								</Link>
 						</li>
 					</ul>
 				</div>

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { fetchlogin } from '../../Redux/Actions/loginAction';
 import '../../Assets/CSS/Login.css';
+import {EMAIL_REGEX,customErrorMessages} from '../../Utils/validation'
 import {
 	FacebookButton,
 	GoogleButton,
@@ -14,13 +15,17 @@ class Login extends Component {
 	constructor() {
 		super();
 		this.state = {
-			email: '',
-			password: '',
+			data:{
+				email: '',
+				password: '',
+			},
 			disableButton: true,
-
-			emailError: false,
-			passwordError: false,
-			errorMessage: '',
+			error:{
+				emailError: false,
+				passwordError: false,
+				errorMessage: '',
+			}
+			
 		};
 	}
 
@@ -28,45 +33,57 @@ class Login extends Component {
 		console.log('button clicked');
 
 		const data = {
-			email: this.state.email,
-			pass: this.state.password,
+			email: this.state.data.email,
+			pass: this.state.data.password,
 		};
 
 		await this.props.onFetch(data);
-			
-		// console.log('data - >', this.props.data);
-
 		localStorage.setItem('loginData', JSON.stringify(this.props.data));
 		this.props.history.push('/');
 	};
 
-	onChangeHandler = e => {
-		const name = e.target.name;
-		const value = e.target.value;
-		this.setState({ [name]: value });
-	};
+	onChangeHandler = ({target : input}) => {
+		const data = { ...this.state.data };
+		data[input.name] = input.value;
+		this.setState({ data });
+		console.log(data);
+		};
 
 	validate = () => {
-		this.setState({ passwordError: false, emailError: false, errorMessage: '' });
+		const {email,password}=this.state.data
+		
+		
+		
+		this.setState({error: { passwordError: false, emailError: false, errorMessage: '' }});
 
-		if (this.state.email === '') {
-			this.setState({ emailError: true, errorMessage: "Email Field Can't Be Left Blank", disableButton: true });
-		} else if (this.state.password === '') {
-			this.setState({
+		if (email === ''||!EMAIL_REGEX.test(email)) {
+			const { valueMissing, typeMismatch } = customErrorMessages.email;
+			const erroremail = email === "" ? valueMissing : typeMismatch;
+			this.setState({error: { emailError: true, errorMessage: erroremail}, disableButton: true });
+		// }else if (!EMAIL_REGEX.test(email)) {
+		// 	this.setState({error: {
+		// 		emailError: true,
+		// 		errorMessage: "Invalid Email"},
+		// 		disableButton: true,
+		// 	});
+			
+		} else if (password === ''||password.length < 8) {
+			const { valueMissing, patternMismatch } = customErrorMessages.password;
+			const errorpassowrd = password === "" ? valueMissing : patternMismatch;
+			
+			this.setState({error: {
 				passwordError: true,
-				errorMessage: "Password Field Can't Be Left Blank",
+				errorMessage: errorpassowrd},
 				disableButton: true,
 			});
-			// return false;
-			// errorMessage = "Password Field Can't Be Left Blank";
-		} else if (this.state.password.length < 8) {
-			this.setState({
-				passwordError: true,
-				errorMessage: 'Password Length Should Be More Than 8',
-				disableButton: true,
-			});
-			// return false;
-			// errorMessage = 'Password Length Should Be More Than 8';
+			
+		// } else if (password.length < 8) {
+		// 	this.setState({error: {
+		// 		passwordError: true,
+		// 		errorMessage: 'Password Length Should Be More Than 8'},
+		// 		disableButton: true,
+		// 	});
+			
 		} else {
 			this.setState({
 				disableButton: false,
@@ -75,6 +92,10 @@ class Login extends Component {
 	};
 
 	render() {
+
+		const {email,password}=this.state.data
+		const{emailError,passwordError,errorMessage} = this.state.error
+		
 		return (
 			<div className="login_container">
 				<div className="login_main">
@@ -91,14 +112,14 @@ class Login extends Component {
 									type="email"
 									class="form-control"
 									placeholder="Email Address"
-									value={this.state.email}
+									value={email}
 									onChange={this.onChangeHandler}
 									name="email"
 									onBlur={this.validate}
 								/>
-								{this.state.emailError ? (
+								{emailError ? (
 									<span style={{ color: 'red', fontSize: '10px', fontWeight: '700' }}>
-										{this.state.errorMessage}
+										{errorMessage}
 									</span>
 								) : null}
 							</div>
@@ -107,14 +128,14 @@ class Login extends Component {
 									type="password"
 									class="form-control"
 									placeholder="Password"
-									value={this.state.password}
+									value={password}
 									onChange={this.onChangeHandler}
 									name="password"
 									onBlur={this.validate}
 								/>
-								{this.state.passwordError ? (
+								{passwordError ? (
 									<span style={{ color: 'red', fontSize: '10px', fontWeight: '700' }}>
-										{this.state.errorMessage}
+										{errorMessage}
 									</span>
 								) : null}
 							</div>
