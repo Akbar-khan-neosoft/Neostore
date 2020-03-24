@@ -62,8 +62,7 @@ class EditProfile extends Component {
 				gender: `${gender}`,
 				phone_no: `${mobile}`,
 				dob:`${dob}`,
-				profile_img:`${profilePic}`,
-				
+				profile_img:`${profilePic}`
 			};
 
 
@@ -72,9 +71,9 @@ class EditProfile extends Component {
 		}
 	};
 
-	handleCancel=()=>{
-		this.props.history.push("/myaccount");
-	}
+	// handleCancel=()=>{
+	// 	this.props.history.push("/myaccount");
+	// }
 	handleChange = e => {
 		e.preventDefault();
 		const { name, value } = e.target;
@@ -292,7 +291,7 @@ class EditProfile extends Component {
 							<div className="form_textfield">
 								<input
 									accept="image/*"
-
+									name="profilePic"
 									style={{ display: 'none' }}
 									id="raised-button-file"
 									multiple
@@ -341,7 +340,7 @@ class EditProfile extends Component {
 								<FormControl component="fieldset">
 									<button
 										class="btn btn-danger text-uppercase float-left"
-										onClick={this.handleCancel}
+										onClick={this.props.cancel}
 										type="submit"
 									>
 										Cancel

@@ -18,14 +18,14 @@ class MyProfile extends Component{
         // console.log(localData.token)
         
         // const res = await axios.get(URL + "getCustProfile" , {headers : {"Authorization": "Brearer " + localData.token }})
-         const res = await axios.get("http://localhost:3000/userprofileAPI", {headers : {"Authorization": "Brearer " + "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTcwLCJpYXQiOjE1Nzc3MDQ3OTF9.Xp4iolxxpQDskEIBZTA37hkXlhrmuPpf53auTxD0tNo" }})
+        const res = await axios.get("http://localhost:3000/userprofileAPI", {headers : {"Authorization": "Brearer " + "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTcwLCJpYXQiOjE1Nzc3MDQ3OTF9.Xp4iolxxpQDskEIBZTA37hkXlhrmuPpf53auTxD0tNo" }})
         
         this.setState({custData:res.data.customer_proile})
         console.log(res.data.customer_proile)
         }
 
         onClickEditHandle =()=>{
-            this.setState({edit:true})
+            this.setState({edit:!this.state.edit})
         }
 
 
@@ -52,7 +52,7 @@ class MyProfile extends Component{
                 </div>
                 <hr></hr>
                 <div className="profileeditbuttom"><button onClick={this.onClickEditHandle}>Edit</button></div>
-            </div> : <EditProfile data = {this.state.custData}/>
+            </div> : <EditProfile data = {this.state.custData} cancel={this.onClickEditHandle}/>
         )
     }
 }

@@ -1,11 +1,9 @@
 import React, { Component } from "react"
 import "../../Assets/CSS/AddNewAddress.css"
 import { FormControl, TextField, InputProps } from '@material-ui/core';
-import axios from "axios"
 
 
-
-class AddNewAddress extends Component {
+class EditAddress extends Component {
 
     constructor(props) {
         super(props)
@@ -24,31 +22,14 @@ class AddNewAddress extends Component {
         this.setState({ [name]: value });
     };
 
-    handleSubmit = async () => {
-        console.log("submit");
-        
-		
-		const { address, pincode, city, state, country} = this.state;
-			let addAddressData = {
-				address: `${address}`,
-				pincode: `${pincode}`,
-				city: `${city}`,
-				state: `${state}`,
-				country: `${country}`,
-                }
-                
-                const res = await axios.get("http://localhost:3000/addaddressAPI", {headers : {"Authorization": "Brearer " + "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTcwLCJpYXQiOjE1Nzc3MDQ3OTF9.Xp4iolxxpQDskEIBZTA37hkXlhrmuPpf53auTxD0tNo" }})
-        
-                // this.setState({custData:res.data.customer_proile})
-                console.log(res)
-
-		
-	};
-
     render() {
+        console.log("jhgjhgjhg" ,this.props.custAddress)
+        
+        const{address,pincode,city,state,country}=this.props.custAddress
+        console.log("test" ,address)
         return (
             <div className="newaddresscontainer">
-                <div><h3>Add New Address</h3></div>
+                <div><h3>Edit Address</h3></div>
                 <hr></hr>
                 <div className="formcontainer">
                     <form>
@@ -61,7 +42,7 @@ class AddNewAddress extends Component {
                                     variant="outlined"
                                     placeholder="Address"
                                     name="address"
-                                    value={this.state.address}
+                                    defaultValue={address}
                                     onChange={this.onChangeHandle}
                                 />
                             </FormControl>
@@ -73,7 +54,7 @@ class AddNewAddress extends Component {
                                     variant="outlined"
                                     placeholder="Pincode"
                                     name="pincode"
-                                    value={this.state.pincode}
+                                    defaultValue={pincode}
                                     onChange={this.onChangeHandle}
                                     inputProps={
                                         { maxLength: 6 }
@@ -88,7 +69,7 @@ class AddNewAddress extends Component {
                                     variant="outlined"
                                     placeholder="City"
                                     name="city"
-                                    value={this.state.city}
+                                    defaultValue={city}
                                     onChange={this.onChangeHandle}
                                 />
                             </FormControl>
@@ -98,7 +79,7 @@ class AddNewAddress extends Component {
                                     variant="outlined"
                                     placeholder="State"
                                     name="state"
-                                    value={this.state.state}
+                                    defaultValue={state}
                                     onChange={this.onChangeHandle}
                                 />
                             </FormControl>  
@@ -110,7 +91,7 @@ class AddNewAddress extends Component {
                                     variant="outlined"
                                     placeholder="Country"
                                     name="country"
-                                    value={this.state.country}
+                                    defaultValue={country}
                                     onChange={this.onChangeHandle}
                                     />
                             </FormControl>
@@ -121,7 +102,7 @@ class AddNewAddress extends Component {
                                     class="btn"
                                     type="button"
                                     style={{ backgroundColor: 'rgb(21, 103, 226)', color: 'white' }}
-                                    onClick={this.handleSubmit}
+                                    // onClick={this.onSubmitHandle}
                                 >
                                     Save
 							</button>
@@ -131,7 +112,7 @@ class AddNewAddress extends Component {
                                     class="btn"
                                     type="button"
                                     style={{ backgroundColor: 'rgb(21, 103, 226)', color: 'white' }}
-                                     onClick={this.props.cancel}
+                                    onClick={this.props.cancel}
                                 >
                                     Cancel
 							</button>
@@ -144,4 +125,4 @@ class AddNewAddress extends Component {
     }
 }
 
-export default AddNewAddress
+export default EditAddress
