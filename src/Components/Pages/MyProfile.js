@@ -14,10 +14,12 @@ class MyProfile extends Component{
 
     async componentDidMount(){
 
-        const localData = JSON.parse(localStorage.getItem("loginData"))
-        console.log(localData.token)
+        // const localData = JSON.parse(localStorage.getItem("loginData"))
+        // console.log(localData.token)
         
-        const res = await axios.get(URL + "getCustProfile" , {headers : {"Authorization": "Brearer " + localData.token }})
+        // const res = await axios.get(URL + "getCustProfile" , {headers : {"Authorization": "Brearer " + localData.token }})
+         const res = await axios.get("http://localhost:3000/userprofileAPI", {headers : {"Authorization": "Brearer " + "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTcwLCJpYXQiOjE1Nzc3MDQ3OTF9.Xp4iolxxpQDskEIBZTA37hkXlhrmuPpf53auTxD0tNo" }})
+        
         this.setState({custData:res.data.customer_proile})
         console.log(res.data.customer_proile)
         }

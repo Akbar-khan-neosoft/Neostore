@@ -29,13 +29,15 @@ class EditProfile extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			firstName: '',
-			lastName: '',
-			email: '',
-			dob: '',
-			profilePic: '',
-			mobile: '',
-			gender: '',
+			data: {
+				firstName: '',
+				lastName: '',
+				email: '',
+				dob: '',
+				profilePic: '',
+				mobile: '',
+				gender: ''
+			},
 			formErrors: {
 				firstName: '',
 				lastName: '',
@@ -52,24 +54,27 @@ class EditProfile extends Component {
 		console.log(allOk);
 
 		if (allOk === false) {
-			const { firstName, lastName, email, password, mobile, confirmPassword, gender } = this.state;
-			let registrationData = {
+			const { firstName, lastName, email, dob, mobile, profilePic, gender } = this.state.data;
+			let editProfileData = {
 				first_name: `${firstName}`,
 				last_name: `${lastName}`,
 				email: `${email}`,
-				// pass: `${password}`,
-				phone_no: `${mobile}`,
-				// confirmPass: `${confirmPassword}`,
 				gender: `${gender}`,
+				phone_no: `${mobile}`,
+				dob:`${dob}`,
+				profile_img:`${profilePic}`,
+				
 			};
 
-			
-			this.props.history.push('login');
-		} else {
+
+			} else {
 			alert('FORM INVALID - Kindly Fill The form Completly');
 		}
 	};
 
+	handleCancel=()=>{
+		this.props.history.push("/myaccount");
+	}
 	handleChange = e => {
 		e.preventDefault();
 		const { name, value } = e.target;
@@ -171,7 +176,7 @@ class EditProfile extends Component {
 	};
 
 	render() {
-		const{first_name,last_name,gender,email,phone_no,dob} = this.props.data
+		const { first_name, last_name, gender, email, phone_no, dob,profilePic } = this.props.data
 		const { formErrors } = this.state;
 		return (
 			<div className="register">
@@ -242,7 +247,7 @@ class EditProfile extends Component {
 							</div>
 							<div className="form_textfield">
 								<FormControl fullWidth>
-								<TextField
+									<TextField
 										id="outlined-dob"
 										label="Date Of Birth"
 										name="dob"
@@ -253,7 +258,7 @@ class EditProfile extends Component {
 										onChange={this.handleChange}
 										InputLabelProps={{
 											shrink: true,
-										  }}
+										}}
 									/>
 								</FormControl>
 								{/* {formErrors.dob.length > 0 && (
@@ -283,21 +288,21 @@ class EditProfile extends Component {
 									<span className="errorMessage">{formErrors.email}</span>
 								)}
 							</div>
-							
+
 							<div className="form_textfield">
-							<input
-  accept="image/*"
-  
-  style={{ display: 'none' }}
-  id="raised-button-file"
-  multiple
-  type="file"
-/>
-<label htmlFor="raised-button-file">
-  <Button variant="raised" component="span">
-    Upload Profile Picture
+								<input
+									accept="image/*"
+
+									style={{ display: 'none' }}
+									id="raised-button-file"
+									multiple
+									type="file"
+								/>
+								<label htmlFor="raised-button-file">
+									<Button variant="raised" component="span">
+										Upload Profile Picture
   </Button>
-</label> 
+								</label>
 							</div>
 							<div className="form_textfield">
 								<FormControl fullWidth>
@@ -322,7 +327,7 @@ class EditProfile extends Component {
 									<span className="errorMessage">{formErrors.mobile}</span>
 								)}
 							</div>
-							
+
 							<div className="form_textfield">
 								<FormControl component="fieldset">
 									<button
@@ -336,7 +341,7 @@ class EditProfile extends Component {
 								<FormControl component="fieldset">
 									<button
 										class="btn btn-danger text-uppercase float-left"
-										onClick={this.handleSubmit}
+										onClick={this.handleCancel}
 										type="submit"
 									>
 										Cancel

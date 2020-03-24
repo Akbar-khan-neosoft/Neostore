@@ -1,139 +1,220 @@
 {
-    "mycartAPI": {
-        "success": true,
-        "status_code": 200,
-        "message": "Your Products on cart",
-        "product_details": [
-            {
-                "_id": "5e09c48658b863edc9e81983",
-                "customer_id": 199,
-                "product_id": {
-                    "_id": "5d0b1f354594d26e47774b5e",
-                    "subImages_id": "5d0b1e0e4594d26e47774b5d",
-                    "Category_id": {
-                        "_id": "5cfe3c65ea821930af69281f",
-                        "category_name": "Bed",
-                        "category_id": "5cfe3c65ea821930af69281f",
-                        "product_image": "2019-06-14T07-12-38.862Zbed.jpg",
-                        "created_at": "2019-06-10T11:17:57.569Z",
-                        "__v": 0
-                    },
-                    "Color_id": {
-                        "_id": "5cfe247ade89f8148fbd0146",
-                        "color_name": "Rust Brown",
-                        "color_code": "#8B320B",
-                        "color_id": "5cfe247ade89f8148fbd0146",
-                        "__v": 0
-                    },
-                    "product_id": "5d0b1f354594d26e47774b5e",
-                    "product_name": "FurnitureKraft Kansas Metal Bed",
-                    "product_image": "2019-06-20T05-52-53.191Zam2.jpg",
-                    "product_desc": "This Bed Is Ergonomically Sound, Stylish And Offers Superb Value For Money.",
-                    "product_rating": "NaN",
-                    "product_producer": "Engineering Wood",
-                    "product_cost": 8000,
-                    "product_stock": 491,
-                    "product_dimension": "500*900",
-                    "product_material": "Metal",
-                    "createdAt": "2019-06-20T05:52:53.219Z",
-                    "__v": 0
-                },
-                "quantity": 1,
-                "product_cost": 8000,
-                "total_productCost": "8000",
-                "createdAt": "2019-12-30T09:33:58.677Z",
-                "__v": 0
-            }
-        ]
-    },
-    "placeorderAPI": {
-        "FAILURE": {
-            "success": false,
-            "status_code": "404",
-            "message": "Add Products on your cart First"
-        },
-        "SUCCESS": {
-            "success": true,
-            "status_code": 200,
-            "message": "Your orders are ready to deliver",
-            "deliveryAddress": {
-                "address_id": 355,
-                "customer_id": 199,
-                "address": "At neosoft technology",
-                "pincode": 443322,
-                "city": "mumbai",
-                "state": "maharastra",
-                "country": "india",
-                "isDeliveryAddress": true,
-                "createdAt": "2019-12-30T10:08:41.130Z",
-                "updatedAt": "2019-12-30T10:08:48.506Z"
-            },
-            "order_details": [
-                {
-                    "product_details": {
-                        "total_cartCost": "0",
-                        "isDelivered": false,
-                        "_id": "5e09ccbb58b863edc9e81984",
-                        "customer_id": 199,
-                        "order_id": "ORDERNO_376",
-                        "product_id": "5d0b1f354594d26e47774b5e",
-                        "quantity": 1,
-                        "delivery_address": "At neosoft technology, mumbai, maharastra-443322, india",
-                        "total_productCost": "8000",
-                        "createdAt": "2019-12-30T10:08:59.106Z",
-                        "__v": 0
-                    }
-                },
-                {
-                    "total_cartCost": 8400
-                }
-            ]
-        }
-    },
-    
-    "myorderAPI": {
-        "success": true,
-        "status_code": 200,
-        "message": "Your Order Details",
-        "product_details": [
-            {
-                "_id": "ORDERNO_376",
-                "product_details": [
-                    {
-                        "_id": "5e09ccbb58b863edc9e81984",
-                        "total_cartCost": "8400",
-                        "isDelivered": false,
-                        "customer_id": 199,
-                        "order_id": "ORDERNO_376",
-                        "product_id": "5d0b1f354594d26e47774b5e",
-                        "quantity": 1,
-                        "delivery_address": "At neosoft technology, mumbai, maharastra-443322, india",
-                        "total_productCost": "8000",
-                        "createdAt": "2019-12-30T10:08:59.106Z",
-                        "__v": 0,
-                        "product_details": [
-                            {
-                                "_id": "5d0b1f354594d26e47774b5e",
-                                "subImages_id": "5d0b1e0e4594d26e47774b5d",
-                                "category_id": "5cfe3c65ea821930af69281f",
-                                "color_id": "5cfe247ade89f8148fbd0146",
-                                "product_id": "5d0b1f354594d26e47774b5e",
-                                "product_name": "FurnitureKraft Kansas Metal Bed",
-                                "product_image": "2019-06-20T05-52-53.191Zam2.jpg",
-                                "product_desc": "This Bed Is Ergonomically Sound, Stylish And Offers Superb Value For Money. The product requires carpenter assembly and will be provided by the seller",
-                                "product_rating": "NaN",
-                                "product_producer": "Engineering Wood",
-                                "product_cost": 8000,
-                                "product_stock": 490,
-                                "product_dimension": "500*900",
-                                "product_material": "Metal",
-                                "createdAt": "2019-06-20T05:52:53.219Z",
-                                "__v": 0
-                            }
-                        ]
-                    }
-                ]
-            }
-        ]
+  "userprofileAPI": {
+    "success": true,
+    "status_code": 200,
+    "customer_proile": {
+      "customer_id": 170,
+      "first_name": "naveen",
+      "last_name": "patel",
+      "email": "naveen.patel@neosofttech.com",
+      "phone_no": "8998765445",
+      "gender": "male",
+      "dob": "2019-07-09",
+      "profile_img": "image_1574053862482_naveen.jpeg",
+      "otp": "$2a$10$iYqKqmoVpFBzQ09Qsxk5l.2XyE0qyHeyjKhhuGIty5nfxVC1Ntofy",
+      "createdAt": "2019-11-14T11:13:09.313Z",
+      "updatedAt": "2019-12-05T10:37:17.904Z"
     }
+  },
+  "editprofileAPI": {
+    "success": true,
+    "status_code": 200,
+    "message": "Updated profile",
+    "customer_details": {
+      "customer_id": 170,
+      "first_name": "naveen",
+      "last_name": "patel",
+      "email": "naveen.patel@neosofttech.com",
+      "phone_no": "1234567890",
+      "gender": "Male",
+      "dob": "Wed Feb 02 1994 00:00:00 GMT+0530 (India Standard Time)",
+      "profile_img": "2019-12-31T10-27-39.524Zdownload.jpeg",
+      "otp": "$2a$10$TV6.PCPmXjeI/uxa9ow8IOYxPeSg9t3fKep0BAg0tNN.7s9uylM32",
+      "createdAt": "2019-11-14T11:13:09.313Z",
+      "updatedAt": "2019-12-31T10:27:39.885Z"
+    }
+  },
+  "resetpasswordAPI": {
+    "oldPass": "naveenp123",
+    "newPass": "naveenp1234",
+    "confirmPass": "naveenp1234"
+  },
+  "addaddressAPI": {
+    "FAILURE": {
+      "success": false,
+      "status_code": 403,
+      "message": "Not a valid user"
+    },
+    "SUCCESS": {
+      "success": true,
+      "status_code": 200,
+      "message": "Customer Address was registered successfully",
+      "address": {
+        "isDeliveryAddress": false,
+        "address_id": 356,
+        "address": "At Neosoft technology",
+        "pincode": 444332,
+        "city": "newmumbai",
+        "state": "maharastra",
+        "country": "india",
+        "customer_id": 170,
+        "updatedAt": "2019-12-31T05:38:18.836Z",
+        "createdAt": "2019-12-31T05:38:18.836Z"
+      }
+    }
+  },
+  "listaddressAPI": {
+    "success": true,
+    "status_code": 200,
+    "customer_address": [
+      {
+        "address_id": 289,
+        "customer_id": 170,
+        "address": "At neosoft technology",
+        "pincode": 908765,
+        "city": "mumbai",
+        "state": "maharastra",
+        "country": "india",
+        "isDeliveryAddress": true,
+        "createdAt": "2019-11-15T04:48:48.717Z",
+        "updatedAt": "2019-11-25T04:55:17.381Z"
+      }
+    ]
+  },
+  "mycartAPI": {
+    "success": true,
+    "status_code": 200,
+    "message": "Your Products on cart",
+    "product_details": [
+      {
+        "_id": "5e09c48658b863edc9e81983",
+        "customer_id": 199,
+        "product_id": {
+          "_id": "5d0b1f354594d26e47774b5e",
+          "subImages_id": "5d0b1e0e4594d26e47774b5d",
+          "Category_id": {
+            "_id": "5cfe3c65ea821930af69281f",
+            "category_name": "Bed",
+            "category_id": "5cfe3c65ea821930af69281f",
+            "product_image": "2019-06-14T07-12-38.862Zbed.jpg",
+            "created_at": "2019-06-10T11:17:57.569Z",
+            "__v": 0
+          },
+          "Color_id": {
+            "_id": "5cfe247ade89f8148fbd0146",
+            "color_name": "Rust Brown",
+            "color_code": "#8B320B",
+            "color_id": "5cfe247ade89f8148fbd0146",
+            "__v": 0
+          },
+          "product_id": "5d0b1f354594d26e47774b5e",
+          "product_name": "FurnitureKraft Kansas Metal Bed",
+          "product_image": "2019-06-20T05-52-53.191Zam2.jpg",
+          "product_desc": "This Bed Is Ergonomically Sound, Stylish And Offers Superb Value For Money.",
+          "product_rating": "NaN",
+          "product_producer": "Engineering Wood",
+          "product_cost": 8000,
+          "product_stock": 491,
+          "product_dimension": "500*900",
+          "product_material": "Metal",
+          "createdAt": "2019-06-20T05:52:53.219Z",
+          "__v": 0
+        },
+        "quantity": 1,
+        "product_cost": 8000,
+        "total_productCost": "8000",
+        "createdAt": "2019-12-30T09:33:58.677Z",
+        "__v": 0
+      }
+    ]
+  },
+  "placeorderAPI": {
+    "FAILURE": {
+      "success": false,
+      "status_code": "404",
+      "message": "Add Products on your cart First"
+    },
+    "SUCCESS": {
+      "success": true,
+      "status_code": 200,
+      "message": "Your orders are ready to deliver",
+      "deliveryAddress": {
+        "address_id": 355,
+        "customer_id": 199,
+        "address": "At neosoft technology",
+        "pincode": 443322,
+        "city": "mumbai",
+        "state": "maharastra",
+        "country": "india",
+        "isDeliveryAddress": true,
+        "createdAt": "2019-12-30T10:08:41.130Z",
+        "updatedAt": "2019-12-30T10:08:48.506Z"
+      },
+      "order_details": [
+        {
+          "product_details": {
+            "total_cartCost": "0",
+            "isDelivered": false,
+            "_id": "5e09ccbb58b863edc9e81984",
+            "customer_id": 199,
+            "order_id": "ORDERNO_376",
+            "product_id": "5d0b1f354594d26e47774b5e",
+            "quantity": 1,
+            "delivery_address": "At neosoft technology, mumbai, maharastra-443322, india",
+            "total_productCost": "8000",
+            "createdAt": "2019-12-30T10:08:59.106Z",
+            "__v": 0
+          }
+        },
+        {
+          "total_cartCost": 8400
+        }
+      ]
+    }
+  },
+  "myorderAPI": {
+    "success": true,
+    "status_code": 200,
+    "message": "Your Order Details",
+    "product_details": [
+      {
+        "_id": "ORDERNO_376",
+        "product_details": [
+          {
+            "_id": "5e09ccbb58b863edc9e81984",
+            "total_cartCost": "8400",
+            "isDelivered": false,
+            "customer_id": 199,
+            "order_id": "ORDERNO_376",
+            "product_id": "5d0b1f354594d26e47774b5e",
+            "quantity": 1,
+            "delivery_address": "At neosoft technology, mumbai, maharastra-443322, india",
+            "total_productCost": "8000",
+            "createdAt": "2019-12-30T10:08:59.106Z",
+            "__v": 0,
+            "product_details": [
+              {
+                "_id": "5d0b1f354594d26e47774b5e",
+                "subImages_id": "5d0b1e0e4594d26e47774b5d",
+                "category_id": "5cfe3c65ea821930af69281f",
+                "color_id": "5cfe247ade89f8148fbd0146",
+                "product_id": "5d0b1f354594d26e47774b5e",
+                "product_name": "FurnitureKraft Kansas Metal Bed",
+                "product_image": "2019-06-20T05-52-53.191Zam2.jpg",
+                "product_desc": "This Bed Is Ergonomically Sound, Stylish And Offers Superb Value For Money. The product requires carpenter assembly and will be provided by the seller",
+                "product_rating": "NaN",
+                "product_producer": "Engineering Wood",
+                "product_cost": 8000,
+                "product_stock": 490,
+                "product_dimension": "500*900",
+                "product_material": "Metal",
+                "createdAt": "2019-06-20T05:52:53.219Z",
+                "__v": 0
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
 }
