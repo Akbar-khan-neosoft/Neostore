@@ -63,7 +63,7 @@ class Header extends Component {
 								{console.log("login - >>",this.props.data)
 								}
 								{this.props.data ? <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-									<Link to="#" class="dropdown-item">
+									<Link to="myaccount" class="dropdown-item">
 										Profile
 									</Link>
 									<Link to="#" class="dropdown-item">

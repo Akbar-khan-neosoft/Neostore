@@ -6,11 +6,17 @@
     display: flex;
     flex-direction: column;
     width: 30%;
+    align-items: center;
+    margin-top:5%;
+    margin-bottom:5%;
+   
 }
 
 .profilebox{
     display: flex;
+    margin:2% 
 }
 .rightsidebox{
     width: 70%;
+    
 }

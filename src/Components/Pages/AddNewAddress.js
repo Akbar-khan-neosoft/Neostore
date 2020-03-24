@@ -37,7 +37,7 @@ class AddNewAddress extends Component {
 				country: `${country}`,
                 }
                 
-                const res = await axios.get("http://localhost:3000/addaddressAPI", {headers : {"Authorization": "Brearer " + "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTcwLCJpYXQiOjE1Nzc3MDQ3OTF9.Xp4iolxxpQDskEIBZTA37hkXlhrmuPpf53auTxD0tNo" }})
+                const res = await axios.post("http://localhost:3000/addaddressAPI", addAddressData,{headers : {"Authorization": "Brearer " + "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTcwLCJpYXQiOjE1Nzc3MDQ3OTF9.Xp4iolxxpQDskEIBZTA37hkXlhrmuPpf53auTxD0tNo" }})
         
                 // this.setState({custData:res.data.customer_proile})
                 console.log(res)

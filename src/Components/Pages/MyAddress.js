@@ -43,6 +43,7 @@ class MyAddress extends Component{
                 {custAddress.state}<br></br>
                 {custAddress.country}<br></br>
                 <div><button onClick={this.editAddressHandle}>Edit</button></div>
+                <div><button >Delete</button></div>
             </div>
             <hr></hr>
             <div><button onClick={this.addNewAddressHandle}>Add New Address</button></div>
