@@ -54,7 +54,7 @@ class ChangePassword extends Component {
     onSubmitHandle = async () => {
 
         if (this.validate()) {
-            // const localData = JSON.parse(localStorage.getItem("data"));
+            const localData = JSON.parse(localStorage.getItem("loginData"))
             const {oldpassword,newpassword,confirmpassword} =this.state.data
             const data = {
                 oldPass: oldpassword,
@@ -63,20 +63,14 @@ class ChangePassword extends Component {
             }
             console.log("data>>", data);
 
-            // console.log(localData)
-
-            //  const res = await axios.post(URL + 'changepassword' , data, {headers:{"Authorization": 'Bearer ' + localData.token}})
-            //  console.log("res =-" ,res);
-              const res = await axios.post("http://localhost:3000/resetpasswordAPI" , data, {headers:{"Authorization": 'bearer ' + "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTcwLCJpYXQiOjE1Nzc3MDQ3OTF9.Xp4iolxxpQDskEIBZTA37hkXlhrmuPpf53auTxD0tNo"
-              }})
-
-             alert("res =-" ,res);
+              const res = await axios.post(URL + 'changepassword' , data, {headers:{"Authorization": 'Bearer ' + localData.token}})        
+             alert(res.data.message);
 
 
 
         }
         else {
-            console.log("error ");
+            alert("error");
 
         }
 
@@ -88,9 +82,9 @@ class ChangePassword extends Component {
         this.setState({ error: { oldpasswordError: false, newpasswordError: false, confirmpasswordError: false } })
 
 
-        if (oldpassword === '' || oldpassword !== "naveenp123") {//need to add old password here for validation
+        if (oldpassword === '') {
             const { valueMissing } = customErrorMessages.password;
-            const errorpassword = oldpassword === "" ? valueMissing : "Old Password In Incorrect";
+            const errorpassword = oldpassword === "" ? valueMissing : "";
             this.setState({ error: { oldpasswordError: true, oldpassworderrorMessage: errorpassword } });
             return false;
         }

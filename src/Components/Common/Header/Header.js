@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import '../../../Assets/CSS/Header.css';
 import { BrowserRouter as Router, Link } from 'react-router-dom';
 import {connect} from "react-redux"
+import {fetchlogout} from "../../../Redux/Actions/loginAction"
 
 class Header extends Component {
 	render() {
@@ -66,7 +67,7 @@ class Header extends Component {
 									<Link to="myaccount" class="dropdown-item">
 										Profile
 									</Link>
-									<Link to="#" class="dropdown-item">
+									<Link to="#" class="dropdown-item" onClick={this.props.onFetch()}>
 										Logout
 									</Link>
 								</div> : <div class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -91,4 +92,8 @@ const mapStateToProps = state => {
 	return { data: state.loginReducer.isAuthenticated };
 };
 
-export default connect(mapStateToProps,null)(Header);
+const mapDispatchToProps = dispatch => ({
+	onFetch: () => dispatch(fetchlogout()),
+});
+
+export default connect(mapStateToProps,mapDispatchToProps)(Header);

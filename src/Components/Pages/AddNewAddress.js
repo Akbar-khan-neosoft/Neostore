@@ -1,7 +1,9 @@
 import React, { Component } from "react"
+import { useHistory } from 'react-router'
 import "../../Assets/CSS/AddNewAddress.css"
-import { FormControl, TextField, InputProps } from '@material-ui/core';
+import { FormControl, TextField } from '@material-ui/core';
 import axios from "axios"
+import {URL} from "../../Redux/Constants"
 
 
 
@@ -26,7 +28,8 @@ class AddNewAddress extends Component {
 
     handleSubmit = async () => {
         console.log("submit");
-        
+
+        const localData = JSON.parse(localStorage.getItem("loginData"))   
 		
 		const { address, pincode, city, state, country} = this.state;
 			let addAddressData = {
@@ -37,10 +40,10 @@ class AddNewAddress extends Component {
 				country: `${country}`,
                 }
                 
-                const res = await axios.post("http://localhost:3000/addaddressAPI", addAddressData,{headers : {"Authorization": "Brearer " + "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTcwLCJpYXQiOjE1Nzc3MDQ3OTF9.Xp4iolxxpQDskEIBZTA37hkXlhrmuPpf53auTxD0tNo" }})
+                const res = await axios.post(URL + "address",addAddressData,{headers : {"Authorization": "Brearer " + localData.token }})
         
                 // this.setState({custData:res.data.customer_proile})
-                console.log(res)
+                alert(res.data.message)
 
 		
 	};

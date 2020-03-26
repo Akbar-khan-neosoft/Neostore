@@ -1,7 +1,13 @@
 import React, { Component } from "react"
+import { Redirect } from "react-router-dom";
 import axios from "axios"
 import AddNewAddress from "./AddNewAddress"
 import EditAddress from "./EditAddress"
+import {URL} from "../../Redux/Constants"
+
+
+const localData = JSON.parse(localStorage.getItem("loginData"))
+
 
 class MyAddress extends Component{
     constructor(){
@@ -14,10 +20,11 @@ class MyAddress extends Component{
     }
 
     async componentDidMount(){
-        const res = await axios.get("http://localhost:3000/listaddressAPI", {headers : {"Authorization": "Brearer " + "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTcwLCJpYXQiOjE1Nzc3MDQ3OTF9.Xp4iolxxpQDskEIBZTA37hkXlhrmuPpf53auTxD0tNo" }})
-        console.log(res.data.customer_address[0])
         
-        this.setState({custAddress:res.data.customer_address[0]})
+        const res = await axios.get(URL + "getCustAddress", {headers : {"Authorization": "Brearer " + localData.token }})
+        console.log(res.data.customer_address)
+        
+        this.setState({custAddress:res.data.customer_address})
     }
 
     editAddressHandle=()=>{
@@ -28,6 +35,13 @@ class MyAddress extends Component{
         this.setState({addAddress:!this.state.addAddress})
     }
 
+    deleteAddressHandle= async(add_id)=>{
+        const res = await axios.delete(URL + "deladdress/" + add_id, {headers : {"Authorization": "Brearer " + localData.token }})
+        alert(res.data.message)
+        // this.props.history.push('/myaccount');
+       
+    }
+
     render(){
         const {custAddress}=this.state
 
@@ -36,16 +50,19 @@ class MyAddress extends Component{
             <div>
             <div>Addresses :</div>
             <hr></hr>
-                 
-            <div>
-                {custAddress.address}<br></br>
-                {custAddress.city} -{custAddress.pincode}<br></br>
-                {custAddress.state}<br></br>
-                {custAddress.country}<br></br>
-                <div><button onClick={this.editAddressHandle}>Edit</button></div>
-                <div><button >Delete</button></div>
-            </div>
-            <hr></hr>
+               {this.state.custAddress.map(res=>{
+                   return ( <div key={res.address_id}>
+                  
+                   {res.address}<br></br>
+                   {res.city} -{res.pincode}<br></br>
+                   {res.state}<br></br>
+                   {res.country}<br></br>
+                   <div><button onClick={this.editAddressHandle}>Edit</button></div>
+                   <div><button onClick={()=>this.deleteAddressHandle(res.address_id)} >Delete</button></div>
+                   <hr></hr>
+               </div>
+               )
+               })}  
             <div><button onClick={this.addNewAddressHandle}>Add New Address</button></div>
             </div>
         )
