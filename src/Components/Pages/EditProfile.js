@@ -175,6 +175,7 @@ class EditProfile extends Component {
 	};
 
 	render() {
+		
 		const { first_name, last_name, gender, email, phone_no, dob,profilePic } = this.props.data
 		const { formErrors } = this.state;
 		return (

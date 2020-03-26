@@ -93,7 +93,7 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = dispatch => ({
-	onFetch: () => dispatch(fetchlogout()),
+	onFetch: ()=> dispatch(fetchlogout()),
 });
 
 export default connect(mapStateToProps,mapDispatchToProps)(Header);

@@ -15,7 +15,8 @@ class MyAddress extends Component{
         this.state={
             custAddress:[],
             editAddress:false,
-            addAddress:false
+            addAddress:false,
+            address_id:""
         }
     }
 
@@ -27,8 +28,8 @@ class MyAddress extends Component{
         this.setState({custAddress:res.data.customer_address})
     }
 
-    editAddressHandle=()=>{
-        this.setState({editAddress:!this.state.editAddress})
+    editAddressHandle=(add_id)=>{
+        this.setState({editAddress:!this.state.editAddress,address_id:add_id})
     }
 
     addNewAddressHandle=()=>{
@@ -46,7 +47,7 @@ class MyAddress extends Component{
         const {custAddress}=this.state
 
         return(
-            this.state.addAddress ? <AddNewAddress cancel={this.addNewAddressHandle}/> : this.state.editAddress ? <EditAddress custAddress = {custAddress} cancel={this.editAddressHandle}/> :
+            this.state.addAddress ? <AddNewAddress cancel={this.addNewAddressHandle}/> : this.state.editAddress ? <EditAddress custAddress = {custAddress} cancel={this.editAddressHandle} add_id={this.state.address_id}/> :
             <div>
             <div>Addresses :</div>
             <hr></hr>
@@ -57,7 +58,7 @@ class MyAddress extends Component{
                    {res.city} -{res.pincode}<br></br>
                    {res.state}<br></br>
                    {res.country}<br></br>
-                   <div><button onClick={this.editAddressHandle}>Edit</button></div>
+                   <div><button onClick={()=>this.editAddressHandle(res.address_id)}>Edit</button></div>
                    <div><button onClick={()=>this.deleteAddressHandle(res.address_id)} >Delete</button></div>
                    <hr></hr>
                </div>
