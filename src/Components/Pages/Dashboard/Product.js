@@ -26,6 +26,7 @@ class Product extends Component {
 			allColor: [],
 			currentPage: 1,
 			cardsPerPage: 9,
+			heading:"All Categories"
 		};
 	}
 
@@ -46,26 +47,46 @@ class Product extends Component {
 
 	allCategoriesHandler = async category_id => {
 		const categoriesData = await axios.get(URL + 'getProductByCateg/' + category_id);
-		this.setState({ post: categoriesData.data.product_details, currentPage: 1, cardsPerPage: 9 });
+		this.setState({ post: categoriesData.data.product_details, currentPage: 1, cardsPerPage: 9,heading:categoriesData.data.product_details[0].category_id.category_name });
 	};
 
 	allColorHandler = async color_id => {
 		const colorData = await axios.get(URL + 'getProductByColor/' + color_id);
 
-		// console.log('color data - >', colorData.data.product_details, Array.isArray(colorData.data.product_details));
+		// console.log('color data - >', colorData.data.product_details);
 		Array.isArray(colorData.data.product_details)
-			? this.setState({ post: colorData.data.product_details, currentPage: 1, cardsPerPage: 9 })
-			: this.setState({ post: [], currentPage: 1, cardsPerPage: 9 });
+			? this.setState({ post: colorData.data.product_details, currentPage: 1, cardsPerPage: 9,heading:colorData.data.product_details[0].category_id.category_name  })
+			: this.setState({ post: [], currentPage: 1, cardsPerPage: 9,heading:"" });
 	};
 
 	onAllProductClickHandle = () => {
-		this.setState({ post: this.props.data, currentPage: 1, cardsPerPage: 9 });
+		this.setState({ post: this.props.data, currentPage: 1, cardsPerPage: 9,heading:"All Categories"  });
+	};
+
+	sortByRating=async()=>{
+		const ratingSortedData = await axios.get(URL + 'getAllProductsInHighestRating');
+		// console.log("sorted=",ratingSortedData.data.product_details);
+		 this.setState({ post: ratingSortedData.data.product_details, currentPage: 1, cardsPerPage: 9,heading:"All Categories" });
+	};
+
+	sortByAscending=async()=>{
+		const ascSortedData = await axios.get(URL + 'getAllProductsInAscending');
+		// console.log("sorted=",ascSortedData.data.product_details);
+		 this.setState({ post: ascSortedData.data.product_details, currentPage: 1, cardsPerPage: 9,heading:"All Categories" });
+	};
+
+	sortByDescending=async()=>{
+		const desSortedData = await axios.get(URL + 'getAllProductsInDescending');
+		// console.log("sorted=",desSortedData.data.product_details);
+		 this.setState({ post: desSortedData.data.product_details, currentPage: 1, cardsPerPage: 9,heading:"All Categories" });
+	
 	};
 
 	render() {
-		console.log('allColor -=- >', this.state.allColor);
+		const heading = this.state.heading
+		// console.log('allColor -=- >', this.state.allColor);
 		const {allCategories,allColor} = this.state
-		console.log("jhjhfjhhf ===",this.state,allCategories,allColor)
+		// console.log("jhjhfjhhf ===",this.state,allCategories,allColor)
 
 
 
@@ -74,10 +95,10 @@ class Product extends Component {
 		indexOfFirstPost = indexOfLastPost - this.state.cardsPerPage;
 		currentCard = this.state.post.slice(indexOfFirstPost, indexOfLastPost);
 
-		if(this.state.post.length > 0)
-		{console.log("true post",this.state.post)
-		}else 
-			{console.log("false",this.state.post)}
+		// if(this.state.post.length > 0)
+		// {console.log("true post",this.state.post)
+		// }else 
+		// 	{console.log("false",this.state.post)}
 		return (
 					 
 			 this.state.post.length > 0 ? <div className="product_container">
@@ -145,7 +166,22 @@ class Product extends Component {
 						</div>
 					</div>
 					<div className="all_product">
-						<div className="all_product_header"></div>
+						<div className="all_product_header">
+						<div className="headingcontent"><h3>{heading}</h3></div>
+						<div className="sortingbuttoncontainer">Sort By:
+							<buttom className="sortingbutton" onClick={this.sortByRating}>
+								<i class="fa fa-star" aria-hidden="true"></i>
+								</buttom>
+						<buttom className="sortingbutton" onClick={this.sortByAscending}>
+							<i class="fa fa-inr fa-lg" aria-hidden="true"></i>
+							<i class="fa fa-arrow-up" aria-hidden="true"></i>
+							</buttom>
+						<buttom className="sortingbutton" onClick={this.sortByDescending}>
+							<i class="fa fa-inr fa-lg" aria-hidden="true"></i>
+							<i class="fa fa-arrow-down" aria-hidden="true"></i>
+							</buttom>
+						</div>
+						</div>
 						{console.log('zdfsdfdsf', currentCard.length === 0, currentCard)}
 						{currentCard.length !== 0 ? (
 							<ProductCard data={currentCard} />
