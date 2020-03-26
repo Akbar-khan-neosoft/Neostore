@@ -5,7 +5,7 @@ export const FacebookButton = () => {
 		<div>
 			<button className="loginButton" style={{ backgroundColor: 'blue' }}>
 				<i class="fa fa-4x fa-facebook" aria-hidden="true"></i>
-				Login with Facebook
+								Login with Facebook
 			</button>
 		</div>
 	);

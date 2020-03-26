@@ -5,6 +5,11 @@ import {connect} from "react-redux"
 import {fetchlogout} from "../../../Redux/Actions/loginAction"
 
 class Header extends Component {
+
+	onLogoutHandle=()=>{
+		localStorage.clear();
+		this.props.onFetch()
+	}
 	render() {
 		return (
 			<div className="container-fluid">
@@ -61,13 +66,12 @@ class Header extends Component {
 								>
 									<i class="fa fa-user-circle" aria-hidden="true"></i>
 								</a>
-								{console.log("login - >>",this.props.data)
-								}
+								{console.log("login - >>",this.props.data)}
 								{this.props.data ? <div class="dropdown-menu" aria-labelledby="navbarDropdown">
 									<Link to="myaccount" class="dropdown-item">
 										Profile
 									</Link>
-									<Link to="#" class="dropdown-item" onClick={this.props.onFetch()}>
+									<Link to="#" class="dropdown-item" onClick={this.onLogoutHandle}>
 										Logout
 									</Link>
 								</div> : <div class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -93,7 +97,7 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = dispatch => ({
-	onFetch: ()=> dispatch(fetchlogout()),
+	onFetch: () => dispatch(fetchlogout()),
 });
 
 export default connect(mapStateToProps,mapDispatchToProps)(Header);

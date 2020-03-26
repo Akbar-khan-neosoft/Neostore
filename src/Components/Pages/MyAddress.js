@@ -1,12 +1,8 @@
 import React, { Component } from "react"
-import { Redirect } from "react-router-dom";
 import axios from "axios"
 import AddNewAddress from "./AddNewAddress"
 import EditAddress from "./EditAddress"
 import {URL} from "../../Redux/Constants"
-
-
-const localData = JSON.parse(localStorage.getItem("loginData"))
 
 
 class MyAddress extends Component{
@@ -21,6 +17,7 @@ class MyAddress extends Component{
     }
 
     async componentDidMount(){
+        const localData = JSON.parse(localStorage.getItem("loginData"))
         
         const res = await axios.get(URL + "getCustAddress", {headers : {"Authorization": "Brearer " + localData.token }})
         console.log(res.data.customer_address)
@@ -37,6 +34,7 @@ class MyAddress extends Component{
     }
 
     deleteAddressHandle= async(add_id)=>{
+        const localData = JSON.parse(localStorage.getItem("loginData"))
         const res = await axios.delete(URL + "deladdress/" + add_id, {headers : {"Authorization": "Brearer " + localData.token }})
         alert(res.data.message)
         // this.props.history.push('/myaccount');

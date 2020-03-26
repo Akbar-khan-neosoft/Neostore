@@ -1,5 +1,6 @@
 import React, { Component } from "react"
 import axios from 'axios';
+import { withRouter } from 'react-router-dom'
 import "../../Assets/CSS/AddNewAddress.css"
 import { FormControl, TextField, Checkbox, FormControlLabel } from '@material-ui/core';
 import { URL } from '../../Redux/Constants/index';
@@ -43,7 +44,8 @@ class EditAddress extends Component {
                 }
 
                 const res = await axios.put(URL + "updateAddress",addAddressData,{headers : {"Authorization": "Brearer " + localData.token }})
-                alert(res.data.message);
+                alert(res.data.message + ",You Are Redirected To HomePage Now");
+                this.props.history.push("/")
                
     }
 
@@ -169,4 +171,4 @@ class EditAddress extends Component {
     }
 }
 
-export default EditAddress
+export default withRouter(EditAddress)

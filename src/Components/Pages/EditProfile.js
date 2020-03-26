@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import { useHistory } from 'react-router-dom';
 import { URL } from '../../Redux/Constants/index';
 import '../../Assets/CSS/Register.css';
 import { TextField, FormControl, InputAdornment, Button } from '@material-ui/core';

@@ -1,5 +1,6 @@
 import React, { Component } from "react"
 import axios from "axios"
+import { withRouter } from 'react-router-dom'
 import {URL} from "../../Redux/Constants"
 import EditProfile from "../Pages/EditProfile"
 
@@ -18,7 +19,6 @@ class MyProfile extends Component{
          console.log(localData.token)
         
          const res = await axios.get(URL + "getCustProfile" , {headers : {"Authorization": "Brearer " + localData.token }})
-        // const res = await axios.get("http://localhost:3000/userprofileAPI", {headers : {"Authorization": "Brearer " + "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTcwLCJpYXQiOjE1Nzc3MDQ3OTF9.Xp4iolxxpQDskEIBZTA37hkXlhrmuPpf53auTxD0tNo" }})
         
         this.setState({custData:res.data.customer_proile})
         console.log(res.data.customer_proile)
@@ -58,4 +58,4 @@ class MyProfile extends Component{
     }
 }
 
-export default MyProfile
+export default withRouter(MyProfile)

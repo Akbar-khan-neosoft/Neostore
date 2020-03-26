@@ -20,6 +20,7 @@ class Login extends Component {
 				password: '',
 			},
 			disableButton: true,
+			isAuth:false,
 			error:{
 				emailError: false,
 				passwordError: false,
@@ -29,8 +30,6 @@ class Login extends Component {
 	}
 
 	onSubmitHandler =  async () => {
-		console.log('button clicked');
-
 		const data = {
 			email: this.state.data.email,
 			pass: this.state.data.password,
@@ -38,7 +37,8 @@ class Login extends Component {
 
 		await this.props.onFetch(data);
 		localStorage.setItem('loginData', JSON.stringify(this.props.data));
-		console.log("data=",this.props.data);
+		this.setState({isAuth:true})
+		localStorage.setItem('loginAuth',(this.state.isAuth));
 		
 		this.props.history.push('/');
 	};
@@ -76,7 +76,7 @@ class Login extends Component {
 	};
 
 	render() {
-
+		
 		const {email,password}=this.state.data
 		const{emailError,passwordError,errorMessage} = this.state.error
 		

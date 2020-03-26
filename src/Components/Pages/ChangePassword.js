@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import axios from "axios"
+import { withRouter } from 'react-router-dom'
 import '../../Assets/CSS/ChangePassword.css';
 import { URL } from "../../Redux/Constants"
 import { FormControl, TextField, OutlinedInput, inputProps, InputLabel, IconButton, InputAdornment } from '@material-ui/core';
@@ -64,7 +65,8 @@ class ChangePassword extends Component {
             console.log("data>>", data);
 
               const res = await axios.post(URL + 'changepassword' , data, {headers:{"Authorization": 'Bearer ' + localData.token}})        
-             alert(res.data.message);
+              alert(res.data.message + ",You Are Redirected To HomePage Now");
+                this.props.history.push("/")
 
 
 
@@ -258,4 +260,4 @@ class ChangePassword extends Component {
     }
 }
 
-export default ChangePassword
+export default withRouter(ChangePassword)

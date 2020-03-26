@@ -1,5 +1,5 @@
 import React, { Component } from "react"
-import { useHistory } from 'react-router'
+import { withRouter } from 'react-router-dom'
 import "../../Assets/CSS/AddNewAddress.css"
 import { FormControl, TextField } from '@material-ui/core';
 import axios from "axios"
@@ -41,9 +41,8 @@ class AddNewAddress extends Component {
                 }
                 
                 const res = await axios.post(URL + "address",addAddressData,{headers : {"Authorization": "Brearer " + localData.token }})
-        
-                // this.setState({custData:res.data.customer_proile})
-                alert(res.data.message)
+                alert(res.data.message + ",You Are Redirected To HomePage Now");
+                this.props.history.push("/")
 
 		
 	};
@@ -147,4 +146,4 @@ class AddNewAddress extends Component {
     }
 }
 
-export default AddNewAddress
+export default withRouter(AddNewAddress)
