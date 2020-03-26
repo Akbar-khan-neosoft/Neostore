@@ -31,6 +31,10 @@ class Profile extends Component{
 
         render(){
 
+            const localData = JSON.parse(localStorage.getItem("loginData"))
+         console.log(localData.customer_details.first_name)
+         console.log(localData.customer_details.last_name)
+
             let component;
             if(this.state.showComponent==="order"){
                 component = <MyOrder/>
@@ -52,7 +56,7 @@ class Profile extends Component{
                     <div className="profilebox">
                         <div className="leftsidebox">
                             <div className="profilepicture"><i class="fa fa-5x fa-user" aria-hidden="true"></i></div>
-                            <div className="profilename "><h5 style={{color:"red"}}>Akbar Khan</h5></div>
+                            <div className="profilename "><h5 style={{color:"red"}}>{localData.customer_details.first_name + " " + localData.customer_details.last_name}</h5></div>
                             <div className="profileorder btn" onClick={()=>this.onClickHandle("order")}><i class="fa fa-bars" aria-hidden="true"></i>Order</div>
                             <div className="profiledata btn" onClick={()=>this.onClickHandle("profile")}><i class="fa fa-user" aria-hidden="true"></i>Profile</div>
                             <div className="profileaddress btn" onClick={()=>this.onClickHandle("address")}><i class="fa fa-address-book" aria-hidden="true"></i>Address</div>

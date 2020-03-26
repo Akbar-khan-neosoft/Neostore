@@ -10,7 +10,7 @@ import {
 } from '../../Components/Common/SocialLoginButtons/SocialLoginButtons';
 import { Link } from 'react-router-dom';
 
-let errorMessage = '';
+// let errorMessage = '';
 class Login extends Component {
 	constructor() {
 		super();
@@ -28,7 +28,7 @@ class Login extends Component {
 		};
 	}
 
-	onSubmitHandler =  () => {
+	onSubmitHandler =  async () => {
 		console.log('button clicked');
 
 		const data = {
@@ -36,8 +36,10 @@ class Login extends Component {
 			pass: this.state.data.password,
 		};
 
-		 this.props.onFetch(data);
+		await this.props.onFetch(data);
 		localStorage.setItem('loginData', JSON.stringify(this.props.data));
+		console.log("data=",this.props.data);
+		
 		this.props.history.push('/');
 	};
 

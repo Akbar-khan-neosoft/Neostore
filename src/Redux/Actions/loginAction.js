@@ -10,10 +10,10 @@ const loginAuthetication = () => ({ type: LOGIN_AUTHENTICATION });
 export const fetchlogin = data => async dispatch => {
 	dispatch(loginRequest());
 	try {
-		// const res = await axios.post(URL + 'login', data);
-		// alert(res.data.message);
-		dispatch(loginSuccess({}));
-		// dispatch(loginSuccess(res.data,));
+		const res = await axios.post(URL + 'login', data);
+		alert(res.data.message);
+		// dispatch(loginSuccess({}));
+		 dispatch(loginSuccess(res.data,));
 		dispatch(loginAuthetication());
 	} catch (error) {
 		dispatch(loginFailure({ error }));
