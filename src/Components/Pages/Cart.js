@@ -126,7 +126,7 @@ render(){
                         <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> 
                         {total}
                         </div><hr></hr>
-                    <div><button style={{width:"90%",marginRight:"5%",marginLeft:"5%",marginBottom:"3%",backgroundColor:"lightblue"}}>Proceed To Pay</button></div>
+                    <div><button style={{width:"90%",marginRight:"5%",marginLeft:"5%",marginBottom:"3%",backgroundColor:"lightblue"}} onClick={this.onClickAddressHandle}>Proceed To Pay</button></div>
                 </div>
             </div> : <div className="addresscontainer">
                 <DeliveryAddress save={this.onClickCartHandle}/>

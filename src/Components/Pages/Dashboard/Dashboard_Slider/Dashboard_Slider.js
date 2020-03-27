@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import axios from "axios"
+
+import { withRouter } from 'react-router-dom'
 import '../../../../Assets/CSS/Dashboard_Slider.css';
 import { fetchSliderData } from '../../../../Redux/Actions/sliderAction';
 import { URL } from '../../../../Redux/Constants/index';
@@ -16,14 +19,28 @@ class DashboardCarousel extends Component {
 		this.props.onFetch();
 	}
 
+	onSliderClickHandle=async(id)=>{
+		
+		// const 	category_id = id;
+		// const	color_id="";
+		// const	sortBy='';
+		// const	sortIn='';
+		// const	name='';
+		// const	pageNo=0;
+		// const	perPage=0;
+		
+		// const res = await axios.get(URL + 'commonProducts/' + category_id + color_id + sortBy + sortIn + name + pageNo + perPage )        
+		// alert(res + ",You Are Redirected To HomePage Now");
+	}
+
 	render() {
 		return (
 			<div className="dashboard-slider">
 				<div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
 					<div class="carousel-inner">
 						{this.props.data.map((item, index) => (
-							<div class={`carousel-item ${index == 0 ? 'active' : ''}`} key={index}>
-								<img src={URL + item.product_image} width="100%" height="350px" alt="..." />
+							<div  class={`carousel-item ${index == 0 ? 'active' : ''}`} key={index}>
+								<img className ="btn" src={URL + item.product_image} width="100%" height="350px" alt="..." onClick={()=>this.onSliderClickHandle(item.category_id)} />
 							</div>
 						))}
 					</div>
@@ -49,4 +66,4 @@ const mapDispatchToProps = dispatch => ({
 	onFetch: () => dispatch(fetchSliderData()),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(DashboardCarousel);
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(DashboardCarousel));
