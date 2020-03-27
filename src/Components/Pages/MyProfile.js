@@ -16,7 +16,6 @@ class MyProfile extends Component{
     async componentDidMount(){
 
          const localData = JSON.parse(localStorage.getItem("loginData"))
-         console.log(localData.token)
         
          const res = await axios.get(URL + "getCustProfile" , {headers : {"Authorization": "Brearer " + localData.token }})
         

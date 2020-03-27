@@ -1,0 +1,39 @@
+.cartcontainer{
+
+}
+.cartheader{
+    display: flex;
+    width: 96%;
+    margin-top: 2%;
+    margin-left: 2%;
+    margin-right: 2%;
+}
+
+.cartdata{
+    display: flex;
+    width: 96%;
+    margin-top: 3%;
+    margin-left: 2%;
+    margin-right: 2%;
+    margin-bottom: 10%;
+}
+
+.productdetail{
+    width: 64%;
+       margin-left: 1%;
+    margin-right: 1%;
+    outline-style: groove;
+}
+
+.revieworder{
+    width: 32%;
+    margin-left: 1%;
+    margin-right: 1%;
+    outline-style: groove;
+}
+
+.productdata{
+    border: 1px solid red;
+    width: 100%;
+    display: flex;
+}

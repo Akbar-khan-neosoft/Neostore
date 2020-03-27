@@ -13,10 +13,9 @@ import AddNewAddress from '../Components/Pages/AddNewAddress';
 import ProtectedLoginRoutes from "../NeoStore_Router/ProtectedLoginRoutes"
 import ProtectedOrderRoutes from "../NeoStore_Router/ProtectedOrderRoutes"
 import ProtectedProfileRoutes from "../NeoStore_Router/ProtectedProfileRoutes"
-
-
 import ChangePassword from "../Components/Pages/ChangePassword";
 import Order from "../Components/Pages/Order";
+import Cart from "../Components/Pages/Cart";
 
 function Routes(){
     return(
@@ -35,6 +34,8 @@ function Routes(){
                         <ProtectedProfileRoutes exact path="/myaccount" component={Profile} />
                         <Route exact path="/address" component={AddNewAddress} />
                         <Route exact path="/changepassword" component={ChangePassword} />
+                        <Route exact path="/cart" component={Cart} />
+
                         <ProtectedOrderRoutes exact path="/order" component={Order} />
                     </Switch>
  

@@ -49,7 +49,9 @@ class Header extends Component {
 					</div>
 					<div>
 						<button className="Header-Button">
-							<i class="fa fa-cart-plus" aria-hidden="true"></i> Cart
+						<Link to="cart">
+						<i class="fa fa-cart-plus" aria-hidden="true"></i> Cart
+						</Link>							
 						</button>
 					</div>
 					<div>
