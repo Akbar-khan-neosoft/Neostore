@@ -3,7 +3,7 @@
 }
 .cartheader{
     display: flex;
-    width: 96%;
+    width: 90%;
     margin-top: 2%;
     margin-left: 2%;
     margin-right: 2%;
@@ -33,7 +33,22 @@
 }
 
 .productdata{
-    border: 1px solid red;
-    width: 100%;
+   
+    width: 80%;
     display: flex;
+    margin-left: 0;
+    margin-top: 2%;
+    margin-bottom: 2%;
+
 }
+
+.addresscontainer{
+    width: 70%;
+    margin-left: 15%;
+    margin-right: 15%;
+    margin-top: 5%;
+    margin-bottom: 10%;
+    border-top: 1px solid rgb(172, 159, 159);
+    border-bottom: 1px solid rgb(172, 159, 159);
+}
+

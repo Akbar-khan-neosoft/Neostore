@@ -1,13 +1,13 @@
 import React, { Component } from "react"
+import axios from 'axios';
 import { withRouter } from 'react-router-dom'
 import "../../Assets/CSS/AddNewAddress.css"
-import { FormControl, TextField } from '@material-ui/core';
-import axios from "axios"
-import {URL} from "../../Redux/Constants"
+import { FormControl, TextField, Checkbox, FormControlLabel } from '@material-ui/core';
+import { URL } from '../../Redux/Constants/index';
 
+const localData = JSON.parse(localStorage.getItem("loginData"))  
 
-
-class AddNewAddress extends Component {
+class EditDeliveryAddress extends Component {
 
     constructor(props) {
         super(props)
@@ -16,41 +16,55 @@ class AddNewAddress extends Component {
             pincode: "",
             city: '',
             state: '',
-            country: ""
+            country: "",
+            isDeliveryAddress: false
         }
     }
 
     onChangeHandle = e => {
         const name = e.target.name;
         const value = e.target.value;
+        // console.log("one--",e.target)
+        
         this.setState({ [name]: value });
     };
 
-    handleSubmit = async () => {
-        console.log("submit");
-
-        const localData = JSON.parse(localStorage.getItem("loginData"))   
+    onSubmitHandle=async()=>{
+        
 		
-		const { address, pincode, city, state, country} = this.state;
+		const { address, pincode, city, state, country,isDeliveryAddress} = this.state;
 			let addAddressData = {
-				address: `${address}`,
-				pincode: `${pincode}`,
-				city: `${city}`,
-				state: `${state}`,
-				country: `${country}`,
+                address_id:this.props.add_id,
+				address: address,
+				pincode: pincode,
+				city: city,
+				state: state,
+                country: country,
+                isDeliveryAddress:isDeliveryAddress,
                 }
-                
-                const res = await axios.post(URL + "address",addAddressData,{headers : {"Authorization": "Brearer " + localData.token }})
+
+                const res = await axios.put(URL + "updateAddress",addAddressData,{headers : {"Authorization": "Brearer " + localData.token }})
                 alert(res.data.message + ",You Are Redirected To Cart Page Now");
                 this.props.save()
+               
+    }
 
-		
-	};
+    getIndex = (value, arr, prop)=>{
+        for(var i = 0; i < arr.length; i++) {
+            if(arr[i][prop] === value) {
+                return i;
+            }
+        }
+      
+    }
 
     render() {
+        
+        const index = this.getIndex(this.props.add_id,this.props.custAddress,"address_id")      
+        const custaddress=this.props.custAddress[index]
         return (
             <div className="newaddresscontainer">
-                <div><h3>Add New Address</h3></div>
+                <div><h3>Edit Address</h3></div>
                 <hr></hr>
                 <div className="formcontainer">
                     <form>
@@ -63,7 +77,7 @@ class AddNewAddress extends Component {
                                     variant="outlined"
                                     placeholder="Address"
                                     name="address"
-                                    value={this.state.address}
+                                    defaultValue={custaddress.address}
                                     onChange={this.onChangeHandle}
                                 />
                             </FormControl>
@@ -75,7 +89,7 @@ class AddNewAddress extends Component {
                                     variant="outlined"
                                     placeholder="Pincode"
                                     name="pincode"
-                                    value={this.state.pincode}
+                                    defaultValue={custaddress.pincode}
                                     onChange={this.onChangeHandle}
                                     inputProps={
                                         { maxLength: 6 }
@@ -90,7 +104,7 @@ class AddNewAddress extends Component {
                                     variant="outlined"
                                     placeholder="City"
                                     name="city"
-                                    value={this.state.city}
+                                    defaultValue={custaddress.city}
                                     onChange={this.onChangeHandle}
                                 />
                             </FormControl>
@@ -100,10 +114,10 @@ class AddNewAddress extends Component {
                                     variant="outlined"
                                     placeholder="State"
                                     name="state"
-                                    value={this.state.state}
+                                    defaultValue={custaddress.state}
                                     onChange={this.onChangeHandle}
                                 />
-                            </FormControl>  
+                            </FormControl>
                         </div>
                         <div className="addnewaddressformcontrol">
                             <FormControl>
@@ -112,10 +126,21 @@ class AddNewAddress extends Component {
                                     variant="outlined"
                                     placeholder="Country"
                                     name="country"
-                                    value={this.state.country}
+                                    defaultValue={custaddress.country}
                                     onChange={this.onChangeHandle}
-                                    />
+                                />
                             </FormControl>
+                        </div>
+                        <div>
+                            <FormControl>
+                                <FormControlLabel
+                                    name="isDeliveryAddress"
+                                    // value="isDeliveryAddress"
+                                    control={<Checkbox color="primary" />}
+                                    label="Is Delivery Address"
+                                    labelPlacement="start"
+                                    onChange={this.onChangeHandle}
+                                /></FormControl>
                         </div>
                         <div className="addnewaddressformcontrol">
                             <FormControl component="fieldset">
@@ -123,17 +148,17 @@ class AddNewAddress extends Component {
                                     class="btn"
                                     type="button"
                                     style={{ backgroundColor: 'rgb(21, 103, 226)', color: 'white' }}
-                                    onClick={this.handleSubmit}
+                                 onClick={this.onSubmitHandle}
                                 >
                                     Save
 							</button><span>&nbsp;&nbsp;
                             {/* </FormControl>
                             <FormControl component="fieldset"> */}
-                            &nbsp;&nbsp;</span> <button
+                            &nbsp;&nbsp;</span><button
                                     class="btn"
                                     type="button"
                                     style={{ backgroundColor: 'rgb(21, 103, 226)', color: 'white' }}
-                                     onClick={this.props.cancel}
+                                    onClick={this.props.cancel}
                                 >
                                     Cancel
 							</button>
@@ -146,4 +171,4 @@ class AddNewAddress extends Component {
     }
 }
 
-export default withRouter(AddNewAddress)
+export default withRouter(EditDeliveryAddress)
