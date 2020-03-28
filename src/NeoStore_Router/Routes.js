@@ -10,9 +10,8 @@ import RecoverPassword from '../Components/Pages/RecoverPassword';
 import ProductDetails from '../Components/Pages/ProductDetails';
 import Profile from '../Components/Pages/Profile';
 import AddNewAddress from '../Components/Pages/AddNewAddress';
-import ProtectedLoginRoutes from "../NeoStore_Router/ProtectedLoginRoutes"
-import ProtectedOrderRoutes from "../NeoStore_Router/ProtectedOrderRoutes"
-import ProtectedProfileRoutes from "../NeoStore_Router/ProtectedProfileRoutes"
+import ProtectedRoutes from "../NeoStore_Router/ProtectedRoutes"
+
 import ChangePassword from "../Components/Pages/ChangePassword";
 import Order from "../Components/Pages/Order";
 import Cart from "../Components/Pages/Cart";
@@ -23,7 +22,7 @@ function Routes(){
 					
                     <Switch>
                         <Route exact path="/" component={Dashboard} />
-                        <ProtectedLoginRoutes exact path="/login" component={Login} />
+                        <Route exact path="/login" component={Login} />
                         {/* <Route exact path="/login" component={Login} /> */}
                         <Route exact path="/register" component={Register} />
                         <Route exact path="/contactus" component={ContactForm} />
@@ -31,12 +30,12 @@ function Routes(){
                         <Route exact path="/product" component={Product} />
                         <Route exact path="/recoverpassword" component={RecoverPassword} />
                         <Route exact path="/productdetails" component={ProductDetails} />
-                        <ProtectedProfileRoutes exact path="/myaccount" component={Profile} />
+                        <ProtectedRoutes exact path="/myaccount" component={Profile} />
                         <Route exact path="/address" component={AddNewAddress} />
                         <Route exact path="/changepassword" component={ChangePassword} />
                         <Route exact path="/cart" component={Cart} />
 
-                        <ProtectedOrderRoutes exact path="/order" component={Order} />
+                        <ProtectedRoutes exact path="/order" component={Order} />
                     </Switch>
  
     )

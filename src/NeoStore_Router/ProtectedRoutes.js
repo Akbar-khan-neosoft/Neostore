@@ -2,7 +2,7 @@ import React from "react";
 import { Route, Redirect } from "react-router-dom";
 
 
-const ProtectedLoginRoutes = ({component: Component,...rest}) => {
+const ProtectedRoutes = ({component: Component,...rest}) => {
   let isAuth;
      const loginAuth = localStorage.getItem("loginAuth");
      console.log(loginAuth);
@@ -15,8 +15,8 @@ const ProtectedLoginRoutes = ({component: Component,...rest}) => {
     <Route  {...rest} render={prp => {
       
       
-        if (isAuth) {
-           return (<Redirect to={{pathname: "/",state: {from: prp.location}}}/>)
+        if (!isAuth) {
+           return (<Redirect to={{pathname: "/login",state: {from: prp.location}}}/>)
         } else {
           return <Component {...prp} />
         }
@@ -26,4 +26,4 @@ const ProtectedLoginRoutes = ({component: Component,...rest}) => {
 }
 
 
-export default ProtectedLoginRoutes
+export default ProtectedRoutes

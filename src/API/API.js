@@ -3,9 +3,10 @@ import axios from "axios";
 import {URL} from "../Redux/Constants"
 
 
-const localData = JSON.parse(localStorage.getItem("loginData")) 
+
 
 export const addToCartAPI =  (prd_id) => {
+    const localData = JSON.parse(localStorage.getItem("loginData")) 
     const data={
         product_id:prd_id,
         quantity : 1
@@ -15,6 +16,6 @@ export const addToCartAPI =  (prd_id) => {
 
 // const res = await axios.get(URL + "getOrderDetails",{headers : {"Authorization": "Brearer " + localData.token }})
 export const getOrderDetailsAPI =  () => {
-   
+    const localData = JSON.parse(localStorage.getItem("loginData")) 
 	return (axios.get(URL + 'getOrderDetails', {headers : {"Authorization": "Brearer " + localData.token }}));
 };  

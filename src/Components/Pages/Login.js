@@ -29,6 +29,12 @@ class Login extends Component {
 		};
 	}
 
+	componentDidMount(){
+		if(this.props.login){
+			this.props.history.push("/")
+		}
+	}
+
 	onSubmitHandler =  async () => {
 		const data = {
 			email: this.state.data.email,
@@ -155,9 +161,9 @@ class Login extends Component {
 }
 
 const mapStateToProps = state => {
-	console.log('state - >', state.loginReducer);
+	console.log('aaaa - >', state.loginReducer);
 	// return { data: state.loginReducer || [] };
-	return { data: state.loginReducer.data || [] };
+	return { data: state.loginReducer.data || [], login : state.loginReducer.isAuthenticated };
 };
 
 const mapDispatchToProps = dispatch => ({
