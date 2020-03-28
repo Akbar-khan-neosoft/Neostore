@@ -1,5 +1,6 @@
 import React, { Component } from "react"
 import axios from "axios"
+import {withRouter} from "react-router-dom"
 import AddNewAddress from "./AddNewAddress"
 import EditAddress from "./EditAddress"
 import {URL} from "../../Redux/Constants"
@@ -34,10 +35,11 @@ class MyAddress extends Component{
     }
 
     deleteAddressHandle= async(add_id)=>{
+        prompt("Are you sure,You want to delete this address ?")
         const localData = JSON.parse(localStorage.getItem("loginData"))
         const res = await axios.delete(URL + "deladdress/" + add_id, {headers : {"Authorization": "Brearer " + localData.token }})
         alert(res.data.message)
-        // this.props.history.push('/myaccount');
+        this.props.history.push('/');
        
     }
 
@@ -68,4 +70,4 @@ class MyAddress extends Component{
     }
 }
 
-export default MyAddress
+export default withRouter(MyAddress)

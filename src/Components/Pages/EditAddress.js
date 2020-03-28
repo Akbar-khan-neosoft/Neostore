@@ -17,17 +17,104 @@ class EditAddress extends Component {
             city: '',
             state: '',
             country: "",
-            isDeliveryAddress: false
+            isDeliveryAddress: false,
+            disableButton:true,
+            formErrors: {
+				address: '',
+				pincode: '',
+				city: '',
+				state: '',
+				country: ''
+				},
         }
     }
 
+
     onChangeHandle = e => {
-        const name = e.target.name;
-        const value = e.target.value;
-        // console.log("one--",e.target)
+        e.preventDefault();
+		const { name, value } = e.target;
+		let formErrors = { ...this.state.formErrors };
+        // const name = e.target.name;
+        // const value = e.target.value;
+        // this.setState({ [name]: value });
+
+        this.setState({disableButton:true})
+
+		switch (name) {
+			case 'address':
+				if (value.length === 0 ) {
+					formErrors.address = value === "" ? "Address field can't be left blank" : "Invalid Address";
+					this.setState({disableButton:true})
+				}else {
+					formErrors.address = '';	
+				}
+
+				break;
+
+            case 'pincode':
+                    if (value.length === 0 || isNaN(value)) {
+                        formErrors.pincode = value === "" ? "pincode field can't be left blank" 
+                        : isNaN(value) ? "Invalid pincode,Only Number Allowed" 
+                        : (value.length < 6) ? "Invalid pincode,6 Digit Pincode required" 
+                        : " ";
+                        this.setState({disableButton:true})
+                    }else {
+                        formErrors.pincode = '';
+                    }
+    
+                    break;
+
+                case 'city':
+                        if (value.length === 0 ) {
+                            formErrors.city = value === "" ? "city field can't be left blank" : "Invalid city";
+                            this.setState({disableButton:true})
+                        }else {
+                            formErrors.city = '';
+                            
+                        }
         
-        this.setState({ [name]: value });
+                        break;
+                        
+                case 'state':
+				if (value.length === 0 ) {
+					formErrors.state = value === "" ? "state field can't be left blank" : "Invalid state";
+					this.setState({disableButton:true})
+				}else {
+					formErrors.state = '';
+					
+				}
+
+                break;
+                
+                case 'country':
+				if (value.length === 0 ) {
+					formErrors.country = value === "" ? "Country field can't be left blank" : "Invalid Country";
+					this.setState({disableButton:true})
+				}else {
+					formErrors.country = '';
+					
+				}
+
+				break;
+            
+        }
+
+        console.log("test : ",this.state.formErrors,);
+
+        if(formErrors.address.length === 0 && formErrors.pincode.length === 0 && formErrors.city.length === 0 &&
+			formErrors.state.length === 0 && formErrors.country.length === 0 ){
+				this.setState({disableButton:false})
+			}
+        this.setState({ formErrors, [name]: value });
+            
     };
+    // onChangeHandle = e => {
+    //     const name = e.target.name;
+    //     const value = e.target.value;
+    //     // console.log("one--",e.target)
+        
+    //     this.setState({ [name]: value });
+    // };
 
     onSubmitHandle=async()=>{
         
@@ -59,6 +146,8 @@ class EditAddress extends Component {
     }
 
     render() {
+        const { formErrors } = this.state;
+        console.log(this.state)
         
         const index = this.getIndex(this.props.add_id,this.props.custAddress,"address_id")      
         const custaddress=this.props.custAddress[index]
@@ -81,6 +170,9 @@ class EditAddress extends Component {
                                     onChange={this.onChangeHandle}
                                 />
                             </FormControl>
+                            {formErrors.address.length > 0 && (
+									<span className="errorMessage">{formErrors.address}</span>
+								)}
                         </div>
                         <div className="addnewaddressformcontrol">
                             <FormControl>
@@ -96,6 +188,9 @@ class EditAddress extends Component {
                                     }
                                 />
                             </FormControl>
+                            {formErrors.pincode.length > 0 && (
+									<span className="errorMessage">{formErrors.pincode}</span>
+								)}
                         </div>
                         <div className="addnewaddressformcontrol">
                             <FormControl>
@@ -108,6 +203,9 @@ class EditAddress extends Component {
                                     onChange={this.onChangeHandle}
                                 />
                             </FormControl>
+                            {formErrors.city.length > 0 && (
+									<span className="errorMessage">{formErrors.city}</span>
+								)}
                             <FormControl>
                                 <TextField id="outlined-basic"
                                     label="State"
@@ -118,6 +216,9 @@ class EditAddress extends Component {
                                     onChange={this.onChangeHandle}
                                 />
                             </FormControl>
+                            {formErrors.state.length > 0 && (
+									<span className="errorMessage">{formErrors.state}</span>
+								)}
                         </div>
                         <div className="addnewaddressformcontrol">
                             <FormControl>
@@ -130,6 +231,9 @@ class EditAddress extends Component {
                                     onChange={this.onChangeHandle}
                                 />
                             </FormControl>
+                            {formErrors.country.length > 0 && (
+									<span className="errorMessage">{formErrors.country}</span>
+								)}
                         </div>
                         <div>
                             <FormControl>

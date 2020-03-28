@@ -3,6 +3,9 @@ import { connect } from 'react-redux';
 import "../../Assets/CSS/Cart.css"
 import {fetchCartData} from "../../Redux/Actions/cartAction"
 import DeliveryAddress from "./DeliveryAddress";
+import axios from "axios";
+import {URL} from "../../Redux/Constants"
+import {addToCartAPI,deleteCustomerCartAPI} from "../../API/API"
 
 class Cart extends Component{
 constructor(){
@@ -24,7 +27,9 @@ onClickAddressHandle=()=>{
 }
 
 async componentDidMount(){
-    const loginAuth = localStorage.getItem("loginAuth");
+    const loginAuth = JSON.parse(localStorage.getItem("loginData"));
+    console.log(loginAuth);
+    
     if(loginAuth)
     {   
        await this.props.onFetch()
@@ -35,13 +40,41 @@ async componentDidMount(){
     }
 }
 
+onClickdeleteProductHandle=async(prd_id)=>{
+    
+ const res = await deleteCustomerCartAPI(prd_id);
+         console.log(res)
+}
+
+
+ onClickdeleteHandle=async(prd_id,quant)=>{
+       const quantity = quant+1;
+    const res = await addToCartAPI(prd_id,quantity);
+			console.log(res)
+ }
+
 render(){
+    // const loginAuth = localStorage.getItem("loginAuth");
+    // console.log(loginAuth);
+    
+    // if(loginAuth)
+    // {   
+    //      this.props.onFetch()
+    //    this.setState({cartData:this.props.data,totalCartItem:2}) 
+    // }
+    // else{
+    //     this.setState({cartData:[],totalCartItem:0})
+    // }
+    console.log(this.props.data)
+    console.log(this.state.cartData)
+
+    
     let orderTotal = 0
     orderTotal = this.state.cartData.map(val=>{
-       return(val.total_productCost)}).reduce((sum,total_productCost)=>{
-        return Number(sum) + Number(total_productCost)
+       return(val.total_cost)}).reduce((sum,total_cost)=>{
+        return Number(sum) + Number(total_cost)
     },0)
-    const gst= orderTotal/100*5;
+    const gst= Math.round(orderTotal / 100*5);
     const total = Number(gst) + Number(orderTotal)
     
        return(
@@ -88,11 +121,11 @@ render(){
                                 <button style={{backgroundColor:"transparent",border: "none"}}><i class="fa fa-minus-circle" aria-hidden="true"></i>
 </button>
 {res.quantity}
-<button style={{backgroundColor:"transparent",border: "none"}}><i class="fa fa-plus-circle" aria-hidden="true"></i>
+<button style={{backgroundColor:"transparent",border: "none"}} onClick={()=>this.onClickdeleteHandle(res._id,res.quantity)}><i class="fa fa-plus-circle" aria-hidden="true"></i>
 </button></div></td>
                             <td><div>{res.product_cost}</div></td>
-                            <td>{res.total_productCost}</td>
-                                <td><button style={{backgroundColor:"transparent",border: "none"}}><i class="fa fa-trash" aria-hidden="true"></i>
+                            <td>{res.total_cost}</td>
+                                <td><button style={{backgroundColor:"transparent",border: "none"}} onClick={()=>this.onClickdeleteProductHandle(res._id)}><i class="fa fa-trash" aria-hidden="true"></i>
 
 </button></td>
                             </tr>

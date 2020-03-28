@@ -1,6 +1,5 @@
 import React, { Component } from "react";
-import axios from "axios"
-import {URL} from "../../Redux/Constants"
+
 import {getOrderDetailsAPI} from "../../API/API"
 import "../../Assets/CSS/Order.css"
 

@@ -20,7 +20,7 @@ class Login extends Component {
 				password: '',
 			},
 			disableButton: true,
-			isAuth:false,
+			// isAuth:false,
 			error:{
 				emailError: false,
 				passwordError: false,
@@ -43,8 +43,8 @@ class Login extends Component {
 
 		await this.props.onFetch(data);
 		localStorage.setItem('loginData', JSON.stringify(this.props.data));
-		this.setState({isAuth:true})
-		localStorage.setItem('loginAuth',(this.state.isAuth));
+		// this.setState({isAuth:true})
+		// localStorage.setItem('loginAuth',(this.state.isAuth));
 		
 		this.props.history.push('/');
 	};

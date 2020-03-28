@@ -4,7 +4,7 @@ import { Route, Redirect } from "react-router-dom";
 
 const ProtectedRoutes = ({component: Component,...rest}) => {
   let isAuth;
-     const loginAuth = localStorage.getItem("loginAuth");
+     const loginAuth = JSON.parse(localStorage.getItem("loginData"));
      console.log(loginAuth);
      if(loginAuth=== null)
      {
@@ -13,8 +13,6 @@ const ProtectedRoutes = ({component: Component,...rest}) => {
     
   return (
     <Route  {...rest} render={prp => {
-      
-      
         if (!isAuth) {
            return (<Redirect to={{pathname: "/login",state: {from: prp.location}}}/>)
         } else {

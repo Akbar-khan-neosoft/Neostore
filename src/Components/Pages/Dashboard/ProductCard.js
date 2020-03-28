@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Link,withRouter } from "react-router-dom"
 
 import { URL } from '../../../Redux/Constants/index';
-import { addToCartAPI } from "../../../API/API"
+import { addToCartAPI , addToCartLogoutAPI} from "../../../API/API"
 import StarRatingComponent from 'react-star-rating-component';
 import '../../../Assets/CSS/Product.css';
 
@@ -12,7 +12,7 @@ class ProductCard extends Component {
 	}
 
 	addToCartHandler = async (prd_id) => {
-		const loginAuth = localStorage.getItem("loginAuth");
+		const loginAuth = JSON.parse(localStorage.getItem("loginData"));
 		// console.log(loginAuth);
 		if(loginAuth){
 				try {
@@ -28,6 +28,8 @@ class ProductCard extends Component {
 
 		}
 	}else{
+		// const res = await addToCartLogoutAPI(prd_id);
+		// 	alert(res.data.message)
 		alert("Kindly Login,To add this product to your cart")
 		this.props.history.push("/login")
 	}}

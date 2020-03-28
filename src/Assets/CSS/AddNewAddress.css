@@ -3,3 +3,8 @@
     margin-left:2%;
 }
 
+.errorMessage {
+	color: red;
+	font-size: 12px;
+	font-weight: 700;
+}

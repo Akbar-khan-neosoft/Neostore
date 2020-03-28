@@ -9,7 +9,9 @@ export const fetchCartData = () => async dispatch => {
     const localData = JSON.parse(localStorage.getItem("loginData"));
     dispatch(cartDataRequest());
     try {
-        const res = await axios.get(URL + 'getCartData', { headers: { "Authorization": 'Bearer ' + localData.token } });
+        const res = await axios.get(URL + 'getCustCartData', { headers: { "Authorization": 'Bearer ' + localData.token } });
+        console.log("jjhjhgff",res.data)
+        
         dispatch(cartDataSuccess(res.data.product_details));
     } catch (error) {
         dispatch(cartDataFailure({ error }));
