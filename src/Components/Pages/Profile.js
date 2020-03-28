@@ -1,5 +1,5 @@
 import React, { Component } from "react"
-import MyOrder from "./MyOrder"
+import Order from "./Order"
 import MyProfile from "./MyProfile"
 import ChangePassword from "./ChangePassword"
 import MyAddress from "./MyAddress"
@@ -32,19 +32,19 @@ class Profile extends Component{
         render(){
 
             const localData = JSON.parse(localStorage.getItem("loginData"))
-         console.log(localData.customer_details.first_name)
-         console.log(localData.customer_details.last_name)
+        //  console.log(localData.customer_details.first_name)
+        //  console.log(localData.customer_details.last_name)
 
             let component;
             if(this.state.showComponent==="order"){
-                component = <MyOrder/>
+                component = <div className= "componentcontainer"><Order/></div> 
             }
             else if(this.state.showComponent==="profile"){
-                component = <MyProfile/>
+                component = <div className= "componentcontainer"><MyProfile/></div>
             } else if(this.state.showComponent==="address"){
-                component = <MyAddress/>
+                component = <div className= "componentcontainer"><MyAddress/></div>
             }else if(this.state.showComponent === "changepassword"){
-                component = <ChangePassword/>
+                component = <div className= "componentcontainer"><ChangePassword/></div>
             }
 
             

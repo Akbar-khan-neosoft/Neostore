@@ -21,19 +21,31 @@ class Order extends Component{
     render(){
 
         return(
-            <div className="ordercontainer">Order Page
+            <div className="ordercontainer">
             {this.state.orderdata.map((res)=>{
-                return(res.product_details.map(r=>{
+                return( <div className="orderdetails">
+                    <div className="order_">Order Detail : {res._id}</div>
+                    <div  className="orderdatacontainer">
+                    {res.product_details.map(r=>{
                     return (
-                        <div className="orderdetails">
-                        {console.log(res.product_details)}
-                        {console.log(r)}
-                  <div className="orderheader">TRANSIT Order By: {res._id} <br></br>Placed on: 27/03/2020 / ₹404562 </div>
-            <div className="orderdata"></div>
-            <div className="orderinvoice"></div>
-            </div>
-                    )
-                })
+                        // <div  className="orderdatacontainer">>
+                        // {console.log("r",r.product_details[0])}
+                        <div className="orderdata">
+                        {console.log("d",res.product_details[0])}
+
+                            <div><img src ={"http://180.149.241.208:3022/"+ r.product_details[0].product_image} width="100%" height="70px"/></div>
+                            <div style={{width:"100%"}}>{r.product_details[0].product_name}</div>
+                            <div>Cost : <i class="fa fa-inr fa-lg" aria-hidden="true"></i> {r.product_details[0].product_cost}</div>
+                            <div>Manufacturer : {r.product_details[0].product_producer}</div>
+
+                            </div>  
+                        /* </div>                       */
+                              )
+                })}  </div>
+                <div className="order_">Order Total : <i class="fa fa-inr" aria-hidden="true"></i> 
+                {res.product_details[0].total_cartCost}</div>   
+                <div className="order_">Invoice</div>
+                </div>
                    
                 )
             })}
