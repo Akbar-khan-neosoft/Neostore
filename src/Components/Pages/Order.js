@@ -18,8 +18,9 @@ class Order extends Component{
     }
 
     render(){
-
-        return(
+        
+        return( 
+            this.state.orderdata ?
             <div className="ordercontainer">
             {this.state.orderdata.map((res)=>{
                 return( <div className="orderdetails">
@@ -49,8 +50,8 @@ class Order extends Component{
                 )
             })}
             
-            </div>
-        )
+            </div> : <div><h1>No Order Found</h1></div>
+        ) 
     }
 }
 

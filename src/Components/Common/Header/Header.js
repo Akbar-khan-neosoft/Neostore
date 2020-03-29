@@ -51,7 +51,7 @@ class Header extends Component {
 						<button className="Header-Button" >
 						<Link to="cart" >
 						<span><i class="fa fa-cart-plus" aria-hidden="true"></i>
-						Cart<sup><span class="badge badge-pill badge-danger">4</span></sup></span>	
+		Cart<sup><span class="badge badge-pill badge-danger">{this.props.button_value.length}</span></sup></span>	
 						</Link>						
 						</button>
 					</div>
@@ -96,7 +96,7 @@ class Header extends Component {
 
 const mapStateToProps = state => {
 	console.log("akbar",state)
-	return { data: state.loginReducer.isAuthenticated };
+	return { data: state.loginReducer.isAuthenticated , button_value: state.cartReducer.data || 0 };
 };
 
 const mapDispatchToProps = dispatch => ({

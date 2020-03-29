@@ -4,12 +4,13 @@ import AddNewAddress from "./AddNewAddress"
 import {URL} from "../../Redux/Constants"
 import EditDeliveryAddress from "./EditDeliveryAddress"
 import { FormControl, Checkbox, FormControlLabel } from '@material-ui/core';
+import {placeOrderAPI} from "../../API/API"
 
 
 
 class DeliveryAddress extends Component{
-    constructor(){
-        super()
+    constructor(props){
+        super(props)
         this.state={
             custAddress:[],
             editAddress:false,
@@ -44,6 +45,13 @@ class DeliveryAddress extends Component{
        
     // }
 
+    onClickPlaceOrder = async()=>{
+        console.log("hit")
+        console.log(this.props.data)
+       const res = await placeOrderAPI(this.props.data)
+        console.log("data",res)
+    }
+
     render(){
         const {custAddress}=this.state
 
@@ -77,7 +85,7 @@ class DeliveryAddress extends Component{
                )
                })}  
             <div><button onClick={this.addNewAddressHandle}>Add New Address</button><span>&nbsp;&nbsp;</span>
-            <button >Place Order</button></div>
+            <button onClick={this.onClickPlaceOrder}>Place Order</button></div>
             <br></br>
             </div>
             

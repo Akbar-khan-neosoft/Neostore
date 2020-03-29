@@ -46,7 +46,11 @@ class MyAddress extends Component{
     render(){
         const {custAddress}=this.state
 
+        console.log("custAddress",custAddress.length)
+        
+
         return(
+           custAddress.length !== 0 ? 
             this.state.addAddress ? <AddNewAddress cancel={this.addNewAddressHandle}/> : this.state.editAddress ? <EditAddress custAddress = {custAddress} cancel={this.editAddressHandle} add_id={this.state.address_id}/> :
             <div>
             <div>Addresses :</div>
@@ -65,7 +69,9 @@ class MyAddress extends Component{
                )
                })}  
             <div><button onClick={this.addNewAddressHandle}>Add New Address</button></div>
-            </div>
+            </div> : this.state.addAddress ? <AddNewAddress cancel={this.addNewAddressHandle}/> : 
+             <div><h1>You Have Not Added Any Address, Kindly Add your Address</h1><br></br>
+            <div><button onClick={this.addNewAddressHandle}>Add New Address</button></div></div>
         )
     }
 }

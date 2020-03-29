@@ -102,9 +102,9 @@ class Footer extends Component {
 									</a>
 								</li>
 								<li>
-									<a style={{ textDecoration: 'none', color: 'white' }} href="#">
-										Locate Us
-									</a>
+								<Link to="/locateus" style={{ textDecoration: 'none', color: 'white' }}>
+								Locate Us
+									</Link>
 								</li>
 							</ul>
 						</div>

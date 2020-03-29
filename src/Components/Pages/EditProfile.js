@@ -11,7 +11,7 @@ import Radio from '@material-ui/core/Radio';
 import { GoogleButton, FacebookButton } from '../Common/SocialLoginButtons/SocialLoginButtons';
 
 const emailRegex = RegExp(/^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/);
-let allOk = false;
+
 const formValid = ({ formErrors, ...rest }) => {
 	let valid = false;
 
@@ -28,46 +28,46 @@ class EditProfile extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			data: {
-				firstName: '',
-				lastName: '',
-				email: '',
-				dob: '',
+				firstName: this.props.data.first_name,
+				lastName: this.props.data.last_name,
+				_email: this.props.data.email,
+				_dob: this.props.data.dob,
 				profilePic: '',
-				mobile: '',
-				gender: ''
-			},
+				mobile: this.props.data.phone_no,
+				_gender: this.props.data.gender,
+				disablebutton:true,
+		
 			formErrors: {
 				firstName: '',
 				lastName: '',
 				email: '',
 				mobile: '',
 				gender: '',
+				dob:''
 			},
 		};
 	}
 
-	handleSubmit = async e => {
-		e.preventDefault();
-		// formValid(this.state)
-		console.log(allOk);
+	handleSubmit = async () => {
+		console.log("res")
+		const localData = JSON.parse(localStorage.getItem("loginData")) 
+		const { firstName, lastName, _gender, _email, mobile, _dob,profilePic } = this.state
 
-		if (allOk === false) {
-			const { firstName, lastName, email, dob, mobile, profilePic, gender } = this.state.data;
 			let editProfileData = {
-				first_name: `${firstName}`,
-				last_name: `${lastName}`,
-				email: `${email}`,
-				gender: `${gender}`,
-				phone_no: `${mobile}`,
-				dob:`${dob}`,
-				profile_img:`${profilePic}`
-			};
+				first_name: firstName,
+				last_name: lastName,
+				email: _email,
+				phone_no: mobile,
+				gender: _gender,
+				dob:_dob,
+				profile_img:profilePic
+			}
+			console.log("editProfileData")
+			const res = await axios.put(URL + "profile",editProfileData, {headers : {"Authorization": "Brearer " + localData.token }});
 
-
-			} else {
-			alert('FORM INVALID - Kindly Fill The form Completly');
-		}
+			console.log(res)
+			this.props.history.push("/")
+			console.log("editProfileData")
 	};
 
 	// handleCancel=()=>{
@@ -76,107 +76,112 @@ class EditProfile extends Component {
 	handleChange = e => {
 		e.preventDefault();
 		const { name, value } = e.target;
+		console.log("test",name,value)
+		
 		let formErrors = { ...this.state.formErrors };
-		allOk = false;
+		
 
 		switch (name) {
 			case 'firstName':
 				if (value.length === 0) {
 					formErrors.firstName = "Firstname field can't be left blank,minimum 3 characaters required";
-					allOk = true;
+				
 				} else if (!isNaN(value)) {
 					formErrors.firstName = 'Numbers not allowed in Firstname';
-					allOk = true;
+				
 				} else {
-					formErrors.firstName = '';
+					formErrors.firstName = 'pass';
 				}
 
 				break;
 			case 'lastName':
 				if (value.length === 0) {
 					formErrors.lastName = "Lastname field can't be left blank,minimum 3 characaters required";
-					allOk = true;
+				
 				} else if (!isNaN(value)) {
 					formErrors.lastName = 'Numbers not allowed in Lastname';
-					allOk = true;
+				
 				} else {
-					formErrors.lastName = '';
+					formErrors.lastName = 'pass';
 				}
 
 				break;
 			case 'email':
 				if (value.length === 0) {
 					formErrors.email = "Email field can't be left blank";
-					allOk = true;
+				
 				} else if (!emailRegex.test(value)) {
 					formErrors.email = 'invalid email address';
-					allOk = true;
+				
 				} else {
-					formErrors.email = '';
+					formErrors.email = 'pass';
 				}
 
 				break;
-			// // case 'password':
-			// // 	if (value.length === 0) {
-			// // 		formErrors.password = "Password field can't be left blank";
-			// // 		allOk = true;
-			// // 	} else if (value.length < 8) {
-			// // 		formErrors.password = 'invalid email address';
-			// // 		allOk = true;
-			// // 	} else {
-			// // 		formErrors.password = '';
-			// // 	}
-
-			// // 	break;
-			// // case 'confirmPassword':
-			// // 	if (value.length === 0) {
-			// // 		formErrors.confirmPassword = "Confirm Password field can't be left blank";
-			// // 		allOk = true;
-			// // 	} else if (value.length < 8) {
-			// // 		formErrors.confirmPassword = 'invalid email address';
-			// // 		allOk = true;
-			// // 	} else if (!(this.state.password === value)) {
-			// // 		formErrors.confirmPassword = 'Password and Confirm Password Mismatched';
-			// // 	} else {
-			// // 		formErrors.confirmPassword = '';
-			// // 	}
-
-			// 	break;
+			case 'dob':
+				if (value.length === 0) {
+					formErrors.dob = "Date Of Birth field can't be left blank";
+				
+				// } else if (value.length < 8) {
+				// 	formErrors.password = 'invalid email address';
+				// 
+				// } 
+				}else {
+					formErrors.dob = 'pass';
+				}
 			case 'mobile':
 				if (value.length === 0) {
 					formErrors.mobile = "Mobile Number field can't be left blank";
-					allOk = true;
+				
 				} else if (isNaN(value)) {
 					formErrors.mobile = 'Only Numbers allowed in Mobile';
-					allOk = true;
+				
 				} else if (value.length < 10 || value.length > 10) {
 					formErrors.mobile = 'Only 10 characaters allowed';
-					allOk = true;
+				
 				} else {
-					formErrors.mobile = '';
+					formErrors.mobile = 'pass';
 				}
 
 				break;
 			case 'gender':
 				if (value.length === 0) {
 					formErrors.gender = "Gender field can't be left blank";
-					allOk = true;
 				} else {
-					formErrors.gender = '';
+					formErrors.gender = 'pass';
 				}
 
 				break;
 			default:
 				break;
 		}
-
+		// if(name === "dob"){
+		// 	console.log("in")
+			
+		// 	this.setState({ _dob: value });
+		// }
 		this.setState({ formErrors, [name]: value });
+		const { firstName, lastName, _gender, _email, mobile, _dob } = this.state
+
+		if(firstName.length > 0 && lastName.length > 0 && _gender.length > 0 && _email.length > 0 && 
+			mobile.length > 0 && _dob !== null ){
+				this.setState({disablebutton:false})
+			}
+
 	};
 
 	render() {
-		
-		const { first_name, last_name, gender, email, phone_no, dob,profilePic } = this.props.data
+		const { firstName, lastName, _gender, _email, mobile, _dob } = this.state
+		// if(firstName.length > 0 && lastName.length > 0 && _gender.length > 0 && _email.length > 0 && 
+		// 	mobile.length > 0 && _dob !== null ){
+		// 		this.setState({disablebutton:false})
+		// 	}
+			
+		const { first_name, last_name, gender, email, phone_no, dob } = this.props.data
 		const { formErrors } = this.state;
+		// console.log("first_name",firstName,lastName,
+		// _gender,_dob,mobile,_email);
+		
 		return (
 			<div className="register">
 				<div class="form_card" style={{ width: '90%' }}>
@@ -190,7 +195,6 @@ class EditProfile extends Component {
 										label="First Name"
 										name="firstName"
 										defaultValue={first_name}
-										// value={this.state.firstName}
 										variant="outlined"
 										placeholder="First Name"
 										InputProps={{
@@ -203,7 +207,7 @@ class EditProfile extends Component {
 										onChange={this.handleChange}
 									/>
 								</FormControl>
-								{formErrors.firstName.length > 0 && (
+								{(formErrors.firstName.length > 0 && formErrors.firstName !== "pass") && (
 									<span className="errorMessage">{formErrors.firstName}</span>
 								)}
 							</div>
@@ -226,7 +230,7 @@ class EditProfile extends Component {
 										onChange={this.handleChange}
 									/>
 								</FormControl>
-								{formErrors.lastName.length > 0 && (
+								{(formErrors.lastName.length > 0 && formErrors.lastName !== "pass") && (
 									<span className="errorMessage">{formErrors.lastName}</span>
 								)}
 							</div>
@@ -235,7 +239,7 @@ class EditProfile extends Component {
 									<RadioGroup
 										//defaultValue="male"
 										aria-label="gender"
-										name="gender"
+										name="_gender"
 										defaultValue={gender}
 										onChange={this.handleChange}
 									>Gender :
@@ -249,7 +253,7 @@ class EditProfile extends Component {
 									<TextField
 										id="outlined-dob"
 										label="Date Of Birth"
-										name="dob"
+										name="_dob"
 										type="date"
 										variant="outlined"
 										// placeholder=""
@@ -260,16 +264,16 @@ class EditProfile extends Component {
 										}}
 									/>
 								</FormControl>
-								{/* {formErrors.dob.length > 0 && (
+								{(formErrors.dob.length > 0 && formErrors.dob !== "pass") && (
 									<span className="errorMessage">{formErrors.password}</span>
-								)} */}
+								)}
 							</div>
 							<div className="form_textfield">
 								<FormControl fullWidth>
 									<TextField
 										id="outlined-email"
 										label="Email Address"
-										name="email"
+										name="_email"
 										defaultValue={email}
 										variant="outlined"
 										placeholder="Email Address"
@@ -283,7 +287,7 @@ class EditProfile extends Component {
 										onChange={this.handleChange}
 									/>
 								</FormControl>
-								{formErrors.email.length > 0 && (
+								{(formErrors.email.length > 0 && formErrors.email !== "pass") && (
 									<span className="errorMessage">{formErrors.email}</span>
 								)}
 							</div>
@@ -322,7 +326,7 @@ class EditProfile extends Component {
 										onChange={this.handleChange}
 									/>
 								</FormControl>
-								{formErrors.mobile.length > 0 && (
+								{(formErrors.mobile.length > 0 && formErrors.mobile !== "pass") && (
 									<span className="errorMessage">{formErrors.mobile}</span>
 								)}
 							</div>
@@ -332,6 +336,7 @@ class EditProfile extends Component {
 									<button
 										class="btn btn-danger text-uppercase float-left"
 										onClick={this.handleSubmit}
+										disabled={this.state.disablebutton}
 										type="submit"
 									>
 										save
