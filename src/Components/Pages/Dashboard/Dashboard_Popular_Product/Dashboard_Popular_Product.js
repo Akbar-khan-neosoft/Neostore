@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import '../../../../Assets/CSS/Dashboard_Popular_Product.css';
 import { connect } from 'react-redux';
 import { fetchPopularProductData } from '../../../../Redux/Actions/popularProductAction';
-import {addToCartAPI} from "../../../../API/API"
+import {addToCart} from "../../../../API/API"
 import { URL } from '../../../../Redux/Constants';
 import StarRatingComponent from 'react-star-rating-component';
 import { Link ,withRouter} from 'react-router-dom';
@@ -16,26 +16,7 @@ class Dashboard_Popular_Product extends Component {
 		this.props.onFetch();
 	}
 
-	addToCartHandler = async (prd_id) => {
-		const loginAuth = localStorage.getItem("loginAuth");
-		// console.log(loginAuth);
-		if(loginAuth){
-		try {
-			const res = await addToCartAPI(prd_id);
-			alert(res.data.message)
-		} catch (error) {
-			// console.log(error.message)
-			if (error.message === "Request failed with status code 404")
-				alert("This Product Is Already Available In Your Cart")
-			else {
-				alert("Error")
-			}
-
-		}
-	}else{
-		alert("Kindly Login,To add this product to your cart")
-		this.props.history.push("/login")
-	}}
+	addToCartHandler = async (data) => {await addToCart(data)}
 
 	render() {
 		return (
@@ -106,7 +87,7 @@ class Dashboard_Popular_Product extends Component {
 														borderRadius: '10px',
 														margin: 'auto',
 													}}
-													onClick={() => this.addToCartHandler(result.DashboardProducts[0].product_id)}
+													onClick={() => this.addToCartHandler(result.DashboardProducts[0])}
 												>
 													<a
 														href="#"

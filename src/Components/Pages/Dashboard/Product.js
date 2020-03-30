@@ -169,17 +169,17 @@ class Product extends Component {
 						<div className="all_product_header">
 						<div className="headingcontent"><h3>{heading}</h3></div>
 						<div className="sortingbuttoncontainer">Sort By:
-							<buttom className="sortingbutton" onClick={this.sortByRating}>
+							<button className="sortingbutton" onClick={this.sortByRating}>
 								<i class="fa fa-star" aria-hidden="true"></i>
-								</buttom>
-						<buttom className="sortingbutton" onClick={this.sortByAscending}>
+								</button>
+						<button className="sortingbutton" onClick={this.sortByAscending}>
 							<i class="fa fa-inr fa-lg" aria-hidden="true"></i>
 							<i class="fa fa-arrow-up" aria-hidden="true"></i>
-							</buttom>
-						<buttom className="sortingbutton" onClick={this.sortByDescending}>
+							</button>
+						<button className="sortingbutton" onClick={this.sortByDescending}>
 							<i class="fa fa-inr fa-lg" aria-hidden="true"></i>
 							<i class="fa fa-arrow-down" aria-hidden="true"></i>
-							</buttom>
+							</button>
 						</div>
 						</div>
 						{console.log('zdfsdfdsf', currentCard.length === 0, currentCard)}

@@ -1,48 +1,36 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import { useHistory } from 'react-router-dom';
 import { URL } from '../../Redux/Constants/index';
 import '../../Assets/CSS/Register.css';
-import { TextField, FormControl,OutlinedInput,InputLabel,IconButton ,inputprops, InputAdornment } from '@material-ui/core';
-import {Visibility,VisibilityOff} from '@material-ui/icons';
+import { TextField, FormControl, OutlinedInput, InputLabel, IconButton, inputprops, InputAdornment } from '@material-ui/core';
+import { Visibility, VisibilityOff } from '@material-ui/icons';
 import TextFieldsIcon from '@material-ui/icons/TextFields';
 import CallIcon from '@material-ui/icons/Call';
 import EmailIcon from '@material-ui/icons/Email';
 import { RadioGroup, FormControlLabel } from '@material-ui/core';
 import Radio from '@material-ui/core/Radio';
 import { GoogleButton, FacebookButton } from '../Common/SocialLoginButtons/SocialLoginButtons';
-import {EMAIL_REGEX,NAME_REGEX,customErrorMessages} from '../../Utils/validation'
+import { EMAIL_REGEX, NAME_REGEX, customErrorMessages } from '../../Utils/validation'
 
 
-const emailRegex = RegExp(/^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/);
-const formValid = ({ formErrors, ...rest }) => {
-	let valid = false;
+// const emailRegex = RegExp(/^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/);
 
-	Object.values(formErrors).forEach(val => {
-		val.length > 0 && (valid = false);
-	});
-
-	Object.values(rest).forEach(val => {
-		val === null && (valid = false);
-	});
-	return valid;
-};
 class Register extends Component {
 	constructor() {
 		super();
 		this.state = {
-			data:{
-			firstName: '',
-			lastName: '',
-			email: '',
-			password: '',
-			confirmPassword: '',
-			mobile: '',
-			gender: ''
+			data: {
+				firstName: '',
+				lastName: '',
+				email: '',
+				password: '',
+				confirmPassword: '',
+				mobile: '',
+				gender: ''
 			},
-			showPassword:false,
-			showConfirmPassword:false,
-			disableButton:true,
+			showPassword: false,
+			showConfirmPassword: false,
+			disableButton: true,
 			formErrors: {
 				firstName: '',
 				lastName: '',
@@ -57,12 +45,9 @@ class Register extends Component {
 
 	handleSubmit = async e => {
 		e.preventDefault()
-	
-
-		if (this.state.disableButton === false) {
-			const { firstName, lastName, email, password, mobile, confirmPassword, gender } = this.state;
+			const { firstName, lastName, email, password, mobile, confirmPassword, gender } = this.state.data;
 			let registrationData = {
-				
+
 				first_name: `${firstName}`,
 				last_name: `${lastName}`,
 				email: `${email}`,
@@ -75,94 +60,101 @@ class Register extends Component {
 			const res = await axios.post(URL + 'register', registrationData);
 			alert(res.data.message);
 			this.props.history.push('login');
-		}};
+		
+	};
 
-	handleClickShowPassword =(param)=>{
-        if(param==="showPassword")
-        this.setState({showPassword: !this.state.showPassword})
-        else  if(param==="showConfirmPassword")
-        this.setState({showConfirmPassword: !this.state.showConfirmPassword})
-    }
-	handleChange = e => {
-		e.preventDefault();
-		const { name, value } = e.target;
+	handleClickShowPassword = (param) => {
+		if (param === "showPassword")
+			this.setState({ showPassword: !this.state.showPassword })
+		else if (param === "showConfirmPassword")
+			this.setState({ showConfirmPassword: !this.state.showConfirmPassword })
+	}
+	handleChange = ({ target: input }) => {
+		const data = { ...this.state.data };
+		data[input.name] = input.value;
+		this.setState({ data });
+	};
+
+	validate = (name) => {
+		// const { name, value } = e.target;
 		let formErrors = { ...this.state.formErrors };
-		this.setState({disableButton:true})
+		const { firstName, lastName, email, password, confirmPassword, mobile, gender } = this.state.data
+		this.setState({ disableButton: true })
 
 		switch (name) {
 			case 'firstName':
-				if (value.length === 0 ||!NAME_REGEX.test(value)) {
+				if (firstName.length === 0 || !NAME_REGEX.test(firstName)) {
 					const { valueMissing, patternMismatch } = customErrorMessages.name;
-					formErrors.firstName = value === "" ? valueMissing : patternMismatch;
-					this.setState({disableButton:true})
-				}else {
+					formErrors.firstName = firstName === "" ? valueMissing : patternMismatch;
+					this.setState({ disableButton: true })
+				} else {
 					formErrors.firstName = '';
-					
+
 				}
 
 				break;
 
 			case 'lastName':
-				if (value.length === 0|| !NAME_REGEX.test(value)) {
+				if (lastName.length === 0 || !NAME_REGEX.test(lastName)) {
 					const { valueMissing, patternMismatch } = customErrorMessages.name;
-					formErrors.lastName = value === "" ? valueMissing : patternMismatch;
-					this.setState({disableButton:true})
+					formErrors.lastName = lastName === "" ? valueMissing : patternMismatch;
+					this.setState({ disableButton: true })
 				} else {
 					formErrors.lastName = '';
-					
+
 				}
 
 				break;
 			case 'email':
-				if (value.length === 0|| !EMAIL_REGEX.test(value)) {
+				if (email.length === 0 || !EMAIL_REGEX.test(email)) {
 					const { valueMissing, typeMismatch } = customErrorMessages.email;
-					formErrors.email = value === "" ? valueMissing : typeMismatch;
-					this.setState({disableButton:true})
+					formErrors.email = email === "" ? valueMissing : typeMismatch;
+					this.setState({ disableButton: true })
 				} else {
 					formErrors.email = '';
-				
+
 				}
 
 				break;
 			case 'password':
-				if (value.length === 0 ||value.length < 8 || value.length > 12) {
+				if (password.length === 0 || password.length < 8 || password.length > 12) {
 					const { valueMissing, patternMismatch } = customErrorMessages.password;
-					formErrors.password = value === "" ? valueMissing : patternMismatch;
-					this.setState({disableButton:true})
-				} else if(value===this.state.confirmPassword) {
+					formErrors.password = password === "" ? valueMissing : patternMismatch;
+					this.setState({ disableButton: true })
+				} else if (password === confirmPassword) {
 					formErrors.confirmPassword = '';
-				}else {
+				} else {
 					formErrors.password = '';
 				}
 
 				break;
 			case 'confirmPassword':
-				if (value.length === 0 ||value.length < 8 || value.length > 12) {
+				if (confirmPassword.length === 0 || confirmPassword.length < 8 || confirmPassword.length > 12) {
 					const { valueMissing, patternMismatch } = customErrorMessages.password;
-					formErrors.confirmPassword = value === "" ? valueMissing : patternMismatch;
-					this.setState({disableButton:true})
-				} else if (!(this.state.password === value)) {
+					formErrors.confirmPassword = confirmPassword === "" ? valueMissing : patternMismatch;
+					this.setState({ disableButton: true })
+				} else if (!(password === confirmPassword)) {
 					formErrors.confirmPassword = 'Password and Confirm Password Mismatched';
-					this.setState({disableButton:true})
+					this.setState({ disableButton: true })
 				} else {
 					formErrors.confirmPassword = '';
 				}
 
 				break;
 			case 'mobile':
-				if (value.length === 0||isNaN(value)||value.length < 10 || value.length > 10) {
+				if (mobile.length === 0 || isNaN(mobile) || mobile.length < 10 || mobile.length > 10) {
 					const { valueMissing, patternMismatch } = customErrorMessages.mobile;
-					formErrors.mobile = value === "" ? valueMissing : patternMismatch;
-					this.setState({disableButton:true})
+					formErrors.mobile = mobile === "" ? valueMissing : patternMismatch;
+					this.setState({ disableButton: true })
 				} else {
 					formErrors.mobile = '';
 				}
 
 				break;
 			case 'gender':
-				if (value.length === 0) {
+				if (gender.length === 0) {
 					formErrors.gender = "Gender field can't be left blank";
-					this.setState({disableButton:true})
+					this.setState({ disableButton: true })
 				} else {
 					formErrors.gender = '';
 				}
@@ -171,23 +163,26 @@ class Register extends Component {
 			default:
 				break;
 		}
-		
-		console.log("test : ",formErrors.firstName.length,);
-		
-		if(formErrors.firstName.length === 0 && formErrors.lastName.length === 0 && formErrors.email.length === 0 &&
-			formErrors.password.length === 0 && formErrors.confirmPassword.length === 0 && formErrors.mobile.length === 0 && 
-			formErrors.gender.length === 0){
-				this.setState({disableButton:false})
-			}
+
+		console.log("test : ", name);
+
+		if (formErrors.firstName.length === 0 && formErrors.lastName.length === 0 && formErrors.email.length === 0 &&
+			formErrors.password.length === 0 && formErrors.confirmPassword.length === 0 && formErrors.mobile.length === 0 &&
+			formErrors.gender.length === 0) {
+			this.setState({ disableButton: false })
+		}
 
 
-
-		this.setState({ formErrors, [name]: value });
-	};
+		this.setState({ formErrors });
+	}
 
 	render() {
-		// const{firstName,lastName,email,password,confirmPassword,mobile,gender} =this.state.data
+
+		const { firstName, lastName, email, password, confirmPassword, mobile, gender } = this.state.data
+		console.log("data==", firstName, lastName, email, password, confirmPassword, mobile, gender)
+
 		const { formErrors } = this.state;
+		console.log("err==",formErrors)
 		return (
 			<div className="register">
 				<div className="register_button">
@@ -215,6 +210,7 @@ class Register extends Component {
 											),
 										}}
 										onChange={this.handleChange}
+										onBlur={()=>this.validate("firstName")}
 									/>
 								</FormControl>
 								{formErrors.firstName.length > 0 && (
@@ -237,6 +233,7 @@ class Register extends Component {
 											),
 										}}
 										onChange={this.handleChange}
+										onBlur={()=>this.validate("lastName")}
 									/>
 								</FormControl>
 								{formErrors.lastName.length > 0 && (
@@ -259,6 +256,7 @@ class Register extends Component {
 											),
 										}}
 										onChange={this.handleChange}
+										onBlur={()=>this.validate("email")}
 									/>
 								</FormControl>
 								{formErrors.email.length > 0 && (
@@ -266,55 +264,57 @@ class Register extends Component {
 								)}
 							</div>
 							<div className="form_textfield">
-							<FormControl variant="outlined" fullWidth>
-                            <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
-                                <OutlinedInput id="outlined-adornment-password"
-                                   type={this.state.showPassword ? 'text' : 'password'}
-                                   label="Password"
-                                    placeholder="Password" 
-									name="password" 
-									inputProps={
-										{ maxLength: 12 }
-									}
-                                    onChange={this.handleChange} endAdornment={
-                                        <InputAdornment position="end">
-                                          <IconButton
-                                            aria-label="toggle password visibility"
-                                            onClick={()=>{this.handleClickShowPassword("showPassword")}}
-                                          
-                                          >
-                                            {this.state.showPassword ? <Visibility /> : <VisibilityOff />}
-                                          </IconButton>
-                                        </InputAdornment>
-                                      }/>
-                            </FormControl>
+								<FormControl variant="outlined" fullWidth>
+									<InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
+									<OutlinedInput id="outlined-adornment-password"
+										type={this.state.showPassword ? 'text' : 'password'}
+										label="Password"
+										placeholder="Password"
+										name="password"
+										inputProps={
+											{ maxLength: 12 }
+										}
+										onChange={this.handleChange}
+										onBlur={()=>this.validate("password")} endAdornment={
+											<InputAdornment position="end">
+												<IconButton
+													aria-label="toggle password visibility"
+													onClick={() => { this.handleClickShowPassword("showPassword") }}
+
+												>
+													{this.state.showPassword ? <Visibility /> : <VisibilityOff />}
+												</IconButton>
+											</InputAdornment>
+										} />
+								</FormControl>
 								{formErrors.password.length > 0 && (
 									<span className="errorMessage">{formErrors.password}</span>
 								)}
 							</div>
 							<div className="form_textfield">
 								<FormControl variant="outlined" fullWidth>
-                            <InputLabel htmlFor="outlined-adornment-password">Confirm Password</InputLabel>
-                                <OutlinedInput id="outlined-adornment-password"
-                                   type={this.state.showConfirmPassword ? 'text' : 'password'}
-                                   label="Confirm Password"
-                                    placeholder="Confirm Password" 
-									name="confirmPassword" 
-									inputProps={
-										{ maxLength: 12 }
-									}
-                                    onChange={this.handleChange} endAdornment={
-                                        <InputAdornment position="end">
-                                          <IconButton
-                                            aria-label="toggle password visibility"
-                                            onClick={()=>{this.handleClickShowPassword("showConfirmPassword")}}
-                                          
-                                          >
-                                            {this.state.showConfirmPassword ? <Visibility /> : <VisibilityOff />}
-                                          </IconButton>
-                                        </InputAdornment>
-                                      }/>
-                            </FormControl>
+									<InputLabel htmlFor="outlined-adornment-password">Confirm Password</InputLabel>
+									<OutlinedInput id="outlined-adornment-password"
+										type={this.state.showConfirmPassword ? 'text' : 'password'}
+										label="Confirm Password"
+										placeholder="Confirm Password"
+										name="confirmPassword"
+										inputProps={
+											{ maxLength: 12 }
+										}
+										onChange={this.handleChange}
+										onBlur={()=>this.validate("confirmPassword")} endAdornment={
+											<InputAdornment position="end">
+												<IconButton
+													aria-label="toggle password visibility"
+													onClick={() => { this.handleClickShowPassword("showConfirmPassword") }}
+
+												>
+													{this.state.showConfirmPassword ? <Visibility /> : <VisibilityOff />}
+												</IconButton>
+											</InputAdornment>
+										} />
+								</FormControl>
 								{formErrors.confirmPassword.length > 0 && (
 									<span className="errorMessage">{formErrors.confirmPassword}</span>
 								)}
@@ -338,6 +338,7 @@ class Register extends Component {
 											),
 										}}
 										onChange={this.handleChange}
+										onBlur={()=>this.validate("mobile")}
 									/>
 								</FormControl>
 								{formErrors.mobile.length > 0 && (
@@ -351,6 +352,7 @@ class Register extends Component {
 										name="gender"
 										defaultValue="male"
 										onChange={this.handleChange}
+										onBlur={()=>this.validate("gender")}
 									>
 										<FormControlLabel value="male" control={<Radio />} label="Male" />
 										<FormControlLabel value="female" control={<Radio />} label="Female" />

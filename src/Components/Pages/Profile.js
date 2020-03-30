@@ -55,7 +55,7 @@ class Profile extends Component{
                     <hr></hr>
                     <div className="profilebox">
                         <div className="leftsidebox">
-                            <div className="profilepicture"><i class="fa fa-5x fa-user" aria-hidden="true"></i></div>
+                            <div ><img className="profilepicture" src="https://www.pngkey.com/png/detail/230-2301779_best-classified-apps-default-user-profile.png"/></div>
                             <div className="profilename "><h5 style={{color:"red"}}>{localData.customer_details.first_name + " " + localData.customer_details.last_name}</h5></div>
                             <div className="profileorder btn" onClick={()=>this.onClickHandle("order")}><i class="fa fa-bars" aria-hidden="true"></i>Order</div>
                             <div className="profiledata btn" onClick={()=>this.onClickHandle("profile")}><i class="fa fa-user" aria-hidden="true"></i>Profile</div>

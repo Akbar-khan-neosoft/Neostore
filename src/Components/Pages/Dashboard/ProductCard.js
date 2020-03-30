@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Link,withRouter } from "react-router-dom"
 
 import { URL } from '../../../Redux/Constants/index';
-import { addToCartAPI , addToCartLogoutAPI} from "../../../API/API"
+import { addToCart } from "../../../API/API"
 import StarRatingComponent from 'react-star-rating-component';
 import '../../../Assets/CSS/Product.css';
 
@@ -11,28 +11,7 @@ class ProductCard extends Component {
 		super(props)
 	}
 
-	addToCartHandler = async (prd_id) => {
-		const loginAuth = JSON.parse(localStorage.getItem("loginData"));
-		// console.log(loginAuth);
-		if(loginAuth){
-				try {
-			const res = await addToCartAPI(prd_id);
-			alert(res.data.message)
-		} catch (error) {
-			// console.log(error.message)
-			if (error.message === "Request failed with status code 404")
-				alert("This Product Is Already Available In Your Cart")
-			else {
-				alert("Error")
-			}
-
-		}
-	}else{
-		// const res = await addToCartLogoutAPI(prd_id);
-		// 	alert(res.data.message)
-		alert("Kindly Login,To add this product to your cart")
-		this.props.history.push("/login")
-	}}
+	addToCartHandler = async (data) => {await addToCart(data)}
 
 	render() {
 
@@ -103,7 +82,7 @@ class ProductCard extends Component {
 													borderRadius: '10px',
 													margin: 'auto',
 												}}
-												onClick={() => this.addToCartHandler(d.product_id)}
+												onClick={() => this.addToCartHandler(d)}
 											>
 												<a
 													href="#"

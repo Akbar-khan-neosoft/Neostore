@@ -19,7 +19,9 @@ class DashboardCarousel extends Component {
 		this.props.onFetch();
 	}
 
-	onSliderClickHandle=async(id)=>{
+	onSliderClickHandle=async()=>{
+
+		this.props.history.push("/product");
 		
 		// const 	category_id = id;
 		// const	color_id="";
@@ -40,7 +42,7 @@ class DashboardCarousel extends Component {
 					<div class="carousel-inner">
 						{this.props.data.map((item, index) => (
 							<div  class={`carousel-item ${index == 0 ? 'active' : ''}`} key={index}>
-								<img className ="btn" src={URL + item.product_image} width="100%" height="350px" alt="..." onClick={()=>this.onSliderClickHandle(item.category_id)} />
+								<img className ="btn" src={URL + item.product_image} width="100%" height="350px" alt="..." onClick={this.onSliderClickHandle} />
 							</div>
 						))}
 					</div>

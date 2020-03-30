@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import {withRouter} from "react-router-dom"
 import { URL } from '../../Redux/Constants/index';
 import '../../Assets/CSS/Register.css';
 import { TextField, FormControl, InputAdornment, Button } from '@material-ui/core';
@@ -8,22 +9,21 @@ import CallIcon from '@material-ui/icons/Call';
 import EmailIcon from '@material-ui/icons/Email';
 import { RadioGroup, FormControlLabel } from '@material-ui/core';
 import Radio from '@material-ui/core/Radio';
-import { GoogleButton, FacebookButton } from '../Common/SocialLoginButtons/SocialLoginButtons';
 
 const emailRegex = RegExp(/^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/);
 
-const formValid = ({ formErrors, ...rest }) => {
-	let valid = false;
+// const formValid = ({ formErrors, ...rest }) => {
+// 	let valid = false;
 
-	Object.values(formErrors).forEach(val => {
-		val.length > 0 && (valid = false);
-	});
+// 	Object.values(formErrors).forEach(val => {
+// 		val.length > 0 && (valid = false);
+// 	});
 
-	Object.values(rest).forEach(val => {
-		val === null && (valid = false);
-	});
-	return valid;
-};
+// 	Object.values(rest).forEach(val => {
+// 		val === null && (valid = false);
+// 	});
+// 	return valid;
+// };
 class EditProfile extends Component {
 	constructor(props) {
 		super(props);
@@ -48,8 +48,9 @@ class EditProfile extends Component {
 		};
 	}
 
-	handleSubmit = async () => {
-		console.log("res")
+	handleSubmit = async e => {
+		e.preventDefault()
+		// console.log("res")
 		const localData = JSON.parse(localStorage.getItem("loginData")) 
 		const { firstName, lastName, _gender, _email, mobile, _dob,profilePic } = this.state
 
@@ -60,12 +61,11 @@ class EditProfile extends Component {
 				phone_no: mobile,
 				gender: _gender,
 				dob:_dob,
-				profile_img:profilePic
-			}
-			console.log("editProfileData")
-			const res = await axios.put(URL + "profile",editProfileData, {headers : {"Authorization": "Brearer " + localData.token }});
+				}
+			// console.log("editProfileData",editProfileData,localData.token)
+			 const res = await axios.put(URL + "profile",editProfileData, {headers : {"Authorization": "Brearer " + localData.token }});
 
-			console.log(res)
+			 alert("Profile updated,Redirecting to dashboard")
 			this.props.history.push("/")
 			console.log("editProfileData")
 	};
@@ -360,4 +360,4 @@ class EditProfile extends Component {
 	}
 }
 
-export default EditProfile;
+export default withRouter(EditProfile);

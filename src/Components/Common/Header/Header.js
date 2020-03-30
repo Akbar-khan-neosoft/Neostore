@@ -2,15 +2,26 @@ import React, { Component } from 'react';
 import '../../../Assets/CSS/Header.css';
 import { BrowserRouter as Router, Link } from 'react-router-dom';
 import {connect} from "react-redux"
+import { withRouter } from 'react-router-dom'
 import {fetchlogout} from "../../../Redux/Actions/loginAction"
 
 class Header extends Component {
 
-	onLogoutHandle=()=>{
+	onLogoutHandle=async()=>{
 		localStorage.clear();
-		this.props.onFetch()
+		const res = await this.props.onFetch()
+		this.props.history.push("/")
+		
 	}
 	render() {
+		let success=false;
+		const localData = JSON.parse(localStorage.getItem("loginData"))
+		if(localData !== null)
+		{
+			success = localData.success
+		}
+		console.log("localData",localData,this.props.data)
+		
 		return (
 			<div className="container-fluid">
 				<div className="Header-logo btn">
@@ -69,8 +80,8 @@ class Header extends Component {
 								>
 									<i class="fa fa-user-circle" aria-hidden="true"></i>
 								</a>
-								{console.log("login - >>",this.props.data)}
-								{this.props.data ? <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+								{console.log("login - >>",this.props.data,success)}
+								{(this.props.data || success) ? <div class="dropdown-menu" aria-labelledby="navbarDropdown">
 									<Link to="myaccount" class="dropdown-item">
 										Profile
 									</Link>
@@ -103,4 +114,4 @@ const mapDispatchToProps = dispatch => ({
 	onFetch: () => dispatch(fetchlogout()),
 });
 
-export default connect(mapStateToProps,mapDispatchToProps)(Header);
+export default connect(mapStateToProps,mapDispatchToProps)(withRouter(Header));

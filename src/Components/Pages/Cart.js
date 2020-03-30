@@ -17,8 +17,7 @@ class Cart extends Component {
             totalCartItem: '',
             showCartDetail: true,
             showAddressDetail: false,
-            tempData:[]
-        }
+            }
     }
 
     onClickCartHandle = () => {
@@ -30,25 +29,41 @@ class Cart extends Component {
     }
 
     async componentDidMount() {
-        const loginAuth = JSON.parse(localStorage.getItem("loginData"));
-        // console.log(loginAuth);
-
-        if (loginAuth) {
+        const localCartData = JSON.parse(localStorage.getItem("cart")) || []
             await this.props.onFetch()
-            this.setState({ cartData: this.props.data, totalCartItem: 2 })
+            const res = this.props.data.map(res=>{
+                return res.product_id
+            })
+
+            // let result = [];
+            // localCartData.filter(r =>{
+            //     return res.filter(item=> {
+            //         console.log(r,item)
+                    
+            //         if (r._id !== item._id) {
+            //             if(!result.includes(item))
+            //             {result.push( item )}
+            //       }
+            //     })
+            //   });
+
+            // const result = res.map( r =>{return r._id}).filter( item =>{ return !localCartData.includes(item)})
+            //  console.log("resss",result,localCartData);
+            
+              this.setState({ cartData: localCartData.concat(res)})
         }
-        else {
-            this.setState({ cartData: [], totalCartItem: 0 })
-        }
-    }
 
     onClickdeleteProductHandle = async (prd_id) => {
 
-        const res = await deleteCustomerCartAPI(prd_id);
-        // console.log("res", res)
-
-        await this.props.onFetch()
-        this.setState({ cartData: this.props.data, totalCartItem: 2 })
+        // const localCartData = JSON.parse(localStorage.getItem("cart"))
+        const index = JSON.parse(localStorage.getItem("cart")).findIndex(res=>{ return res === prd_id})
+        localStorage.removeItem(index)
+        // const resss = this.state.cartData.splice(index,1)
+        // this.setState({ cartData: this.props.data })
+       console.log(JSON.parse(localStorage.getItem("cart")))
+       
+        
+       
 
     }
 
@@ -61,29 +76,25 @@ class Cart extends Component {
     }
 
     render() {
-        let tempdata = [];
+        // let tempdata = [];
         console.log("this.props.data",this.props.data)
-        // console.log(this.state.cartData)
-        console.log("temp",this.state.tempData)
+        console.log("cartData",this.state.cartData)
         
 
-        if(this.state.cartData){
-            this.state.cartData.map(res=>{
-                // console.log("res",res) 
-         tempdata =  tempdata.concat({product_id :res.product_id._id,
-            quantity:res.quantity,
-            _id:res.product_id._id})})
-        }
+        // console.log("temp",this.state.tempData)
+        
+
+        // if(this.state.cartData){
+        //     this.state.cartData.map(res=>{
+        //  tempdata =  tempdata.concat({product_id :res._id,
+        //     quantity:res.quantity,
+        //     _id:res.product_id._id})})
+        // }
         // console.log("temp",tempdata)
 
         let orderTotal = 0
-        orderTotal = this.state.cartData.map(val => {
-            // console.log("val", val)
-
-            return (val.total_productCost)
-        }).reduce((sum, total_productCost) => {
-            return Number(sum) + Number(total_productCost)
-        }, 0)
+        orderTotal = this.state.cartData.map(val => {return (val.product_cost)
+        }).reduce((sum, product_cost) => {return Number(sum) + Number(product_cost)}, 0)
         const gst = Math.round(orderTotal / 100 * 5);
         const total = Number(gst) + Number(orderTotal)
 
@@ -116,25 +127,25 @@ class Cart extends Component {
                                 </thead>
 
                                 <tbody>
-                                    {this.props.data ? this.props.data.map(res => {
+                                    {this.state.cartData ? this.state.cartData.map(res => {
                                         return (
                                             <tr key={res._id}>
                                                 <td><div className="productdata">
-                                                    <div style={{ marginRight: "2%" }}><img src={"http://180.149.241.208:3022/" + res.product_id.product_image} width="70px" height="80px" /></div>
+                                                    <div style={{ marginRight: "2%" }}><img src={"http://180.149.241.208:3022/" + res.product_image} width="70px" height="80px" /></div>
                                                     <div style={{ marginLeft: "2%" }}>
-                                                        <div>{res.product_id.product_name}</div>
-                                                        <div>By : {res.product_id.product_producer}</div>
+                                                        <div>{res.product_name}</div>
+                                                        <div>By : {res.product_producer}</div>
                                                         <div>Status: In Stock</div>
                                                     </div></div>
                                                 </td>
                                                 <td><div>
                                                     <button style={{ backgroundColor: "transparent", border: "none" }}><i class="fa fa-minus-circle" aria-hidden="true"></i>
-                                                    </button>
-                                                    {res.quantity}
-                                                    <button style={{ backgroundColor: "transparent", border: "none" }} onClick={() => this.onClickQuantityHandle(res._id, res.quantity)}><i class="fa fa-plus-circle" aria-hidden="true"></i>
+                                                    </button>x
+                                                    {/* {res.quantity} */}
+                                                    <button style={{ backgroundColor: "transparent", border: "none" }} onClick={() => this.onClickQuantityHandle()}><i class="fa fa-plus-circle" aria-hidden="true"></i>
                                                     </button></div></td>
                                                 <td><div>{res.product_cost}</div></td>
-                                                <td>{res.total_cost}</td>
+                                                {/* <td>{res.total_cost}</td> */}
                                                 <td><button style={{ backgroundColor: "transparent", border: "none" }} onClick={() => this.onClickdeleteProductHandle(res._id)}><i class="fa fa-trash" aria-hidden="true"></i>
 
                                                 </button></td>
@@ -173,7 +184,7 @@ class Cart extends Component {
                             <div><button style={{ width: "90%", marginRight: "5%", marginLeft: "5%", marginBottom: "3%", backgroundColor: "lightblue" }} onClick={this.onClickAddressHandle}>Proceed To Pay</button></div>
                         </div>
                     </div> : <div className="addresscontainer">
-                        <DeliveryAddress save={this.onClickCartHandle} data={tempdata.concat({flag:"checkout"})} />
+                        <DeliveryAddress save={this.onClickCartHandle} />
                     </div>}
             </div>
         )

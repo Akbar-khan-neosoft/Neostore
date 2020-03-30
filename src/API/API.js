@@ -5,18 +5,20 @@ import {URL} from "../Redux/Constants"
 
 
 
-export const addToCartAPI =  (prd_id,quantity=1) => {
-    const localData = JSON.parse(localStorage.getItem("loginData")) 
-    console.log(prd_id,quantity,localData.token);
+export const addToCart =  (data) => {
+    console.log("data",data)
     
-    const data=[{
-        product_id:prd_id,
-        quantity : quantity,
-        _id:prd_id
-    },
-      {flag:"logout"}  ]
+    const cartData = JSON.parse(localStorage.getItem("cart")) || []
+    const duplicateProduct = cartData.map(res=>{
+        return res._id
+    }).find((id)=>{return id === data._id})
 
-	return (axios.post(URL + 'addProductToCartCheckout',data, {headers : {"Authorization": "Brearer " + localData.token }}));
+    if(duplicateProduct === data._id){
+        alert("Product already available  in cart")
+    }else{
+        localStorage.setItem('cart', JSON.stringify(cartData.concat(data)));
+        alert("Product added to cart")
+    }
 };
 
 export const updateQuantityAPI =  (prd_id,quantity) => {
