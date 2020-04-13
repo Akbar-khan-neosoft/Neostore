@@ -12,7 +12,7 @@ class DeliveryAddress extends Component{
     constructor(props){
         super(props)
         this.state={
-            custAddress:[],
+            custAddress:[], 
             editAddress:false,
             addAddress:false,
             address_id:"",
@@ -22,11 +22,14 @@ class DeliveryAddress extends Component{
 
     async componentDidMount(){
         const localData = JSON.parse(localStorage.getItem("loginData"))
+
+        if(localData){
         
         const res = await axios.get(URL + "getCustAddress", {headers : {"Authorization": "Brearer " + localData.token }})
         console.log(res.data.customer_address)
         
         this.setState({custAddress:res.data.customer_address})
+        }
     }
 
     editAddressHandle=(add_id)=>{

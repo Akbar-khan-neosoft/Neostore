@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import "../../Assets/CSS/Cart.css"
 import { fetchCartData } from "../../Redux/Actions/cartAction"
 import DeliveryAddress from "./DeliveryAddress";
+import Loading from "../../Components/Common/Loading"
 import axios from "axios";
 import { URL } from "../../Redux/Constants"
 import { addToCartAPI, deleteCustomerCartAPI,updateQuantityAPI } from "../../API/API"
@@ -15,6 +16,8 @@ class Cart extends Component {
         this.state = {
             cartData: [],
             totalCartItem: '',
+            temp: false,
+            flag:true,
             showCartDetail: true,
             showAddressDetail: false,
             }
@@ -30,11 +33,19 @@ class Cart extends Component {
 
     async componentDidMount() {
         const localCartData = JSON.parse(localStorage.getItem("cart")) || []
-            await this.props.onFetch()
-            const res = this.props.data.map(res=>{
-                return res.product_id
-            })
-
+        const localData = JSON.parse(localStorage.getItem("loginData"))
+        if(localData !== null && this.props.flag && this.state.flag){
+            console.log("kkkkkk",localData,this.props.flag,this.state.flag);
+            
+                await this.props.onFetch()
+                const res = this.props.data.map(res=>{
+                    return res.product_id
+                })
+                localStorage.setItem('cart', JSON.stringify(localCartData.concat(res)));
+                this.setState({flag:false})
+            }
+            this.setState({ cartData: JSON.parse(localStorage.getItem("cart"))})
+            // console.log("resaaaaaaass",this.state.cartData);
             // let result = [];
             // localCartData.filter(r =>{
             //     return res.filter(item=> {
@@ -50,35 +61,77 @@ class Cart extends Component {
             // const result = res.map( r =>{return r._id}).filter( item =>{ return !localCartData.includes(item)})
             //  console.log("resss",result,localCartData);
             
-              this.setState({ cartData: localCartData.concat(res)})
+            
         }
 
     onClickdeleteProductHandle = async (prd_id) => {
 
-        // const localCartData = JSON.parse(localStorage.getItem("cart"))
-        const index = JSON.parse(localStorage.getItem("cart")).findIndex(res=>{ return res === prd_id})
-        localStorage.removeItem(index)
+        const localCartData = JSON.parse(localStorage.getItem("cart"))
+        //  console.log("localCartData",prd_id)
+
+        const index = localCartData.findIndex(res=>{ return res._id === prd_id  })
+        console.log(index)
+        localCartData.splice(index,1)
+
+        // localStorage.removeItem(index)
+
+         localStorage.setItem('cart', JSON.stringify(localCartData));
+
         // const resss = this.state.cartData.splice(index,1)
-        // this.setState({ cartData: this.props.data })
-       console.log(JSON.parse(localStorage.getItem("cart")))
-       
+        this.setState({ cartData: JSON.parse(localStorage.getItem("cart")) })
+
+    //    console.log("akba",JSON.parse(localStorage.getItem("cart")))
+    // this.setState({temp:!this.state.temp})
+    }
+
+
+    onClickSubQuantityHandle = (prd_id) => {
+        const localCartData = JSON.parse(localStorage.getItem("cart"))
+        console.log("localCartData",prd_id)
+        const index = localCartData.findIndex(res=>{ return res._id === prd_id  })
+        console.log(localCartData[index].quantity)
         
-       
-
+        if(localCartData[index].quantity <= 1){
+            console.log("you are here");
+            
+            window.confirm("Are you sure,to remove this item from cart")
+            this.onClickdeleteProductHandle(prd_id);
+        }
+        else{
+            localCartData[index].quantity=localCartData[index].quantity-1;
+            localStorage.setItem('cart', JSON.stringify(localCartData));
+        this.setState({ cartData: JSON.parse(localStorage.getItem("cart")) })
+        }
+        
+        
     }
 
-
-
-    onClickQuantityHandle = async (prd_id, quant) => {
-        const quantity = quant + 1;
-        const res = await updateQuantityAPI(prd_id, quantity);
-        console.log(res)
+    onClickAddQuantityHandle = (prd_id) => {
+        const localCartData = JSON.parse(localStorage.getItem("cart"))
+        console.log("localCartData",prd_id)
+        const index = localCartData.findIndex(res=>{ return res._id === prd_id  })
+        localCartData[index].quantity=localCartData[index].quantity+1;
+        console.log("kkkkkkk---",localCartData);
+        localStorage.setItem('cart', JSON.stringify(localCartData));
+        this.setState({ cartData: JSON.parse(localStorage.getItem("cart")) })
+        
     }
 
+ 
     render() {
+       
+       
+        // let success=false;
+		// const localData = JSON.parse(localStorage.getItem("loginData"))
+		// if(localData !== null)
+		// {
+		// 	success = localData.success
+		// }
         // let tempdata = [];
-        console.log("this.props.data",this.props.data)
-        console.log("cartData",this.state.cartData)
+        // const localCartData = JSON.parse(localStorage.getItem("cart")) ||[]
+        // console.log("localCartData",localCartData)
+        // console.log("this.props.data",this.props.data)
+        // console.log("cartData",this.state.cartData)
         
 
         // console.log("temp",this.state.tempData)
@@ -93,12 +146,12 @@ class Cart extends Component {
         // console.log("temp",tempdata)
 
         let orderTotal = 0
-        orderTotal = this.state.cartData.map(val => {return (val.product_cost)
-        }).reduce((sum, product_cost) => {return Number(sum) + Number(product_cost)}, 0)
+        this.state.cartData ? orderTotal = this.state.cartData.map(val => {return (val.product_cost * val.quantity)
+        }).reduce((sum, product_cost) => {return Number(sum) + Number(product_cost)}, 0) : orderTotal = 0;
         const gst = Math.round(orderTotal / 100 * 5);
-        const total = Number(gst) + Number(orderTotal)
+        const total = Number(gst) + Number(orderTotal) 
 
-        return (
+        return ( this.state.cartData ? 
             <div className="cartcontainer">
                 <div className="cartheader">
                     <div onClick={this.onClickCartHandle} className="btn">{this.state.showCartDetail ?
@@ -139,13 +192,12 @@ class Cart extends Component {
                                                     </div></div>
                                                 </td>
                                                 <td><div>
-                                                    <button style={{ backgroundColor: "transparent", border: "none" }}><i class="fa fa-minus-circle" aria-hidden="true"></i>
-                                                    </button>x
-                                                    {/* {res.quantity} */}
-                                                    <button style={{ backgroundColor: "transparent", border: "none" }} onClick={() => this.onClickQuantityHandle()}><i class="fa fa-plus-circle" aria-hidden="true"></i>
+                                                    <button style={{ backgroundColor: "transparent", border: "none" }}onClick={() => this.onClickSubQuantityHandle(res._id)}><i class="fa fa-minus-circle" aria-hidden="true"></i>
+                                                    </button>{res.quantity}
+                                                    <button style={{ backgroundColor: "transparent", border: "none" }} onClick={() => this.onClickAddQuantityHandle(res._id)}><i class="fa fa-plus-circle" aria-hidden="true"></i>
                                                     </button></div></td>
                                                 <td><div>{res.product_cost}</div></td>
-                                                {/* <td>{res.total_cost}</td> */}
+                                                <td>{res.product_cost * res.quantity}</td>
                                                 <td><button style={{ backgroundColor: "transparent", border: "none" }} onClick={() => this.onClickdeleteProductHandle(res._id)}><i class="fa fa-trash" aria-hidden="true"></i>
 
                                                 </button></td>
@@ -186,14 +238,14 @@ class Cart extends Component {
                     </div> : <div className="addresscontainer">
                         <DeliveryAddress save={this.onClickCartHandle} />
                     </div>}
-            </div>
-        )
+            </div> : <div>No product in cart</div>
+        ) 
     }
 }
 const mapStateToProps = state => {
     console.log("cart", state);
 
-    return { data: state.cartReducer.data || [] };
+    return { data: state.cartReducer.data || [] , flag : state.loginReducer.isAuthenticated };
 };
 
 const mapDispatchToProps = dispatch => ({

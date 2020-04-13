@@ -16,7 +16,10 @@ class Dashboard_Popular_Product extends Component {
 		this.props.onFetch();
 	}
 
-	addToCartHandler = async (data) => {await addToCart(data)}
+	addToCartHandler = async (data) => {
+		data["quantity"]=1;		
+		await addToCart(data)
+	}
 
 	render() {
 		return (

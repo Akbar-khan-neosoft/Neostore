@@ -11,7 +11,10 @@ class ProductCard extends Component {
 		super(props)
 	}
 
-	addToCartHandler = async (data) => {await addToCart(data)}
+	addToCartHandler = async (data) => {		
+		data["quantity"]=1;
+		await addToCart(data)
+	}
 
 	render() {
 
