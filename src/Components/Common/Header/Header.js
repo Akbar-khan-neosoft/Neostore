@@ -16,6 +16,8 @@ class Header extends Component {
 	render() {
 		let success=false;
 		const localData = JSON.parse(localStorage.getItem("loginData"))
+		const localCartData = JSON.parse(localStorage.getItem("cart"))
+		const cartItemCount = localCartData.length
 		if(localData !== null)
 		{
 			success = localData.success
@@ -62,7 +64,7 @@ class Header extends Component {
 						<button className="Header-Button" >
 						<Link to="cart" >
 						<span><i class="fa fa-cart-plus" aria-hidden="true"></i>
-		Cart<sup><span class="badge badge-pill badge-danger">{this.props.button_value.length}</span></sup></span>	
+		Cart<sup><span class="badge badge-pill badge-danger">{cartItemCount}</span></sup></span>	
 						</Link>						
 						</button>
 					</div>

@@ -7,6 +7,7 @@ import Loading from "../../Components/Common/Loading"
 import axios from "axios";
 import { URL } from "../../Redux/Constants"
 import { addToCartAPI, deleteCustomerCartAPI,updateQuantityAPI } from "../../API/API"
+import NoProduct from "./NoProduct";
 
 
 
@@ -119,6 +120,12 @@ class Cart extends Component {
 
  
     render() {
+
+        // if(this.state.cartData === []){
+
+        // }
+        console.log("terrr",this.state.cartData.length);
+        
        
        
         // let success=false;
@@ -151,7 +158,7 @@ class Cart extends Component {
         const gst = Math.round(orderTotal / 100 * 5);
         const total = Number(gst) + Number(orderTotal) 
 
-        return ( this.state.cartData ? 
+        return ( this.state.cartData.length ? 
             <div className="cartcontainer">
                 <div className="cartheader">
                     <div onClick={this.onClickCartHandle} className="btn">{this.state.showCartDetail ?
@@ -238,7 +245,7 @@ class Cart extends Component {
                     </div> : <div className="addresscontainer">
                         <DeliveryAddress save={this.onClickCartHandle} />
                     </div>}
-            </div> : <div>No product in cart</div>
+            </div> : <NoProduct/>
         ) 
     }
 }
