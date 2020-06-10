@@ -96,10 +96,6 @@ class Product extends Component {
 		indexOfFirstPost = indexOfLastPost - this.state.cardsPerPage;
 		currentCard = this.state.post.slice(indexOfFirstPost, indexOfLastPost);
 
-		// if(this.state.post.length > 0)
-		// {console.log("true post",this.state.post)
-		// }else 
-		// 	{console.log("false",this.state.post)}
 		return (
 					 
 			 this.state.post.length > 0 ? <div className="product_container">
