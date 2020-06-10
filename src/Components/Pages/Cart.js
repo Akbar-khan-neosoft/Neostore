@@ -6,7 +6,7 @@ import DeliveryAddress from "./DeliveryAddress";
 import Loading from "../../Components/Common/Loading"
 import axios from "axios";
 import { URL } from "../../Redux/Constants"
-import { addToCartAPI, deleteCustomerCartAPI,updateQuantityAPI } from "../../API/API"
+import { addToCartAPI, deleteCustomerCartAPI, updateQuantityAPI } from "../../API/API"
 import NoProduct from "./NoProduct";
 
 
@@ -18,10 +18,10 @@ class Cart extends Component {
             cartData: [],
             totalCartItem: '',
             temp: false,
-            flag:true,
+            flag: true,
             showCartDetail: true,
             showAddressDetail: false,
-            }
+        }
     }
 
     onClickCartHandle = () => {
@@ -34,131 +34,85 @@ class Cart extends Component {
 
     async componentDidMount() {
         const localCartData = JSON.parse(localStorage.getItem("cart")) || []
-        const localData = JSON.parse(localStorage.getItem("loginData"))
-        if(localData !== null && this.props.flag && this.state.flag){
-            console.log("kkkkkk",localData,this.props.flag,this.state.flag);
-            
-                await this.props.onFetch()
-                const res = this.props.data.map(res=>{
-                    return res.product_id
-                })
-                localStorage.setItem('cart', JSON.stringify(localCartData.concat(res)));
-                this.setState({flag:false})
-            }
-            this.setState({ cartData: JSON.parse(localStorage.getItem("cart"))})
-            // console.log("resaaaaaaass",this.state.cartData);
-            // let result = [];
-            // localCartData.filter(r =>{
-            //     return res.filter(item=> {
-            //         console.log(r,item)
-                    
-            //         if (r._id !== item._id) {
-            //             if(!result.includes(item))
-            //             {result.push( item )}
-            //       }
-            //     })
-            //   });
+        // const localData = JSON.parse(localStorage.getItem("loginData"))
+        // if(localData !== null && this.props.flag && this.state.flag){
+        //     console.log("kkkkkk",localData,this.props.flag,this.state.flag);
 
-            // const result = res.map( r =>{return r._id}).filter( item =>{ return !localCartData.includes(item)})
-            //  console.log("resss",result,localCartData);
-            
-            
-        }
+        //         await this.props.onFetch()
+        //         const res = this.props.data.map(res=>{
+        //             return res.product_id
+        //         })
+        //         localStorage.setItem('cart', JSON.stringify(localCartData.concat(res)));
+        //         this.setState({flag:false})
+        //     }
+        this.setState({ cartData: localCartData })
+    }
 
     onClickdeleteProductHandle = async (prd_id) => {
 
         const localCartData = JSON.parse(localStorage.getItem("cart"))
         //  console.log("localCartData",prd_id)
 
-        const index = localCartData.findIndex(res=>{ return res._id === prd_id  })
+        const index = localCartData.findIndex(res => { return res._id === prd_id })
         console.log(index)
-        localCartData.splice(index,1)
+        localCartData.splice(index, 1)
 
         // localStorage.removeItem(index)
 
-         localStorage.setItem('cart', JSON.stringify(localCartData));
+        localStorage.setItem('cart', JSON.stringify(localCartData));
 
         // const resss = this.state.cartData.splice(index,1)
         this.setState({ cartData: JSON.parse(localStorage.getItem("cart")) })
 
-    //    console.log("akba",JSON.parse(localStorage.getItem("cart")))
-    // this.setState({temp:!this.state.temp})
+        //    console.log("akba",JSON.parse(localStorage.getItem("cart")))
+        // this.setState({temp:!this.state.temp})
     }
 
 
     onClickSubQuantityHandle = (prd_id) => {
         const localCartData = JSON.parse(localStorage.getItem("cart"))
-        console.log("localCartData",prd_id)
-        const index = localCartData.findIndex(res=>{ return res._id === prd_id  })
+        console.log("localCartData", prd_id)
+        const index = localCartData.findIndex(res => { return res._id === prd_id })
         console.log(localCartData[index].quantity)
-        
-        if(localCartData[index].quantity <= 1){
+
+        if (localCartData[index].quantity <= 1) {
             console.log("you are here");
-            
+
             window.confirm("Are you sure,to remove this item from cart")
             this.onClickdeleteProductHandle(prd_id);
         }
-        else{
-            localCartData[index].quantity=localCartData[index].quantity-1;
+        else {
+            localCartData[index].quantity = localCartData[index].quantity - 1;
             localStorage.setItem('cart', JSON.stringify(localCartData));
-        this.setState({ cartData: JSON.parse(localStorage.getItem("cart")) })
+            this.setState({ cartData: JSON.parse(localStorage.getItem("cart")) })
         }
-        
-        
+
+
     }
 
     onClickAddQuantityHandle = (prd_id) => {
         const localCartData = JSON.parse(localStorage.getItem("cart"))
-        console.log("localCartData",prd_id)
-        const index = localCartData.findIndex(res=>{ return res._id === prd_id  })
-        localCartData[index].quantity=localCartData[index].quantity+1;
-        console.log("kkkkkkk---",localCartData);
+        console.log("localCartData", prd_id)
+        const index = localCartData.findIndex(res => { return res._id === prd_id })
+        localCartData[index].quantity = localCartData[index].quantity + 1;
+        console.log("kkkkkkk---", localCartData);
         localStorage.setItem('cart', JSON.stringify(localCartData));
         this.setState({ cartData: JSON.parse(localStorage.getItem("cart")) })
-        
+
     }
 
- 
+
     render() {
-
-        // if(this.state.cartData === []){
-
-        // }
-        console.log("terrr",this.state.cartData.length);
-        
-       
-       
-        // let success=false;
-		// const localData = JSON.parse(localStorage.getItem("loginData"))
-		// if(localData !== null)
-		// {
-		// 	success = localData.success
-		// }
-        // let tempdata = [];
-        // const localCartData = JSON.parse(localStorage.getItem("cart")) ||[]
-        // console.log("localCartData",localCartData)
-        // console.log("this.props.data",this.props.data)
-        // console.log("cartData",this.state.cartData)
-        
-
-        // console.log("temp",this.state.tempData)
-        
-
-        // if(this.state.cartData){
-        //     this.state.cartData.map(res=>{
-        //  tempdata =  tempdata.concat({product_id :res._id,
-        //     quantity:res.quantity,
-        //     _id:res.product_id._id})})
-        // }
-        // console.log("temp",tempdata)
+        console.log("cartdata", this.state.cartData);
 
         let orderTotal = 0
-        this.state.cartData ? orderTotal = this.state.cartData.map(val => {return (val.product_cost * val.quantity)
-        }).reduce((sum, product_cost) => {return Number(sum) + Number(product_cost)}, 0) : orderTotal = 0;
+        this.state.cartData ? orderTotal = this.state.cartData.map(val => {
+            return (val.product_cost * val.quantity)
+        }).reduce((sum, product_cost) => { return Number(sum) + Number(product_cost) }, 0) : orderTotal = 0;
         const gst = Math.round(orderTotal / 100 * 5);
-        const total = Number(gst) + Number(orderTotal) 
+        const total = Number(gst) + Number(orderTotal)
 
-        return ( this.state.cartData.length ? 
+        return (this.state.cartData.length ?
             <div className="cartcontainer">
                 <div className="cartheader">
                     <div onClick={this.onClickCartHandle} className="btn">{this.state.showCartDetail ?
@@ -189,17 +143,19 @@ class Cart extends Component {
                                 <tbody>
                                     {this.state.cartData ? this.state.cartData.map(res => {
                                         return (
-                                            <tr key={res._id}>
+                                            <tr key={res.product_id._id}>
+                                                {console.log("res", res)}
+
                                                 <td><div className="productdata">
-                                                    <div style={{ marginRight: "2%" }}><img src={"http://180.149.241.208:3022/" + res.product_image} width="70px" height="80px" /></div>
+                                                    <div style={{ marginRight: "2%" }}><img src={"http://180.149.241.208:3022/" + res.product_id.product_image} width="70px" height="80px" /></div>
                                                     <div style={{ marginLeft: "2%" }}>
-                                                        <div>{res.product_name}</div>
-                                                        <div>By : {res.product_producer}</div>
+                                                        <div>{res.product_id.product_name}</div>
+                                                        <div>By : {res.product_id.product_producer}</div>
                                                         <div>Status: In Stock</div>
                                                     </div></div>
                                                 </td>
                                                 <td><div>
-                                                    <button style={{ backgroundColor: "transparent", border: "none" }}onClick={() => this.onClickSubQuantityHandle(res._id)}><i class="fa fa-minus-circle" aria-hidden="true"></i>
+                                                    <button style={{ backgroundColor: "transparent", border: "none" }} onClick={() => this.onClickSubQuantityHandle(res._id)}><i class="fa fa-minus-circle" aria-hidden="true"></i>
                                                     </button>{res.quantity}
                                                     <button style={{ backgroundColor: "transparent", border: "none" }} onClick={() => this.onClickAddQuantityHandle(res._id)}><i class="fa fa-plus-circle" aria-hidden="true"></i>
                                                     </button></div></td>
@@ -209,7 +165,7 @@ class Cart extends Component {
 
                                                 </button></td>
                                             </tr>
-                                           
+
                                         )
                                     }) : []}
 
@@ -245,18 +201,18 @@ class Cart extends Component {
                     </div> : <div className="addresscontainer">
                         <DeliveryAddress save={this.onClickCartHandle} />
                     </div>}
-            </div> : <NoProduct/>
-        ) 
+            </div> : <NoProduct />
+        )
     }
 }
-const mapStateToProps = state => {
-    console.log("cart", state);
+// const mapStateToProps = state => {
+//     console.log("cart", state);
 
-    return { data: state.cartReducer.data || [] , flag : state.loginReducer.isAuthenticated };
-};
+//     return { data: state.cartReducer.data || [] , flag : state.loginReducer.isAuthenticated };
+// };
 
 const mapDispatchToProps = dispatch => ({
     onFetch: () => dispatch(fetchCartData())
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Cart)
+export default connect(null, mapDispatchToProps)(Cart)

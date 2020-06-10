@@ -4,12 +4,14 @@ import { BrowserRouter as Router, Link } from 'react-router-dom';
 import {connect} from "react-redux"
 import { withRouter } from 'react-router-dom'
 import {fetchlogout} from "../../../Redux/Actions/loginAction"
+import Searchbox from '../../../NeoStore_Router/Searchbox';
 
 class Header extends Component {
 
 	onLogoutHandle=async()=>{
+		
+		await this.props.onFetch()
 		localStorage.clear();
-		const res = await this.props.onFetch()
 		this.props.history.push("/")
 		
 	}
@@ -17,7 +19,7 @@ class Header extends Component {
 		let success=false;
 		const localData = JSON.parse(localStorage.getItem("loginData"))
 		const localCartData = JSON.parse(localStorage.getItem("cart"))
-		const cartItemCount = localCartData.length
+		const cartItemCount = localCartData ? localCartData.length : 0
 		if(localData !== null)
 		{
 			success = localData.success
@@ -54,11 +56,12 @@ class Header extends Component {
 				</div>
 				<div className="Header-search">
 					<div className="searchbox">
-						<input
+						<Searchbox/>
+						{/* <input
 							class="form-control form-control-lg form-control-borderless"
 							type="search"
 							placeholder="Search.."
-						/>
+						/> */}
 					</div>
 					<div>
 						<button className="Header-Button" >

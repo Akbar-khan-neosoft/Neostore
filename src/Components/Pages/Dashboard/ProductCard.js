@@ -25,6 +25,8 @@ class ProductCard extends Component {
 					return [res].map(d => {
 						return (
 							<div className="card" key={d.product_id}>
+								{console.log("testing time",res)}
+								
 								<div className="product_card_thumbnail">
 									<img
 										style={{
@@ -85,7 +87,7 @@ class ProductCard extends Component {
 													borderRadius: '10px',
 													margin: 'auto',
 												}}
-												onClick={() => this.addToCartHandler(d)}
+												onClick={() => this.addToCartHandler(res)}
 											>
 												<a
 													href="#"

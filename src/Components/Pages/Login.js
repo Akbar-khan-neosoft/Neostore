@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { fetchlogin } from '../../Redux/Actions/loginAction';
+import { fetchCartData } from '../../Redux/Actions/cartAction'
 import '../../Assets/CSS/Login.css';
-import {EMAIL_REGEX,customErrorMessages} from '../../Utils/validation'
+import { EMAIL_REGEX, customErrorMessages } from '../../Utils/validation'
 import {
 	FacebookButton,
 	GoogleButton,
@@ -15,13 +16,13 @@ class Login extends Component {
 	constructor() {
 		super();
 		this.state = {
-			data:{
+			data: {
 				email: '',
 				password: '',
 			},
 			disableButton: true,
 			// isAuth:false,
-			error:{
+			error: {
 				emailError: false,
 				passwordError: false,
 				errorMessage: '',
@@ -29,13 +30,14 @@ class Login extends Component {
 		};
 	}
 
-	componentDidMount(){
-		if(this.props.login){
+	componentDidMount() {
+		if (this.props.login) {
 			this.props.history.push("/")
 		}
 	}
 
-	onSubmitHandler =  async () => {
+	onSubmitHandler = async () => {
+		const localCartData = JSON.parse(localStorage.getItem("cart")) || []
 		const data = {
 			email: this.state.data.email,
 			pass: this.state.data.password,
@@ -43,37 +45,42 @@ class Login extends Component {
 
 		await this.props.onFetch(data);
 		localStorage.setItem('loginData', JSON.stringify(this.props.data));
-		// this.setState({isAuth:true})
-		// localStorage.setItem('loginAuth',(this.state.isAuth));
-		
+		await this.props.onFetchCart()
+		// const res = this.props.cartdata.map(res => {
+		// 	return res.product_id
+		// })
+		localStorage.setItem('cart', JSON.stringify(this.props.cartdata));
+
 		this.props.history.push('/');
 	};
 
-	onChangeHandler = ({target : input}) => {
+	onChangeHandler = ({ target: input }) => {
 		const data = { ...this.state.data };
 		data[input.name] = input.value;
 		this.setState({ data });
-		};
+	};
 
 	validate = () => {
-		const {email,password}=this.state.data
-		this.setState({error: { passwordError: false, emailError: false, errorMessage: '' }});
+		const { email, password } = this.state.data
+		this.setState({ error: { passwordError: false, emailError: false, errorMessage: '' } });
 
-		if (email === ''||!EMAIL_REGEX.test(email)) {
+		if (email === '' || !EMAIL_REGEX.test(email)) {
 			const { valueMissing, typeMismatch } = customErrorMessages.email;
 			const erroremail = email === "" ? valueMissing : typeMismatch;
-			this.setState({error: { emailError: true, errorMessage: erroremail}, disableButton: true });
-			
-		} else if (password === ''||password.length < 8) {
+			this.setState({ error: { emailError: true, errorMessage: erroremail }, disableButton: true });
+
+		} else if (password === '' || password.length < 8) {
 			const { valueMissing, patternMismatch } = customErrorMessages.password;
 			const errorpassowrd = password === "" ? valueMissing : patternMismatch;
-			
-			this.setState({error: {
-				passwordError: true,
-				errorMessage: errorpassowrd},
+
+			this.setState({
+				error: {
+					passwordError: true,
+					errorMessage: errorpassowrd
+				},
 				disableButton: true,
 			});
-			
+
 		} else {
 			this.setState({
 				disableButton: false,
@@ -82,10 +89,10 @@ class Login extends Component {
 	};
 
 	render() {
-		
-		const {email,password}=this.state.data
-		const{emailError,passwordError,errorMessage} = this.state.error
-		
+
+		const { email, password } = this.state.data
+		const { emailError, passwordError, errorMessage } = this.state.error
+
 		return (
 			<div className="login_container">
 				<div className="login_main">
@@ -161,13 +168,17 @@ class Login extends Component {
 }
 
 const mapStateToProps = state => {
-	console.log('aaaa - >', state.loginReducer);
+	console.log('aaaa - >', state.cartReducer.data);
 	// return { data: state.loginReducer || [] };
-	return { data: state.loginReducer.data || [], login : state.loginReducer.isAuthenticated };
+	return { 
+		data: state.loginReducer.data || [], 
+		login: state.loginReducer.isAuthenticated, 
+		cartdata: state.cartReducer.data || [] };
 };
 
 const mapDispatchToProps = dispatch => ({
 	onFetch: data => dispatch(fetchlogin(data)),
+	onFetchCart: () => dispatch(fetchCartData())
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login);

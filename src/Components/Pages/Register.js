@@ -272,10 +272,11 @@ class Register extends Component {
 										placeholder="Password"
 										name="password"
 										inputProps={
-											{ maxLength: 12 }
+											{maxLength: 12} 
 										}
 										onChange={this.handleChange}
-										onBlur={()=>this.validate("password")} endAdornment={
+										onBlur={()=>this.validate("password")} 
+										endAdornment={
 											<InputAdornment position="end">
 												<IconButton
 													aria-label="toggle password visibility"
