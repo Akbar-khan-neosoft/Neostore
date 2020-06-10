@@ -48,6 +48,7 @@ class Product extends Component {
 	allCategoriesHandler = async category_id => {
 		const categoriesData = await axios.get(URL + 'getProductByCateg/' + category_id);
 		this.setState({ post: categoriesData.data.product_details, currentPage: 1, cardsPerPage: 9,heading:categoriesData.data.product_details[0].category_id.category_name });
+		// this.props.history.push("/product/" + category_id);
 	};
 
 	allColorHandler = async color_id => {

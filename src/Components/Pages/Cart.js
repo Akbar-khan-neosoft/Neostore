@@ -143,14 +143,14 @@ class Cart extends Component {
                                 <tbody>
                                     {this.state.cartData ? this.state.cartData.map(res => {
                                         return (
-                                            <tr key={res.product_id._id}>
+                                            <tr key={res._id}>
                                                 {console.log("res", res)}
 
                                                 <td><div className="productdata">
-                                                    <div style={{ marginRight: "2%" }}><img src={"http://180.149.241.208:3022/" + res.product_id.product_image} width="70px" height="80px" /></div>
+                                                    <div style={{ marginRight: "2%" }}><img src={"http://180.149.241.208:3022/" + res.product_image} width="70px" height="80px" /></div>
                                                     <div style={{ marginLeft: "2%" }}>
-                                                        <div>{res.product_id.product_name}</div>
-                                                        <div>By : {res.product_id.product_producer}</div>
+                                                        <div>{res.product_name}</div>
+                                                        <div>By : {res.product_producer}</div>
                                                         <div>Status: In Stock</div>
                                                     </div></div>
                                                 </td>

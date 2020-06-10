@@ -49,7 +49,7 @@ class Login extends Component {
 		// const res = this.props.cartdata.map(res => {
 		// 	return res.product_id
 		// })
-		localStorage.setItem('cart', JSON.stringify(this.props.cartdata));
+		localStorage.setItem('cart', localCartData.concat(JSON.stringify(this.props.cartdata)));
 
 		this.props.history.push('/');
 	};

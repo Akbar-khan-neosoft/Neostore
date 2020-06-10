@@ -19,9 +19,9 @@ class DashboardCarousel extends Component {
 		this.props.onFetch();
 	}
 
-	onSliderClickHandle=async()=>{
+	onSliderClickHandle=async(category_id)=>{
 
-		this.props.history.push("/product");
+		this.props.history.push("/product/" + category_id);
 		
 		// const 	category_id = id;
 		// const	color_id="";
@@ -34,6 +34,26 @@ class DashboardCarousel extends Component {
 		// const res = await axios.get(URL + 'commonProducts/' + category_id + color_id + sortBy + sortIn + name + pageNo + perPage )        
 		// alert(res + ",You Are Redirected To HomePage Now");
 	}
+	// <Carousel.Item>
+    //                     <img
+    //                         className="d-block w-100"
+    //                         src={URL + item.product_image}
+    //                         alt={item.category_name}
+    //                         key={i}
+    //                         height="500px"
+    //                         onClick={()=>{
+    //                             sweetalert2.fire({
+    //                                 'text':'Getting products ready for you in 2 seconds',
+    //                                 'icon':'success'
+    //                             });
+    //                             setTimeout(()=>{
+    //                                 props.history.push(`/products/${item.category_id}`)
+    //                                 // props.history.push(`/products/${item.category_id}`)
+    //                             },1000) 
+    //                         }
+    //                         }
+
+    //                     />
 
 	render() {
 		return (
@@ -42,7 +62,9 @@ class DashboardCarousel extends Component {
 					<div class="carousel-inner">
 						{this.props.data.map((item, index) => (
 							<div  class={`carousel-item ${index == 0 ? 'active' : ''}`} key={index}>
-								<img className ="btn" src={URL + item.product_image} width="100%" height="350px" alt="..." onClick={this.onSliderClickHandle} />
+								{console.log("item",item)}
+								
+								<img className ="btn" src={URL + item.product_image} width="100%" height="350px" alt="..." onClick={()=>{this.onSliderClickHandle(item.category_id)}} />
 							</div>
 						))}
 					</div>

@@ -3,6 +3,7 @@ import StarRatingComponent from "react-star-rating-component"
 import "../../Assets/CSS/ProductDetails.css"
 import { URL } from "../../Redux/Constants"
 import axios from "axios"
+import ReactImageMagnify from 'react-image-magnify';
 
 
 class ProductDetails extends Component {
@@ -58,8 +59,39 @@ class ProductDetails extends Component {
         
 
         {
-            this.state.changeImage ? imageData = <img style={{ width: "100%", height: "250px" }} src={URL + productData.product_image} alt="main" />
-            : imageData = <img style={{ width: "100%", height: "250px" }} src={URL + this.state.imageId} />
+            this.state.changeImage ? imageData = 
+            <ReactImageMagnify
+            {...{
+                smallImage: {
+                    alt: "main",
+                    src: URL + productData.product_image,
+                    width: 500,
+                    height: 250
+                },
+                largeImage: {
+                    src: URL + productData.product_image,
+                    width: 1000,
+                    height: 500,
+                },
+            }}
+            />
+            // <img style={{ width: "100%", height: "250px" }} src={URL + productData.product_image} alt="main" />
+            : imageData = 
+            <ReactImageMagnify
+            {...{
+                smallImage: {
+                    alt: "main",
+                    src: URL + this.state.imageId,
+                    width: 500,
+                    height: 250
+                },
+                largeImage: {
+                    src: URL + this.state.imageId,
+                    width: 1000,
+                    height: 500,
+                },
+            }}/>
+            // <img style={{ width: "100%", height: "250px" }} src={URL + this.state.imageId} />
         }
         return (
             <div className="productdetailscontainer">

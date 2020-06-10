@@ -27,7 +27,7 @@ function Routes(){
                         <Route exact path="/register" component={Register} />
                         <Route exact path="/contactus" component={ContactForm} />
                         <Route exact path="/forgotpassword" component={ForgotPassword} />
-                        <Route exact path="/product" component={Product} />
+                        <Route path="/product/:id" component={Product} />
                         <Route exact path="/recoverpassword" component={RecoverPassword} />
                         <Route exact path="/productdetails" component={ProductDetails} />
                         <ProtectedRoutes exact path="/myaccount" component={Profile} />
