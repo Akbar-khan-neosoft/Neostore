@@ -79,7 +79,7 @@ class Footer extends Component {
 								{this.state.getGuarantee_res
 									? [this.state.getGuarantee_res].map(res => {
 											return (
-												<li>
+												<li key={res.guarantee_details[0].fileName}>
 													<a
 														style={{ textDecoration: 'none', color: 'white' }}
 														target="_blank"
@@ -97,9 +97,9 @@ class Footer extends Component {
 									</Link>
 								</li>
 								<li>
-									<a style={{ textDecoration: 'none', color: 'white' }} href="#">
+									<span style={{ textDecoration: 'none', color: 'white' }}>
 										Privacy Policy
-									</a>
+									</span>
 								</li>
 								<li>
 								<Link to="/locateus" style={{ textDecoration: 'none', color: 'white' }}>

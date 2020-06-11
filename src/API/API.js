@@ -6,7 +6,6 @@ import {URL} from "../Redux/Constants"
 
 
 export const addToCart =  (data) => {
-    console.log("data",data)
     
     const cartData = JSON.parse(localStorage.getItem("cart")) || []
     const duplicateProduct = cartData.map(res=>{

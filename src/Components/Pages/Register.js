@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import { URL } from '../../Redux/Constants/index';
 import '../../Assets/CSS/Register.css';
-import { TextField, FormControl, OutlinedInput, InputLabel, IconButton, inputprops, InputAdornment } from '@material-ui/core';
+import { TextField, FormControl, OutlinedInput, InputLabel, IconButton, InputAdornment } from '@material-ui/core';
 import { Visibility, VisibilityOff } from '@material-ui/icons';
 import TextFieldsIcon from '@material-ui/icons/TextFields';
 import CallIcon from '@material-ui/icons/Call';
@@ -13,7 +13,6 @@ import { GoogleButton, FacebookButton } from '../Common/SocialLoginButtons/Socia
 import { EMAIL_REGEX, NAME_REGEX, customErrorMessages } from '../../Utils/validation'
 
 
-// const emailRegex = RegExp(/^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/);
 
 class Register extends Component {
 	constructor() {

@@ -26,7 +26,7 @@ class Product extends Component {
 			allColor: [],
 			currentPage: 1,
 			cardsPerPage: 9,
-			heading:"All Categories"
+			heading: "All Categories"
 		};
 	}
 
@@ -47,58 +47,47 @@ class Product extends Component {
 
 	allCategoriesHandler = async category_id => {
 		const categoriesData = await axios.get(URL + 'getProductByCateg/' + category_id);
-		this.setState({ post: categoriesData.data.product_details, currentPage: 1, cardsPerPage: 9,heading:categoriesData.data.product_details[0].category_id.category_name });
-		// this.props.history.push("/product/" + category_id);
+		this.setState({ post: categoriesData.data.product_details, currentPage: 1, cardsPerPage: 9, heading: categoriesData.data.product_details[0].category_id.category_name });
 	};
 
 	allColorHandler = async color_id => {
 		const colorData = await axios.get(URL + 'getProductByColor/' + color_id);
-
-		// console.log('color data - >', colorData.data.product_details);
 		Array.isArray(colorData.data.product_details)
-			? this.setState({ post: colorData.data.product_details, currentPage: 1, cardsPerPage: 9,heading:colorData.data.product_details[0].category_id.category_name  })
-			: this.setState({ post: [], currentPage: 1, cardsPerPage: 9,heading:"" });
+			? this.setState({ post: colorData.data.product_details, currentPage: 1, cardsPerPage: 9, heading: colorData.data.product_details[0].category_id.category_name })
+			: this.setState({ post: [], currentPage: 1, cardsPerPage: 9, heading: "" });
 	};
 
 	onAllProductClickHandle = () => {
-		this.setState({ post: this.props.data, currentPage: 1, cardsPerPage: 9,heading:"All Categories"  });
+		this.setState({ post: this.props.data, currentPage: 1, cardsPerPage: 9, heading: "All Categories" });
 	};
 
-	sortByRating=async()=>{
+	sortByRating = async () => {
 		const ratingSortedData = await axios.get(URL + 'getAllProductsInHighestRating');
-		// console.log("sorted=",ratingSortedData.data.product_details);
-		 this.setState({ post: ratingSortedData.data.product_details, currentPage: 1, cardsPerPage: 9,heading:"All Categories" });
+		this.setState({ post: ratingSortedData.data.product_details, currentPage: 1, cardsPerPage: 9, heading: "All Categories" });
 	};
 
-	sortByAscending=async()=>{
+	sortByAscending = async () => {
 		const ascSortedData = await axios.get(URL + 'getAllProductsInAscending');
-		// console.log("sorted=",ascSortedData.data.product_details);
-		 this.setState({ post: ascSortedData.data.product_details, currentPage: 1, cardsPerPage: 9,heading:"All Categories" });
+		this.setState({ post: ascSortedData.data.product_details, currentPage: 1, cardsPerPage: 9, heading: "All Categories" });
 	};
 
-	sortByDescending=async()=>{
+	sortByDescending = async () => {
 		const desSortedData = await axios.get(URL + 'getAllProductsInDescending');
-		// console.log("sorted=",desSortedData.data.product_details);
-		 this.setState({ post: desSortedData.data.product_details, currentPage: 1, cardsPerPage: 9,heading:"All Categories" });
-	
+		this.setState({ post: desSortedData.data.product_details, currentPage: 1, cardsPerPage: 9, heading: "All Categories" });
+
 	};
 
 	render() {
 		const heading = this.state.heading
-		// console.log('allColor -=- >', this.state.allColor);
-		const {allCategories,allColor} = this.state
-		// console.log("jhjhfjhhf ===",this.state,allCategories,allColor)
-
-
-
+		const { allCategories, allColor } = this.state
 
 		indexOfLastPost = this.state.currentPage * this.state.cardsPerPage;
 		indexOfFirstPost = indexOfLastPost - this.state.cardsPerPage;
 		currentCard = this.state.post.slice(indexOfFirstPost, indexOfLastPost);
 
 		return (
-					 
-			 this.state.post.length > 0 ? <div className="product_container">
+
+			this.state.post.length > 0 ? <div className="product_container">
 				<div className="product">
 					<div className="side_filter">
 						<div className="allProductButton btn" onClick={this.onAllProductClickHandle}>
@@ -117,18 +106,18 @@ class Product extends Component {
 									<Typography className="col-12 mb-2 ">
 										{allCategories
 											? allCategories.map(res => {
-													return (
-														<div
-															className="btn"
-															style={{ textAlign: 'center', width: '100%' }}
-															key={res._id}
-															onClick={() => this.allCategoriesHandler(res.category_id)}
-														>
-															{res.category_name}
-															<hr></hr>
-														</div>
-													);
-											  })
+												return (
+													<span
+														className="btn"
+														style={{ textAlign: 'center', width: '100%' }}
+														key={res._id}
+														onClick={() => this.allCategoriesHandler(res.category_id)}
+													>
+														{res.category_name}
+														<hr></hr>
+													</span>
+												);
+											})
 											: []}
 									</Typography>
 								</ExpansionPanelDetails>
@@ -147,15 +136,15 @@ class Product extends Component {
 									<Typography className="col-12 mb-2 ">
 										{allColor
 											? allColor.map(res => {
-													return (
-														<div
-															className="colorfilter btn"
-															style={{ backgroundColor: res.color_code }}
-															key={res._id}
-															onClick={() => this.allColorHandler(res.color_id)}
-														></div>
-													);
-											  })
+												return (
+													<span
+														className="colorfilter btn"
+														style={{ backgroundColor: res.color_code }}
+														key={res._id}
+														onClick={() => this.allColorHandler(res.color_id)}
+													></span>
+												);
+											})
 											: []}
 									</Typography>
 								</ExpansionPanelDetails>
@@ -164,25 +153,24 @@ class Product extends Component {
 					</div>
 					<div className="all_product">
 						<div className="all_product_header">
-						<div className="headingcontent"><h3>{heading}</h3></div>
-						<div className="sortingbuttoncontainer">Sort By:
+							<div className="headingcontent"><h3>{heading}</h3></div>
+							<div className="sortingbuttoncontainer">Sort By:
 							<button className="sortingbutton" onClick={this.sortByRating}>
-								<i class="fa fa-star" aria-hidden="true"></i>
+									<i class="fa fa-star" aria-hidden="true"></i>
 								</button>
-						<button className="sortingbutton" onClick={this.sortByAscending}>
-							<i class="fa fa-inr fa-lg" aria-hidden="true"></i>
-							<i class="fa fa-arrow-up" aria-hidden="true"></i>
-							</button>
-						<button className="sortingbutton" onClick={this.sortByDescending}>
-							<i class="fa fa-inr fa-lg" aria-hidden="true"></i>
-							<i class="fa fa-arrow-down" aria-hidden="true"></i>
-							</button>
+								<button className="sortingbutton" onClick={this.sortByAscending}>
+									<i class="fa fa-inr fa-lg" aria-hidden="true"></i>
+									<i class="fa fa-arrow-up" aria-hidden="true"></i>
+								</button>
+								<button className="sortingbutton" onClick={this.sortByDescending}>
+									<i class="fa fa-inr fa-lg" aria-hidden="true"></i>
+									<i class="fa fa-arrow-down" aria-hidden="true"></i>
+								</button>
+							</div>
 						</div>
-						</div>
-						{console.log('zdfsdfdsf', currentCard.length === 0, currentCard)}
 						{currentCard.length !== 0 ? (
 							<ProductCard data={currentCard} />
-						) : (<ErrorPage/>)}
+						) : (<ErrorPage />)}
 					</div>
 				</div>
 				<div className="product_pagination">
@@ -192,7 +180,7 @@ class Product extends Component {
 						paginate={this.handlePageChange}
 					/>
 				</div>
-			</div> : <Loading/>
+			</div> : <Loading />
 		);
 	}
 }

@@ -10,8 +10,8 @@ import RecoverPassword from '../Components/Pages/RecoverPassword';
 import ProductDetails from '../Components/Pages/ProductDetails';
 import Profile from '../Components/Pages/Profile';
 import AddNewAddress from '../Components/Pages/AddNewAddress';
-import ProtectedRoutes from "../NeoStore_Router/ProtectedRoutes"
-
+import ProtectedRoutesLogin from "../NeoStore_Router/ProtectedRoutesLogin"
+import ProtectedRoutesLogout from "../NeoStore_Router/ProtectedRoutesLogout"
 import ChangePassword from "../Components/Pages/ChangePassword";
 import Order from "../Components/Pages/Order";
 import Cart from "../Components/Pages/Cart";
@@ -20,24 +20,21 @@ import LocateUs from "../Components/Pages/LocateUs";
 function Routes(){
     return(
 
-					
                     <Switch>
                         <Route exact path="/" component={Dashboard} />
-                        <Route exact path="/login" component={Login} />
-                        <Route exact path="/register" component={Register} />
+                        <ProtectedRoutesLogin exact path="/login" component={Login} />
+                        <ProtectedRoutesLogin exact path="/register" component={Register} />
                         <Route exact path="/contactus" component={ContactForm} />
                         <Route exact path="/forgotpassword" component={ForgotPassword} />
                         <Route path="/product" component={Product} />
                         <Route exact path="/recoverpassword" component={RecoverPassword} />
                         <Route exact path="/productdetails" component={ProductDetails} />
-                        <ProtectedRoutes exact path="/myaccount" component={Profile} />
-                        <Route exact path="/address" component={AddNewAddress} />
-                        <Route exact path="/changepassword" component={ChangePassword} />
+                        <ProtectedRoutesLogout exact path="/myaccount" component={Profile} />
+                        <ProtectedRoutesLogout exact path="/address" component={AddNewAddress} />
+                        <ProtectedRoutesLogout exact path="/changepassword" component={ChangePassword} />
                         <Route exact path="/cart" component={Cart} />
                         <Route exact path="/locateus" component={LocateUs} />
-
-
-                        <ProtectedRoutes exact path="/order" component={Order} />
+                        <ProtectedRoutesLogout exact path="/order" component={Order} />
                     </Switch>
  
     )

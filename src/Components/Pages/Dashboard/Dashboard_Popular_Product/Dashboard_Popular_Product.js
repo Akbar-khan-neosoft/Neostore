@@ -2,22 +2,19 @@ import React, { Component } from 'react';
 import '../../../../Assets/CSS/Dashboard_Popular_Product.css';
 import { connect } from 'react-redux';
 import { fetchPopularProductData } from '../../../../Redux/Actions/popularProductAction';
-import {addToCart} from "../../../../API/API"
+import { addToCart } from "../../../../API/API"
 import { URL } from '../../../../Redux/Constants';
 import StarRatingComponent from 'react-star-rating-component';
-import { Link ,withRouter} from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 
 class Dashboard_Popular_Product extends Component {
-	constructor() {
-		super();
-	}
 
 	componentDidMount() {
 		this.props.onFetch();
 	}
 
 	addToCartHandler = async (data) => {
-		data["quantity"]=1;		
+		data["quantity"] = 1;
 		await addToCart(data)
 	}
 
@@ -54,8 +51,6 @@ class Dashboard_Popular_Product extends Component {
 														textAlign: 'center',
 													}}
 												>
-													{console.log("testgg - >",)}
-													
 													<Link to={{
 														pathname: "/productdetails",
 														state: {
@@ -104,6 +99,7 @@ class Dashboard_Popular_Product extends Component {
 											</div>
 											<div className="text-center">
 												<StarRatingComponent
+												name="starrating"
 													value={result.DashboardProducts[0].product_rating}
 													editing={false}
 													starCount={5}

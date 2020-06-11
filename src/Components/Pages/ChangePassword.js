@@ -3,7 +3,7 @@ import axios from "axios"
 import { withRouter } from 'react-router-dom'
 import '../../Assets/CSS/ChangePassword.css';
 import { URL } from "../../Redux/Constants"
-import { FormControl, TextField, OutlinedInput, inputProps, InputLabel, IconButton, InputAdornment } from '@material-ui/core';
+import { FormControl, OutlinedInput, InputLabel, IconButton, InputAdornment } from '@material-ui/core';
 import { Visibility, VisibilityOff } from '@material-ui/icons';
 import { customErrorMessages } from '../../Utils/validation'
 
@@ -67,20 +67,15 @@ class ChangePassword extends Component {
               const res = await axios.post(URL + 'changepassword' , data, {headers:{"Authorization": 'Bearer ' + localData.token}})        
               alert(res.data.message + ",You Are Redirected To HomePage Now");
                 this.props.history.push("/")
-
-
-
         }
         else {
             alert("error");
-
         }
 
     }
 
     validate = () => {
         const { oldpassword, newpassword, confirmpassword } = this.state.data
-
         this.setState({ error: { oldpasswordError: false, newpasswordError: false, confirmpasswordError: false } })
 
 
@@ -97,7 +92,6 @@ class ChangePassword extends Component {
                 error: {
                     newpasswordError: true,
                     newpassworderrorMessage: errorpassword,
-
                 }
             });
             return false;
@@ -108,8 +102,7 @@ class ChangePassword extends Component {
             this.setState({
                 error: {
                     confirmpasswordError: true,
-                    confirmpassworderrorMessage: "Confirm Password Field Can't Be Left Blank",
-
+                    confirmpassworderrorMessage: errorpassword
                 }
             });
             return false;
@@ -134,12 +127,7 @@ class ChangePassword extends Component {
 
     render() {
 
-        const { newpasswordError,
-            oldpasswordError,
-            confirmpasswordError,
-            newpassworderrorMessage,
-            oldpassworderrorMessage,
-            confirmpassworderrorMessage } = this.state.error
+        const { newpasswordError,oldpasswordError,confirmpasswordError,newpassworderrorMessage,oldpassworderrorMessage,confirmpassworderrorMessage } = this.state.error
 
         return (
             <div className="changepassword">

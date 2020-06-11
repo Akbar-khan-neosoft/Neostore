@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 
 const Pagination = ({ totalPosts, cardsPerPage, paginate }) => {
 	const pageNumber = [];

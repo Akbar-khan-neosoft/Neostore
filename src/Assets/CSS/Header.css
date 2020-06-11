@@ -15,6 +15,7 @@
 	display: flex;
 	align-items: center;
 	justify-content: space-around;
+	
 }
 
 .Header-Links {
@@ -28,6 +29,8 @@
 }
 
 .searchbox {
+	padding-left: 2%;
+	padding-bottom: 2%;
 	width: 60%;
 }
 

@@ -22,9 +22,7 @@ class DashboardCarousel extends Component {
 				<div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
 					<div class="carousel-inner">
 						{this.props.data.map((item, index) => (
-							<div class={`carousel-item ${index == 0 ? 'active' : ''}`} key={index}>
-								{console.log("item", item)}
-
+							<div class={`carousel-item ${index === 0 ? 'active' : ''}`} key={index}>
 								<img className="btn" src={URL + item.product_image} width="100%" height="350px" alt="..." onClick={() => { this.onSliderClickHandle(item.category_id) }} />
 							</div>
 						))}

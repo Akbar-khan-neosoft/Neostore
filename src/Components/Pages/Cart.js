@@ -3,10 +3,10 @@ import { connect } from 'react-redux';
 import "../../Assets/CSS/Cart.css"
 import { fetchCartData } from "../../Redux/Actions/cartAction"
 import DeliveryAddress from "./DeliveryAddress";
-import Loading from "../../Components/Common/Loading"
-import axios from "axios";
-import { URL } from "../../Redux/Constants"
-import { addToCartAPI, deleteCustomerCartAPI, updateQuantityAPI } from "../../API/API"
+// import Loading from "../../Components/Common/Loading"
+// import axios from "axios";
+// import { URL } from "../../Redux/Constants"
+// import { addToCartAPI, deleteCustomerCartAPI, updateQuantityAPI } from "../../API/API"
 import NoProduct from "./NoProduct";
 
 
@@ -147,7 +147,7 @@ class Cart extends Component {
                                                 {console.log("res", res)}
 
                                                 <td><div className="productdata">
-                                                    <div style={{ marginRight: "2%" }}><img src={"http://180.149.241.208:3022/" + res.product_image} width="70px" height="80px" /></div>
+                                                    <div style={{ marginRight: "2%" }}><img src={"http://180.149.241.208:3022/" + res.product_image} width="70px" height="80px" alt="cartproductimage"/></div>
                                                     <div style={{ marginLeft: "2%" }}>
                                                         <div>{res.product_name}</div>
                                                         <div>By : {res.product_producer}</div>

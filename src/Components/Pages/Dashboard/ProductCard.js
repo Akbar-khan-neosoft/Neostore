@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Link,withRouter } from "react-router-dom"
+import { Link, withRouter } from "react-router-dom"
 
 import { URL } from '../../../Redux/Constants/index';
 import { addToCart } from "../../../API/API"
@@ -7,12 +7,9 @@ import StarRatingComponent from 'react-star-rating-component';
 import '../../../Assets/CSS/Product.css';
 
 class ProductCard extends Component {
-	constructor(props) {
-		super(props)
-	}
 
-	addToCartHandler = async (data) => {		
-		data["quantity"]=1;
+	addToCartHandler = async (data) => {
+		data["quantity"] = 1;
 		await addToCart(data)
 	}
 
@@ -25,8 +22,6 @@ class ProductCard extends Component {
 					return [res].map(d => {
 						return (
 							<div className="card" key={d.product_id}>
-								{console.log("testing time",res)}
-								
 								<div className="product_card_thumbnail">
 									<img
 										style={{
@@ -59,7 +54,6 @@ class ProductCard extends Component {
 														productid: d.product_id
 													}
 												}}>{d.product_name}</Link>
-												{/* <a href="#">{d.product_name}</a> */}
 											</p>
 										</div>
 										<div>
@@ -89,14 +83,11 @@ class ProductCard extends Component {
 												}}
 												onClick={() => this.addToCartHandler(res)}
 											>
-												<a
-													href="#"
-													style={{
-														color: 'white',
-													}}
+												<span
+													style={{color: 'white'}}
 												>
 													Add To Card
-												</a>
+												</span>
 											</button>
 										</div>
 										<div className="text-center">

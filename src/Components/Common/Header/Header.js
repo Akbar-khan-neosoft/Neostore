@@ -1,38 +1,36 @@
 import React, { Component } from 'react';
 import '../../../Assets/CSS/Header.css';
-import { BrowserRouter as Router, Link } from 'react-router-dom';
-import {connect} from "react-redux"
+import { Link } from 'react-router-dom';
+import { connect } from "react-redux"
 import { withRouter } from 'react-router-dom'
-import {fetchlogout} from "../../../Redux/Actions/loginAction"
-import Searchbox from '../../../NeoStore_Router/Searchbox';
+import { fetchlogout } from "../../../Redux/Actions/loginAction"
+import Searchbox from '../../Searchbox';
 
 class Header extends Component {
 
-	onLogoutHandle=async()=>{
-		
+	onLogoutHandle = async () => {
+
 		await this.props.onFetch()
 		localStorage.clear();
 		this.props.history.push("/")
-		
+
 	}
 	render() {
-		let success=false;
+		let success = false;
 		const localData = JSON.parse(localStorage.getItem("loginData"))
 		const localCartData = JSON.parse(localStorage.getItem("cart"))
 		const cartItemCount = localCartData ? localCartData.length : 0
-		if(localData !== null)
-		{
+		if (localData !== null) {
 			success = localData.success
 		}
-		console.log("localData",localData,this.props.data)
-		
+
 		return (
 			<div className="container-fluid">
 				<div className="Header-logo btn">
-				<Link to="/" style={{ textDecoration: 'none' }}>
-					<h1 style={{ color: 'white', fontSize: '50px' }}>
-						Neo<span style={{ color: 'red' }}>Store</span>
-					</h1>
+					<Link to="/" style={{ textDecoration: 'none' }}>
+						<h1 style={{ color: 'white', fontSize: '50px' }}>
+							Neo<span style={{ color: 'red' }}>Store</span>
+						</h1>
 					</Link>
 				</div>
 				<div className="Header-Links">
@@ -48,59 +46,52 @@ class Header extends Component {
 							</Link>
 						</li>
 						<li>
-						<Link to="/order" style={{ textDecoration: 'none' }}>
+							<Link to="/order" style={{ textDecoration: 'none' }}>
 								<span style={{ fontSize: '20px', fontWeight: 'bold', color: 'white' }}>Order</span>
-								</Link>
+							</Link>
 						</li>
 					</ul>
 				</div>
 				<div className="Header-search">
 					<div className="searchbox">
-						<Searchbox/>
-						{/* <input
-							class="form-control form-control-lg form-control-borderless"
-							type="search"
-							placeholder="Search.."
-						/> */}
+						<Searchbox />
 					</div>
 					<div>
 						<button className="Header-Button" >
-						<Link to="cart" >
-						<span><i class="fa fa-cart-plus" aria-hidden="true"></i>
-		Cart<sup><span class="badge badge-pill badge-danger">{cartItemCount}</span></sup></span>	
-						</Link>						
+							<Link to="cart" >
+								<span><i className="fa fa-cart-plus" aria-hidden="true"></i>
+		Cart<sup><span className="badge badge-pill badge-danger">{cartItemCount}</span></sup></span>
+							</Link>
 						</button>
 					</div>
 					<div>
 						<button className="Header-Button">
-							<div class="nav-item dropdown">
-								<a
-									class="nav-link dropdown-toggle"
-									href="#"
+							<div className="nav-item dropdown">
+								<span
+									className="nav-link dropdown-toggle"
 									id="navbarDropdown"
 									role="button"
 									data-toggle="dropdown"
 									aria-haspopup="true"
 									aria-expanded="false"
 								>
-									<i class="fa fa-user-circle" aria-hidden="true"></i>
-								</a>
-								{console.log("login - >>",this.props.data,success)}
+									<i className="fa fa-user-circle" aria-hidden="true"></i>
+								</span>
 								{(this.props.data || success) ? <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-									<Link to="myaccount" class="dropdown-item">
+									<Link to="myaccount" className="dropdown-item">
 										Profile
 									</Link>
-									<Link to="#" class="dropdown-item" onClick={this.onLogoutHandle}>
+									<Link to="#" className="dropdown-item" onClick={this.onLogoutHandle}>
 										Logout
 									</Link>
-								</div> : <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-									<Link to="/login" class="dropdown-item">
-										Login
+								</div> : <div className="dropdown-menu" aria-labelledby="navbarDropdown">
+										<Link to="/login" className="dropdown-item">
+											Login
 									</Link>
-									<Link to="/register" class="dropdown-item">
-										Register
+										<Link to="/register" className="dropdown-item">
+											Register
 									</Link>
-								</div>}
+									</div>}
 							</div>
 						</button>
 					</div>
@@ -111,12 +102,11 @@ class Header extends Component {
 }
 
 const mapStateToProps = state => {
-	console.log("akbar",state)
-	return { data: state.loginReducer.isAuthenticated , button_value: state.cartReducer.data || 0 };
+	return { data: state.loginReducer.isAuthenticated, button_value: state.cartReducer.data || 0 };
 };
 
 const mapDispatchToProps = dispatch => ({
 	onFetch: () => dispatch(fetchlogout()),
 });
 
-export default connect(mapStateToProps,mapDispatchToProps)(withRouter(Header));
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Header));
