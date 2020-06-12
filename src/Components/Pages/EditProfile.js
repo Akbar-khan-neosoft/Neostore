@@ -9,8 +9,9 @@ import CallIcon from '@material-ui/icons/Call';
 import EmailIcon from '@material-ui/icons/Email';
 import { RadioGroup, FormControlLabel } from '@material-ui/core';
 import Radio from '@material-ui/core/Radio';
+import { EMAIL_REGEX, NAME_REGEX, customErrorMessages } from '../../Utils/validation'
 
-const emailRegex = RegExp(/^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/);
+
 
 class EditProfile extends Component {
 	constructor(props) {
@@ -59,82 +60,95 @@ class EditProfile extends Component {
 	handleChange = e => {
 		e.preventDefault();
 		const { name, value } = e.target;
+		this.setState({ [name]: value });
+	}
+
+	validate = (name) => {
 		let formErrors = { ...this.state.formErrors };
+		const { firstName, lastName, _email, _dob, mobile, _gender } = this.state
+		this.setState({ disablebutton: true })
 
 		switch (name) {
 			case 'firstName':
-				if (value.length === 0) {
-					formErrors.firstName = "Firstname field can't be left blank,minimum 3 characaters required";
-				} else if (!isNaN(value)) {
-					formErrors.firstName = 'Numbers not allowed in Firstname';
+				if (firstName.length === 0 || !NAME_REGEX.test(firstName)) {
+					const { valueMissing, patternMismatch } = customErrorMessages.name;
+					formErrors.firstName = firstName === "" ? valueMissing : patternMismatch;
+					this.setState({ disablebutton: true })
 				} else {
-					formErrors.firstName = 'pass';
+					formErrors.firstName = '';
 				}
 
 				break;
+
 			case 'lastName':
-				if (value.length === 0) {
-					formErrors.lastName = "Lastname field can't be left blank,minimum 3 characaters required";
-				} else if (!isNaN(value)) {
-					formErrors.lastName = 'Numbers not allowed in Lastname';
+				if (lastName.length === 0 || !NAME_REGEX.test(lastName)) {
+					const { valueMissing, patternMismatch } = customErrorMessages.name;
+					formErrors.lastName = lastName === "" ? valueMissing : patternMismatch;
+					this.setState({ disablebutton: true })
 				} else {
-					formErrors.lastName = 'pass';
+					formErrors.lastName = '';
+
 				}
 
 				break;
-			case 'email':
-				if (value.length === 0) {
-					formErrors.email = "Email field can't be left blank";
-				} else if (!emailRegex.test(value)) {
-					formErrors.email = 'invalid email address';
-
+			case '_email':
+				if (_email.length === 0 || !EMAIL_REGEX.test(_email)) {
+					const { valueMissing, typeMismatch } = customErrorMessages.email;
+					formErrors.email = _email === "" ? valueMissing : typeMismatch;
+					this.setState({ disablebutton: true })
 				} else {
-					formErrors.email = 'pass';
+					formErrors.email = '';
+
 				}
 
-				break;
-			case 'dob':
-				if (value.length === 0) {
-					formErrors.dob = "Date Of Birth field can't be left blank";
-				} else {
-					formErrors.dob = 'pass';
-				}
 				break;
 			case 'mobile':
-				if (value.length === 0) {
-					formErrors.mobile = "Mobile Number field can't be left blank";
-
-				} else if (isNaN(value)) {
-					formErrors.mobile = 'Only Numbers allowed in Mobile';
-
-				} else if (value.length < 10 || value.length > 10) {
-					formErrors.mobile = 'Only 10 characaters allowed';
-
+				if (mobile.length === 0 || isNaN(mobile) || mobile.length < 10 || mobile.length > 10) {
+					const { valueMissing, patternMismatch } = customErrorMessages.mobile;
+					formErrors.mobile = mobile === "" ? valueMissing : patternMismatch;
+					this.setState({ disablebutton: true })
 				} else {
-					formErrors.mobile = 'pass';
+					formErrors.mobile = '';
 				}
 
 				break;
-			case 'gender':
-				if (value.length === 0) {
-					formErrors.gender = "Gender field can't be left blank";
+			case '_dob':
+				if (_dob.length === 0) {
+					formErrors.dob = "Full DOB Required" 
+					this.setState({ disablebutton: true })
 				} else {
-					formErrors.gender = 'pass';
+					formErrors.dob = '';
+				}
+
+				break;
+			case '_gender':
+				if (_gender.length === 0) {
+					formErrors.gender = "Gender field can't be left blank";
+					this.setState({ disablebutton: true })
+				} else {
+					formErrors.gender = '';
 				}
 
 				break;
 			default:
 				break;
 		}
-		this.setState({ formErrors, [name]: value });
-		const { firstName, lastName, _gender, _email, mobile, _dob } = this.state
 
-		if (firstName.length > 0 && lastName.length > 0 && _gender.length > 0 && _email.length > 0 &&
-			mobile.length > 0 && _dob !== null) {
+		console.log("test : ", formErrors);
+
+		if (formErrors.firstName.length === 0 && formErrors.lastName.length === 0 && formErrors.email.length === 0 &&
+			formErrors.dob.length === 0 && formErrors.mobile.length === 0 &&
+			formErrors.gender.length === 0) {
+				console.log("kk",this.state.disablebutton);
+				
 			this.setState({ disablebutton: false })
 		}
 
-	};
+
+		this.setState({ formErrors });
+	}
+
+
 
 	render() {
 		const { first_name, last_name, gender, email, phone_no, dob } = this.props.data
@@ -164,9 +178,10 @@ class EditProfile extends Component {
 											),
 										}}
 										onChange={this.handleChange}
+										onBlur={()=>this.validate("firstName")}
 									/>
 								</FormControl>
-								{(formErrors.firstName.length > 0 && formErrors.firstName !== "pass") && (
+								{(formErrors.firstName.length > 0 ) && (
 									<span className="errorMessage">{formErrors.firstName}</span>
 								)}
 							</div>
@@ -187,9 +202,11 @@ class EditProfile extends Component {
 											),
 										}}
 										onChange={this.handleChange}
+										onBlur={()=>this.validate("lastName")}
+
 									/>
 								</FormControl>
-								{(formErrors.lastName.length > 0 && formErrors.lastName !== "pass") && (
+								{(formErrors.lastName.length > 0 ) && (
 									<span className="errorMessage">{formErrors.lastName}</span>
 								)}
 							</div>
@@ -201,6 +218,7 @@ class EditProfile extends Component {
 										name="_gender"
 										defaultValue={gender}
 										onChange={this.handleChange}
+										
 									>Gender :
 										<FormControlLabel value="male" control={<Radio />} label="Male" />
 										<FormControlLabel value="female" control={<Radio />} label="Female" />
@@ -218,13 +236,14 @@ class EditProfile extends Component {
 										// placeholder=""
 										defaultValue={dob}
 										onChange={this.handleChange}
+										onBlur={()=>this.validate("_dob")}
 										InputLabelProps={{
 											shrink: true,
 										}}
 									/>
 								</FormControl>
-								{(formErrors.dob.length > 0 && formErrors.dob !== "pass") && (
-									<span className="errorMessage">{formErrors.password}</span>
+								{(formErrors.dob.length > 0) && (
+									<span className="errorMessage">{formErrors.dob}</span>
 								)}
 							</div>
 							<div className="form_textfield">
@@ -244,9 +263,11 @@ class EditProfile extends Component {
 											),
 										}}
 										onChange={this.handleChange}
+										onBlur={()=>this.validate("_email")}
+
 									/>
 								</FormControl>
-								{(formErrors.email.length > 0 && formErrors.email !== "pass") && (
+								{(formErrors.email.length > 0 ) && (
 									<span className="errorMessage">{formErrors.email}</span>
 								)}
 							</div>
@@ -283,9 +304,10 @@ class EditProfile extends Component {
 											),
 										}}
 										onChange={this.handleChange}
+										onBlur={()=>this.validate("mobile")}
 									/>
 								</FormControl>
-								{(formErrors.mobile.length > 0 && formErrors.mobile !== "pass") && (
+								{(formErrors.mobile.length > 0 ) && (
 									<span className="errorMessage">{formErrors.mobile}</span>
 								)}
 							</div>

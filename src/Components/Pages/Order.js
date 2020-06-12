@@ -28,7 +28,7 @@ class Order extends Component {
                                 {res.product_details.map(r => {
                                     return (
 
-                                        <div className="orderdata">
+                                        <div className="orderdata" key={res._id + r.product_details[0].product_image}>
                                             <div><img src={"http://180.149.241.208:3022/" + r.product_details[0].product_image} alt="orderproductimage" width="100%" height="70px" /></div>
                                             <div style={{ width: "100%" }}>{r.product_details[0].product_name}</div>
                                             <div>Cost : <i class="fa fa-inr fa-lg" aria-hidden="true"></i> {r.product_details[0].product_cost}</div>

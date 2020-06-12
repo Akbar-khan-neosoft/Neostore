@@ -53,19 +53,17 @@ class Header extends Component {
 					</ul>
 				</div>
 				<div className="Header-search">
-					<div className="searchbox">
-						<Searchbox />
-					</div>
-					<div>
-						<button className="Header-Button" >
+					<div className="searchbox"><Searchbox /></div>
+					<div className="Header-Cart-Button" >
+						<button style={{width:"90%",marginLeft:"5%",marginRight:"5%"}}>
 							<Link to="cart" >
 								<span><i className="fa fa-cart-plus" aria-hidden="true"></i>
-		Cart<sup><span className="badge badge-pill badge-danger">{cartItemCount}</span></sup></span>
+								Cart<sup><span className="badge badge-pill badge-danger">{cartItemCount}</span></sup></span>
 							</Link>
 						</button>
 					</div>
-					<div>
-						<button className="Header-Button">
+					<div className="Header-Profile-Button">
+						<button id="profilebutton" >
 							<div className="nav-item dropdown">
 								<span
 									className="nav-link dropdown-toggle"

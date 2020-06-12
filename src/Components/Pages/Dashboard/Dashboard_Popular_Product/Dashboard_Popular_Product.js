@@ -18,12 +18,16 @@ class Dashboard_Popular_Product extends Component {
 		await addToCart(data)
 	}
 
+	onViewAllClickHandle=()=>{
+		this.props.history.push("/product")
+	}
+
 	render() {
 		return (
 			<div className="Dashboard_Popular_Product_Body">
 				<div className="Dashboard_Popular_Product_Heading">Popular Product</div>
 				<div className="Dashboard_Popular_Product_Link">
-					<button style={{ background: 'transparent', border: 'none' }}>View All</button>
+					<button style={{ background: 'transparent', border: 'none' }} onClick={this.onViewAllClickHandle}>View All</button>
 				</div>
 				<div className="Dashboard_Popular_Product_Card">
 					{this.props.data.map(item => {
@@ -87,14 +91,14 @@ class Dashboard_Popular_Product extends Component {
 													}}
 													onClick={() => this.addToCartHandler(result.DashboardProducts[0])}
 												>
-													<a
+													<span
 														href="#"
 														style={{
 															color: 'white',
 														}}
 													>
 														Add To Card
-													</a>
+													</span>
 												</button>
 											</div>
 											<div className="text-center">

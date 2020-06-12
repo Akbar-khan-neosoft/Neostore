@@ -34,17 +34,6 @@ class Cart extends Component {
 
     async componentDidMount() {
         const localCartData = JSON.parse(localStorage.getItem("cart")) || []
-        // const localData = JSON.parse(localStorage.getItem("loginData"))
-        // if(localData !== null && this.props.flag && this.state.flag){
-        //     console.log("kkkkkk",localData,this.props.flag,this.state.flag);
-
-        //         await this.props.onFetch()
-        //         const res = this.props.data.map(res=>{
-        //             return res.product_id
-        //         })
-        //         localStorage.setItem('cart', JSON.stringify(localCartData.concat(res)));
-        //         this.setState({flag:false})
-        //     }
         this.setState({ cartData: localCartData })
     }
 
@@ -92,10 +81,8 @@ class Cart extends Component {
 
     onClickAddQuantityHandle = (prd_id) => {
         const localCartData = JSON.parse(localStorage.getItem("cart"))
-        console.log("localCartData", prd_id)
         const index = localCartData.findIndex(res => { return res._id === prd_id })
         localCartData[index].quantity = localCartData[index].quantity + 1;
-        console.log("kkkkkkk---", localCartData);
         localStorage.setItem('cart', JSON.stringify(localCartData));
         this.setState({ cartData: JSON.parse(localStorage.getItem("cart")) })
 
@@ -103,7 +90,6 @@ class Cart extends Component {
 
 
     render() {
-        console.log("cartdata", this.state.cartData);
 
         let orderTotal = 0
         this.state.cartData ? orderTotal = this.state.cartData.map(val => {
@@ -144,8 +130,6 @@ class Cart extends Component {
                                     {this.state.cartData ? this.state.cartData.map(res => {
                                         return (
                                             <tr key={res._id}>
-                                                {console.log("res", res)}
-
                                                 <td><div className="productdata">
                                                     <div style={{ marginRight: "2%" }}><img src={"http://180.149.241.208:3022/" + res.product_image} width="70px" height="80px" alt="cartproductimage"/></div>
                                                     <div style={{ marginLeft: "2%" }}>

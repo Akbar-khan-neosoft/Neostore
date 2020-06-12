@@ -41,7 +41,7 @@ class Footer extends Component {
 						{this.state.getData_res
 							? [this.state.getData_res].map(res => {
 									return (
-										<div className="footer-content-body">
+										<div className="footer-content-body" key={res.company_details[0].phone_no}>
 											{res.company_details[0].about_company}
 											<br></br>
 											Contact information
@@ -64,8 +64,9 @@ class Footer extends Component {
 								{this.state.getTermsAndConditions_res
 									? [this.state.getTermsAndConditions_res].map(res => {
 											return (
-												<li>
+												<li key={res.termsAndConditions_details[0].fileName}>
 													<a
+													
 														style={{ textDecoration: 'none', color: 'white' }}
 														target="_blank"
 														href={URL + res.termsAndConditions_details[0].fileName}

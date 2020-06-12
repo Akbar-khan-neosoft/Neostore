@@ -20,7 +20,6 @@ class MyProfile extends Component{
          const res = await axios.get(URL + "getCustProfile" , {headers : {"Authorization": "Brearer " + localData.token }})
         
         this.setState({custData:res.data.customer_proile})
-        console.log(res.data.customer_proile)
         }
 
         onClickEditHandle =()=>{

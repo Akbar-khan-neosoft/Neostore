@@ -8,11 +8,11 @@ const ProtectedRoutesLogin = ({component: Component,...rest}) => {
      if(loginAuth=== null)
      {
         isAuth = false
-     } else{ isAuth=loginAuth }
+     } else{ isAuth=loginAuth.success }
     
   return (
     <Route  {...rest} render={prp => {
-        if (!isAuth) {
+        if (isAuth) {
            return (<Redirect to={{pathname: "/",state: {from: prp.location}}}/>)
         } else {
           return <Component {...prp} />
