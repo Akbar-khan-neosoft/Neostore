@@ -122,7 +122,9 @@ class Register extends Component {
 					this.setState({ disableButton: true })
 				} else if (password === confirmPassword) {
 					formErrors.confirmPassword = '';
-				} else {
+				} else if (confirmPassword.length > 0 && password !== confirmPassword) {
+					formErrors.confirmPassword = 'Password and Confirm Password Mismatched';
+				}else {
 					formErrors.password = '';
 				}
 
