@@ -35,7 +35,7 @@ class Seacrhbox extends Component {
           )}
           onChange={(event, value) => this.onChangeHandle(event, value)}
           renderInput={(params) => (
-            <TextField {...params} margin="normal" placeholder="Search..." variant="outlined" style={{ backgroundColor: "white" }} />
+            <TextField {...params} margin="normal" placeholder="Search..." variant="outlined" style={{ backgroundColor: "white"}} />
           )}
         />
       </div>

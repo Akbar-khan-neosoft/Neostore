@@ -13,7 +13,6 @@
     margin-left: 5%;
     margin-right: 5%;
     margin-bottom: 0%;
-    
     width: 90%;
     display: flex;
  
@@ -24,34 +23,23 @@
     width: 50%;
     display: flex;
     flex-direction: column;
-   
-    
     padding: 1%;
 
 }
 
 .mainimagecontainer{
-      margin-bottom: 1%;
+    margin-bottom: 1%;
     width: 100%;
-    
-
 }
 
 .subimagescontainer{
-    
-    
     width: 100%;
     display: flex;    
-    
-
 }
 
 .subimages{
-    margin:3%;
- width: 30%;
- 
-
- 
+  margin:3%;
+  width: 30%;
 }
 
 .productdetailsdata{
@@ -148,4 +136,19 @@
   .fa-instagram {
     background: #125688;
     color: white;
+  }
+
+  .otherbuttonssection{
+    display: flex;
+    flex-direction: column;
+  }
+
+  .addandratebuttons{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  .rateproduct{
+    text-align: center;
   }

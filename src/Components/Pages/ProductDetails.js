@@ -1,11 +1,15 @@
 import React, { Component } from "react"
 import StarRatingComponent from "react-star-rating-component"
+import Rating from '@material-ui/lab/Rating';
+import Typography from '@material-ui/core/Typography';
+import Box from '@material-ui/core/Box';
 import "../../Assets/CSS/ProductDetails.css"
 import { URL } from "../../Redux/Constants"
 import { addToCart } from "../../API/API"
 import axios from "axios"
 import ReactImageMagnify from 'react-image-magnify';
 
+const localData = JSON.parse(localStorage.getItem("loginData"));
 
 class ProductDetails extends Component {
     constructor(props) {
@@ -15,10 +19,45 @@ class ProductDetails extends Component {
             changeImage: true,
             showDescription: true,
             showFeature: false,
-            imageId: ''
+            imageId: '',
+            showRateProduct: false,
+            rateProductValue: 0,
+            disableSubmitRateProduct: true
         }
 
     }
+
+    onchangerateproduct = (e) => {
+        e.preventDefault();
+        this.setState({ rateProductValue: e.target.value, disableSubmitRateProduct: false })
+    }
+
+    onClickRateProduct = () => {
+        if (localData === null) {
+            alert("Login First")
+            this.props.history.push("/login")
+        }
+        else {
+            this.setState({ showRateProduct: !this.state.showRateProduct })
+        }
+    }
+
+    onCancelRateProduct = () => {
+        this.setState({ showRateProduct: !this.state.showRateProduct })
+    }
+
+    onSubmitRateProduct = async () => {
+        console.log(localData.token);
+        const data = {
+            product_id: this.props.location.state.productid,
+            product_rating: this.state.rateProductValue
+        }
+
+        const res = await axios.put(URL + "updateProductRatingByCustomer", data, { headers: { "Authorization": "Brearer " + localData.token } })
+        alert(res.data.message)
+        this.setState({ showRateProduct: false })
+    }
+
 
     async componentDidMount() {
         const res = await axios.get(URL + "getProductByProdId/" + this.props.location.state.productid)
@@ -140,53 +179,75 @@ class ProductDetails extends Component {
                             <button className="sharebutton fa-instagram"></button>
 
                         </div>
-                        <div>
-                            <div><button
-                                style={{
-                                    fontSize: '15px',
-                                    color: 'white',
-                                    fontWeight: '700',
-                                    width: '150px',
-                                    height: '30px',
-                                    backgroundColor: 'red',
-                                    borderRadius: '10px',
-                                    margin: 'auto',
-                                }}
-                                onClick={() => { this.addToCartHandler(this.state.productDetails) }}
-                            >
-                                <span
-                                    style={{
-                                        color: 'white',
-                                    }}
-                                >
-                                    Add To Card
+                        <div className="otherbuttonssection">
+                            <div className="addandratebuttons">
+                                <div>
+                                    <button
+                                        style={{
+                                            fontSize: '15px',
+                                            color: 'white',
+                                            fontWeight: '700',
+                                            width: '150px',
+                                            height: '30px',
+                                            backgroundColor: 'red',
+                                            borderRadius: '10px',
+                                            margin: 'auto',
+                                        }}
+                                        onClick={() => { this.addToCartHandler(this.state.productDetails) }}
+                                    >
+                                        <span
+                                            style={{
+                                                color: 'white',
+                                            }}
+                                        >
+                                            Add To Card
 											</span>
-                            </button> </div>
-                            <div><button
-                                style={{
-                                    fontSize: '15px',
-                                    color: 'white',
-                                    fontWeight: '700',
-                                    width: '150px',
-                                    height: '30px',
-                                    backgroundColor: 'red',
-                                    borderRadius: '10px',
-                                    margin: 'auto',
-                                }}
-                            >
-                                <span
-                                    style={{
-                                        color: 'white',
-                                    }}
-                                >
-                                    Rate Product
+                                    </button>
+                                </div>
+                                <div>
+                                    <button
+                                        style={{
+                                            fontSize: '15px',
+                                            color: 'white',
+                                            fontWeight: '700',
+                                            width: '150px',
+                                            height: '30px',
+                                            backgroundColor: 'red',
+                                            borderRadius: '10px',
+                                            margin: 'auto',
+                                        }}
+                                        onClick={this.onClickRateProduct}
+                                    >
+                                        <span
+                                            style={{
+                                                color: 'white',
+                                            }}
+                                        >
+                                            Rate Product
 											</span>
-                            </button></div>
-                        </div></div>
+                                    </button>
+                                </div>
+                            </div>
+                            {this.state.showRateProduct ? <div className="rateproduct">
+                                <Box component="fieldset" mb={3} borderColor="transparent">
+                                    <Typography component="legend">Rate The Product</Typography><hr></hr>
+                                    <span>  <Rating
+                                        name="rateproduct"
+                                        value={this.state.rateProductValue}
+                                        precision={0.5}
+                                        onChange={this.onchangerateproduct}
+                                    /></span><span>
+                                        <button disabled={this.state.disableSubmitRateProduct} onClick={this.onSubmitRateProduct} style={{ marginLeft: "5%" }}>Done</button></span>
+                                    <span>
+                                        <button onClick={this.onCancelRateProduct} style={{ marginLeft: "5%" }}>Cancel</button></span>
+                                </Box>
+                            </div> : null}
+                        </div>
+                    </div>
                 </div>
                 <div className="productdetailsdescription">
-                    <div className="descriptionbuttons"><button style={{ backgroundColor: "transparent", border: "none" }} onClick={() => this.onDescriptionButtonhandle("desc")}>Description</button>
-                        <button style={{ backgroundColor: "transparent", border: "none" }} onClick={() => this.onDescriptionButtonhandle("feature")}>Features</button></div>
+                    <div className="descriptionbuttons"><button style={{ backgroundColor: "transparent", border: "none" }} onClick={() => this.onDescriptionButtonhandle("desc")}>{this.state.showDescription ? <b>Description</b> : "Description"}</button>
+                        <button style={{ backgroundColor: "transparent", border: "none" }} onClick={() => this.onDescriptionButtonhandle("feature")}>{this.state.showFeature ? <b>Features</b> : "Features"}</button></div>
                     <div className="descriptiondata">{descriptionData}</div>
                 </div>
             </div>)

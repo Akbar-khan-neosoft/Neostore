@@ -55,7 +55,7 @@ class Header extends Component {
 				<div className="Header-search">
 					<div className="searchbox"><Searchbox /></div>
 					<div className="Header-Cart-Button" >
-						<button style={{width:"90%",marginLeft:"5%",marginRight:"5%"}}>
+						<button style={{ width: "98%", height: "100%" }}>
 							<Link to="cart" >
 								<span><i className="fa fa-cart-plus" aria-hidden="true"></i>
 								Cart<sup><span className="badge badge-pill badge-danger">{cartItemCount}</span></sup></span>
@@ -63,35 +63,37 @@ class Header extends Component {
 						</button>
 					</div>
 					<div className="Header-Profile-Button">
-						<button id="profilebutton" >
-							<div className="nav-item dropdown">
-								<span
-									className="nav-link dropdown-toggle"
-									id="navbarDropdown"
-									role="button"
-									data-toggle="dropdown"
-									aria-haspopup="true"
-									aria-expanded="false"
-								>
-									<i className="fa fa-user-circle" aria-hidden="true"></i>
-								</span>
-								{(this.props.data || success) ? <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-									<Link to="myaccount" className="dropdown-item">
-										Profile
+						<div style={{height:"100%"}}>
+							<button id="profilebutton" >
+								<div className="nav-item dropdown">
+									<span
+										className="nav-link dropdown-toggle"
+										id="navbarDropdown"
+										role="button"
+										data-toggle="dropdown"
+										aria-haspopup="true"
+										aria-expanded="false"
+										style={{ padding: "0px" }}
+									>
+										<i className="fa fa-user-circle" aria-hidden="true"></i>
+									</span>
+									{(this.props.data || success) ? <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+										<Link to="myaccount" className="dropdown-item">
+											Profile
 									</Link>
-									<Link to="#" className="dropdown-item" onClick={this.onLogoutHandle}>
-										Logout
+										<Link to="#" className="dropdown-item" onClick={this.onLogoutHandle}>
+											Logout
 									</Link>
-								</div> : <div className="dropdown-menu" aria-labelledby="navbarDropdown">
-										<Link to="/login" className="dropdown-item">
-											Login
+									</div> : <div className="dropdown-menu" aria-labelledby="navbarDropdown">
+											<Link to="/login" className="dropdown-item">
+												Login
 									</Link>
-										<Link to="/register" className="dropdown-item">
-											Register
+											<Link to="/register" className="dropdown-item">
+												Register
 									</Link>
-									</div>}
-							</div>
-						</button>
+										</div>}
+								</div>
+							</button></div>
 					</div>
 				</div>
 			</div>
