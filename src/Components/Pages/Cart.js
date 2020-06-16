@@ -3,10 +3,7 @@ import { connect } from 'react-redux';
 import "../../Assets/CSS/Cart.css"
 import { fetchCartData } from "../../Redux/Actions/cartAction"
 import DeliveryAddress from "./DeliveryAddress";
-// import Loading from "../../Components/Common/Loading"
-// import axios from "axios";
-// import { URL } from "../../Redux/Constants"
-// import { addToCartAPI, deleteCustomerCartAPI, updateQuantityAPI } from "../../API/API"
+import { cartitemcounthandle } from '../../Redux/Actions/cartItemCountAction'
 import NoProduct from "./NoProduct";
 
 
@@ -37,24 +34,14 @@ class Cart extends Component {
         this.setState({ cartData: localCartData })
     }
 
-    onClickdeleteProductHandle = async (prd_id) => {
+    onClickdeleteProductHandle = (prd_id) => {
 
         const localCartData = JSON.parse(localStorage.getItem("cart"))
-        //  console.log("localCartData",prd_id)
-
         const index = localCartData.findIndex(res => { return res._id === prd_id })
-        console.log(index)
         localCartData.splice(index, 1)
-
-        // localStorage.removeItem(index)
-
         localStorage.setItem('cart', JSON.stringify(localCartData));
-
-        // const resss = this.state.cartData.splice(index,1)
         this.setState({ cartData: JSON.parse(localStorage.getItem("cart")) })
-
-        //    console.log("akba",JSON.parse(localStorage.getItem("cart")))
-        // this.setState({temp:!this.state.temp})
+        this.props.cartItemCount()
     }
 
 
@@ -131,7 +118,7 @@ class Cart extends Component {
                                         return (
                                             <tr key={res._id}>
                                                 <td><div className="productdata">
-                                                    <div style={{ marginRight: "2%" }}><img src={"http://180.149.241.208:3022/" + res.product_image} width="70px" height="80px" alt="cartproductimage"/></div>
+                                                    <div style={{ marginRight: "2%" }}><img className="productimage" src={"http://180.149.241.208:3022/" + res.product_image} alt="cartproductimage" /></div>
                                                     <div style={{ marginLeft: "2%" }}>
                                                         <div>{res.product_name}</div>
                                                         <div>By : {res.product_producer}</div>
@@ -189,14 +176,9 @@ class Cart extends Component {
         )
     }
 }
-// const mapStateToProps = state => {
-//     console.log("cart", state);
-
-//     return { data: state.cartReducer.data || [] , flag : state.loginReducer.isAuthenticated };
-// };
-
 const mapDispatchToProps = dispatch => ({
-    onFetch: () => dispatch(fetchCartData())
+    onFetch: () => dispatch(fetchCartData()),
+    cartItemCount: () => dispatch(cartitemcounthandle())
 });
 
 export default connect(null, mapDispatchToProps)(Cart)

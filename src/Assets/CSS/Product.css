@@ -99,3 +99,34 @@
 	margin-left: 2%;
 	margin-right: 2%;
 }
+
+@media only screen and (max-width: 900px) {
+	.product {
+		width: 90%;
+		display: flex;
+		flex-direction: column;
+		margin-left: 10%;
+		margin-right: 10%;
+	}
+	.side_filter {
+		margin-top: 2%;
+		width: 100%;
+	}
+	.all_product {
+		margin-top: 2%;
+		width: 100%;
+	}
+	.all_product_header {
+		width: 100%;
+		display: flex;
+		flex-direction: column;
+	}
+	.headingcontent{
+		width: 100%;
+		text-align: center;
+	}
+	.sortingbuttoncontainer{
+		width: 100%;
+	}
+
+}

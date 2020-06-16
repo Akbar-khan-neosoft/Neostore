@@ -25,7 +25,7 @@ class Register extends Component {
 				password: '',
 				confirmPassword: '',
 				mobile: '',
-				gender: ''
+				gender: "male"
 			},
 			showPassword: false,
 			showConfirmPassword: false,

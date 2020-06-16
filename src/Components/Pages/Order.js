@@ -2,6 +2,7 @@ import React, { Component } from "react";
 
 import { getOrderDetailsAPI } from "../../API/API"
 import "../../Assets/CSS/Order.css"
+import NoOrder from "../NoOrder";
 
 class Order extends Component {
     constructor() {
@@ -13,13 +14,12 @@ class Order extends Component {
 
     async componentDidMount() {
         const res = await getOrderDetailsAPI()
-        this.setState({ orderdata: res.data.product_details })
+        this.setState({ orderdata: res.data.product_details || [] })
     }
 
-    render() {
-
+    render() {        
         return (
-            this.state.orderdata ?
+            this.state.orderdata.length > 0 ?
                 <div className="ordercontainer">
                     {this.state.orderdata.map((res) => {
                         return (<div className="orderdetails">
@@ -46,7 +46,7 @@ class Order extends Component {
                         )
                     })}
 
-                </div> : <div><h1>No Order Found</h1></div>
+                </div> : <NoOrder/>
         )
     }
 }

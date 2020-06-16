@@ -1,16 +1,19 @@
 import React, { Component } from 'react';
 import { Link, withRouter } from "react-router-dom"
-
+import { connect } from 'react-redux';
 import { URL } from '../../../Redux/Constants/index';
 import { addToCart } from "../../../API/API"
 import StarRatingComponent from 'react-star-rating-component';
 import '../../../Assets/CSS/Product.css';
+import {cartitemcounthandle} from '../../../Redux/Actions/cartItemCountAction'
+
 
 class ProductCard extends Component {
 
 	addToCartHandler = async (data) => {
 		data["quantity"] = 1;
 		await addToCart(data)
+		this.props.cartItemCount()
 	}
 
 	render() {
@@ -109,4 +112,8 @@ class ProductCard extends Component {
 	}
 }
 
-export default withRouter(ProductCard);
+const mapDispatchToProps = dispatch => ({
+    cartItemCount: () => dispatch(cartitemcounthandle())
+});
+
+export default connect(null, mapDispatchToProps)(withRouter(ProductCard));

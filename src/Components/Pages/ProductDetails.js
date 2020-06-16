@@ -3,9 +3,11 @@ import StarRatingComponent from "react-star-rating-component"
 import Rating from '@material-ui/lab/Rating';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
-import "../../Assets/CSS/ProductDetails.css"
+import { connect } from 'react-redux';
+import "../../Assets/CSS/ProductDetails.css"   
 import { URL } from "../../Redux/Constants"
 import { addToCart } from "../../API/API"
+import {cartitemcounthandle} from '../../Redux/Actions/cartItemCountAction'
 import axios from "axios"
 import ReactImageMagnify from 'react-image-magnify';
 
@@ -84,6 +86,7 @@ class ProductDetails extends Component {
     addToCartHandler = async (data) => {
         data["quantity"] = 1;
         await addToCart(data)
+        this.props.cartItemCount()
     }
 
     render() {
@@ -102,8 +105,9 @@ class ProductDetails extends Component {
                     smallImage: {
                         alt: "main",
                         src: URL + productData.product_image,
-                        width: 500,
-                        height: 250
+                        isFluidWidth: true,
+                        // width: 500,
+                        // height: 250
                     },
                     largeImage: {
                         src: URL + productData.product_image,
@@ -182,17 +186,7 @@ class ProductDetails extends Component {
                         <div className="otherbuttonssection">
                             <div className="addandratebuttons">
                                 <div>
-                                    <button
-                                        style={{
-                                            fontSize: '15px',
-                                            color: 'white',
-                                            fontWeight: '700',
-                                            width: '150px',
-                                            height: '30px',
-                                            backgroundColor: 'red',
-                                            borderRadius: '10px',
-                                            margin: 'auto',
-                                        }}
+                                    <button className="addandratebutton"
                                         onClick={() => { this.addToCartHandler(this.state.productDetails) }}
                                     >
                                         <span
@@ -205,17 +199,7 @@ class ProductDetails extends Component {
                                     </button>
                                 </div>
                                 <div>
-                                    <button
-                                        style={{
-                                            fontSize: '15px',
-                                            color: 'white',
-                                            fontWeight: '700',
-                                            width: '150px',
-                                            height: '30px',
-                                            backgroundColor: 'red',
-                                            borderRadius: '10px',
-                                            margin: 'auto',
-                                        }}
+                                    <button className="addandratebutton"
                                         onClick={this.onClickRateProduct}
                                     >
                                         <span
@@ -237,9 +221,9 @@ class ProductDetails extends Component {
                                         precision={0.5}
                                         onChange={this.onchangerateproduct}
                                     /></span><span>
-                                        <button disabled={this.state.disableSubmitRateProduct} onClick={this.onSubmitRateProduct} style={{ marginLeft: "5%" }}>Done</button></span>
+                                        <button disabled={this.state.disableSubmitRateProduct} onClick={this.onSubmitRateProduct} style={{ marginLeft: "3%" }}>Done</button></span>
                                     <span>
-                                        <button onClick={this.onCancelRateProduct} style={{ marginLeft: "5%" }}>Cancel</button></span>
+                                        <button onClick={this.onCancelRateProduct} style={{ marginLeft: "3%" }}>Cancel</button></span>
                                 </Box>
                             </div> : null}
                         </div>
@@ -254,4 +238,8 @@ class ProductDetails extends Component {
     }
 }
 
-export default ProductDetails
+const mapDispatchToProps = dispatch => ({
+    cartItemCount: () => dispatch(cartitemcounthandle())
+});
+
+export default connect(null, mapDispatchToProps)(ProductDetails)

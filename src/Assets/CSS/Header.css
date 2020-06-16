@@ -1,4 +1,4 @@
-.container-fluid {
+/* .headercontainer {
 	background-color: black;
 	width: 100%;
 	height: 64px;
@@ -23,19 +23,23 @@
 }
 
 .Header-search {
-	width: 35%;
+	width: 40%;
 	display: flex;
 	align-items: center;	
 }
 
 .Header-Links {
-	width: 41%;
+	width: 58%;
 	margin-right: 2%;
 	margin-left: 2%;
 }
 
 .Header-Logo {
 	width: 20%;
+}
+.headerother{
+	width: 80%;
+	display: flex;
 }
 
 .searchbox {
@@ -52,4 +56,43 @@
 #profilebutton{
 	width: 100%;
 	height: 100%;
+} */
+
+.searchbox {
+	width: 28%;
+}
+.Header-Cart-Button {
+	width: 12%;
+	margin-left: 2%;
+	margin-right: 2%;
+}
+
+.navitemlink{
+	margin-left: 3%;
+	margin-right: 2%;
+}
+
+@media only screen and (max-width: 990px) {
+	.searchbox {
+		width: 100%;
+		margin-bottom: 2%;
+	}
+	.navitemlink{
+		margin-left: 0;
+		margin-right: 0;
+	}
+	
+	.Header-Cart-Button {
+		width: 100%;
+		margin-bottom: 2%;
+		margin-left: 0;
+	}
+	
+	.Header-Profile-Button {
+		width: 100%;
+		margin-bottom: 2%;
+	}
+	.otherbutton{
+		width: 100%;
+	}
 }

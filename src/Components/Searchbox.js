@@ -27,7 +27,7 @@ class Seacrhbox extends Component {
   }
   render() {
     return (
-      <div style={{ width: "100%" }}>
+      <div >
         <Autocomplete
           id="free-solo-demo"
           freeSolo

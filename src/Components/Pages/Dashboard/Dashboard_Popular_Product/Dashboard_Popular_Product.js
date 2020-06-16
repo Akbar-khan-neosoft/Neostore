@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import '../../../../Assets/CSS/Dashboard_Popular_Product.css';
 import { connect } from 'react-redux';
 import { fetchPopularProductData } from '../../../../Redux/Actions/popularProductAction';
+import {cartitemcounthandle} from '../../../../Redux/Actions/cartItemCountAction'
 import { addToCart } from "../../../../API/API"
 import { URL } from '../../../../Redux/Constants';
 import StarRatingComponent from 'react-star-rating-component';
@@ -16,6 +17,7 @@ class Dashboard_Popular_Product extends Component {
 	addToCartHandler = async (data) => {
 		data["quantity"] = 1;
 		await addToCart(data)
+		this.props.cartItemCount()
 	}
 
 	onViewAllClickHandle=()=>{
@@ -127,6 +129,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => ({
 	onFetch: () => dispatch(fetchPopularProductData()),
+	cartItemCount:()=>dispatch(cartitemcounthandle())
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Dashboard_Popular_Product));
