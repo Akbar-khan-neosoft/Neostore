@@ -19,10 +19,7 @@ class MyAddress extends Component {
 
     async componentDidMount() {
         const localData = JSON.parse(localStorage.getItem("loginData"))
-
         const res = await axios.get(URL + "getCustAddress", { headers: { "Authorization": "Brearer " + localData.token } })
-        console.log(res.data.customer_address)
-
         this.setState({ custAddress: res.data.customer_address })
     }
 

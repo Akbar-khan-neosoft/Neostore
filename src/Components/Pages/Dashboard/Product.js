@@ -87,7 +87,7 @@ class Product extends Component {
 
 		return (
 
-			this.state.post.length > 0 ? <div className="product_container">
+			this.props.data.length > 0 ? <div className="product_container">
 				<div className="product">
 					<div className="side_filter">
 						<div className="allProductButton btn" onClick={this.onAllProductClickHandle}>
@@ -156,30 +156,32 @@ class Product extends Component {
 							<div className="headingcontent"><h3>{heading}</h3></div>
 							<div className="sortingbuttoncontainer">Sort By:
 							<button className="sortingbutton" onClick={this.sortByRating}>
-									<i class="fa fa-star" aria-hidden="true"></i>
+									<i className="fa fa-star" aria-hidden="true"></i>
 								</button>
 								<button className="sortingbutton" onClick={this.sortByAscending}>
-									<i class="fa fa-inr fa-lg" aria-hidden="true"></i>
-									<i class="fa fa-arrow-up" aria-hidden="true"></i>
+									<i className="fa fa-inr fa-lg" aria-hidden="true"></i>
+									<i className="fa fa-arrow-up" aria-hidden="true"></i>
 								</button>
 								<button className="sortingbutton" onClick={this.sortByDescending}>
-									<i class="fa fa-inr fa-lg" aria-hidden="true"></i>
-									<i class="fa fa-arrow-down" aria-hidden="true"></i>
+									<i className="fa fa-inr fa-lg" aria-hidden="true"></i>
+									<i className="fa fa-arrow-down" aria-hidden="true"></i>
 								</button>
 							</div>
 						</div>
-						{currentCard.length !== 0 ? (
+						{currentCard.length !== 0 ?
 							<ProductCard data={currentCard} />
-						) : (<ErrorPage />)}
+							: <ErrorPage />}
 					</div>
 				</div>
-				<div className="product_pagination">
-					<Pagination
-						cardsPerPage={this.state.cardsPerPage}
-						totalPosts={this.props.data.length}
-						paginate={this.handlePageChange}
-					/>
-				</div>
+				{(this.state.post.length > this.state.cardsPerPage) ?
+					<div className="product_pagination">
+						<Pagination
+							cardsPerPage={this.state.cardsPerPage}
+							// totalPosts={this.props.data.length}
+							totalPosts={this.state.post.length}
+							paginate={this.handlePageChange}
+						/>
+					</div> : null}
 			</div> : <Loading />
 		);
 	}

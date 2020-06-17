@@ -4,7 +4,7 @@ import {withRouter} from 'react-router-dom'
 import AddNewAddress from "./AddNewAddress"
 import { URL } from "../../Redux/Constants"
 import EditDeliveryAddress from "./EditDeliveryAddress"
-import { FormControl, FormControlLabel, FormLabel, RadioGroup, Radio } from '@material-ui/core';
+import { FormControl, FormControlLabel, RadioGroup, Radio } from '@material-ui/core';
 
 
 
@@ -26,7 +26,6 @@ class DeliveryAddress extends Component {
 
         if (localData) {
             const res = await axios.get(URL + "getCustAddress", { headers: { "Authorization": "Brearer " + localData.token } })
-            console.log(res.data.customer_address)
             this.setState({ custAddress: res.data.customer_address })
         }
     }
@@ -96,8 +95,6 @@ class DeliveryAddress extends Component {
 
     render() {
         const { custAddress } = this.state
-        console.log(this.state.custAddress);
-
 
         return (
             this.state.addAddress ? <AddNewAddress cancel={this.addNewAddressHandle} save={this.props.save} /> : this.state.editAddress ? <EditDeliveryAddress save={this.props.save} custAddress={custAddress} cancel={this.editAddressHandle} add_id={this.state.address_id} /> :

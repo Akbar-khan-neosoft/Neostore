@@ -34,10 +34,10 @@ class ProductCard extends Component {
 											margin: 'auto',
 										}}
 										src={URL + d.product_image}
-										class="card-img-top"
+										className="card-img-top"
 										alt="..."
 									/>
-									<div class="card-body">
+									<div className="card-body">
 										<div
 											style={{
 												height: '50px',
@@ -68,7 +68,7 @@ class ProductCard extends Component {
 													textAlign: 'center',
 												}}
 											>
-												<i class="fa fa-inr" aria-hidden="true"></i>
+												<i className="fa fa-inr" aria-hidden="true"></i>
 												{d.product_cost}
 											</p>
 										</div>

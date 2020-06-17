@@ -35,15 +35,15 @@ class Dashboard_Popular_Product extends Component {
 					{this.props.data.map(item => {
 						return [item].map(result => {
 							return (
-								<div class="card" key={result.DashboardProducts[0].product_id}>
+								<div className="card" key={result.DashboardProducts[0].product_id}>
 									<div className="class-thumbnail">
 										<img
 											style={{ height: '120px', width: '230px', borderRadius: '10px' }}
 											src={URL + result.DashboardProducts[0].product_image}
-											class="card-img-top"
+											className="card-img-top"
 											alt="..."
 										/>
-										<div class="card-body">
+										<div className="card-body">
 											<div
 												style={{
 													height: '50px',
@@ -75,7 +75,7 @@ class Dashboard_Popular_Product extends Component {
 														textAlign: 'center',
 													}}
 												>
-													<i class="fa fa-inr" aria-hidden="true"></i>
+													<i className="fa fa-inr" aria-hidden="true"></i>
 													{result.DashboardProducts[0].product_cost}
 												</p>
 											</div>

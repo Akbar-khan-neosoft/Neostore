@@ -17,6 +17,7 @@ import Order from "../Components/Pages/Order";
 import Cart from "../Components/Pages/Cart";
 import LocateUs from "../Components/Pages/LocateUs";
 import OrderPlaced from "../Components/Pages/OrderPlaced";
+import NoProductError from "../Components/Pages/NoProductError";
 
 function Routes(){
     return(
@@ -36,7 +37,9 @@ function Routes(){
                         <Route exact path="/cart" component={Cart} />
                         <Route exact path="/locateus" component={LocateUs} />
                         <ProtectedRoutesLogout exact path="/order" component={Order} />
-                        <Route exact path="/orderplaced" component={OrderPlaced} />
+                        <ProtectedRoutesLogin exact path="/orderplaced" component={OrderPlaced} />
+                        <Route exact path="/productnotavailable" component={NoProductError} />
+
                     </Switch>
  
     )

@@ -8,12 +8,13 @@ import { withRouter } from "react-router";
 
 class Seacrhbox extends Component {
 
-  onChangeHandle = (e,itemname) => {
+  onChangeHandle = (e, itemname) => {
     e.preventDefault()
     const index = this.props.data.findIndex(res => {
       return (res.product_name === itemname)
     })
-    
+    console.log(itemname, index);
+
     if (index >= 0) {
       this.props.history.push({
         pathname: "/productdetails",
@@ -21,6 +22,8 @@ class Seacrhbox extends Component {
           productid: this.props.data[index].product_id
         }
       })
+    } else {
+      this.props.history.push("/productnotavailable")
     }
 
 
@@ -35,7 +38,7 @@ class Seacrhbox extends Component {
           )}
           onChange={(event, value) => this.onChangeHandle(event, value)}
           renderInput={(params) => (
-            <TextField {...params} margin="normal" placeholder="Search..." variant="outlined" style={{ backgroundColor: "white"}} />
+            <TextField {...params} margin="normal" placeholder="Search..." variant="outlined" style={{ backgroundColor: "white" }} />
           )}
         />
       </div>
@@ -47,4 +50,4 @@ const mapStateToProps = state => {
   return { data: state.productReducer.data || [] };
 };
 
-export default connect(mapStateToProps) (withRouter(Seacrhbox));
+export default connect(mapStateToProps)(withRouter(Seacrhbox));
