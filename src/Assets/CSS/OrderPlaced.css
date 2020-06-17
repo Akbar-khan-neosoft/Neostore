@@ -1,0 +1,34 @@
+.thankyoucontainer{
+    width: 100%;
+    padding-top: 10%;
+    padding-bottom: 15%;
+}
+
+.thankyoubox{
+    width: 80%;
+    margin-left: 10%;
+    margin-right: 10%;
+}
+
+.thankyouheader{
+    text-align: center;
+    width: 90%;
+    margin-left: 5%;
+    margin-right: 5%;
+    margin-bottom: 5%;
+}
+
+.thankyoustatement{
+    text-align: center;
+    width: 90%;
+    margin-left: 5%;
+    margin-right: 5%;
+    margin-bottom: 5%;
+}
+
+.thankyoubacktohomepage{
+    width: 50%;
+    margin-left: 25%;
+    margin-right: 25%;
+    justify-items: center;
+}

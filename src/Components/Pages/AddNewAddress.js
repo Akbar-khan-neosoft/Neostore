@@ -93,7 +93,6 @@ class AddNewAddress extends Component {
 
         }
 
-        console.log("test : ", this.state.formErrors);
 
         if (formErrors.address.length === 0 && formErrors.pincode.length === 0 && formErrors.city.length === 0 &&
             formErrors.state.length === 0 && formErrors.country.length === 0) {
@@ -104,7 +103,6 @@ class AddNewAddress extends Component {
     };
 
     handleSubmit = async () => {
-        console.log("submit");
 
         const localData = JSON.parse(localStorage.getItem("loginData"))
 
@@ -135,7 +133,7 @@ class AddNewAddress extends Component {
                     <form>
                         <div className="addnewaddressformcontrol">
                             <FormControl>
-                                <TextField id="outlined-basic"
+                                <TextField 
                                     label="Address"
                                     multiline="true"
                                     rows="3"
@@ -152,7 +150,7 @@ class AddNewAddress extends Component {
                         </div>
                         <div className="addnewaddressformcontrol">
                             <FormControl>
-                                <TextField id="outlined-basic"
+                                <TextField 
                                     label="Pincode"
                                     variant="outlined"
                                     placeholder="Pincode"
@@ -170,7 +168,7 @@ class AddNewAddress extends Component {
                         </div>
                         <div className="addnewaddressformcontrol">
                             <FormControl>
-                                <TextField id="outlined-basic"
+                                <TextField 
                                     label="City"
                                     variant="outlined"
                                     placeholder="City"
@@ -183,7 +181,7 @@ class AddNewAddress extends Component {
                                 <span className="errorMessage">{formErrors.city}</span>
                             )}
                             <FormControl>
-                                <TextField id="outlined-basic"
+                                <TextField 
                                     label="State"
                                     variant="outlined"
                                     placeholder="State"
@@ -198,7 +196,7 @@ class AddNewAddress extends Component {
                         </div>
                         <div className="addnewaddressformcontrol">
                             <FormControl>
-                                <TextField id="outlined-basic"
+                                <TextField 
                                     label="Country"
                                     variant="outlined"
                                     placeholder="Country"

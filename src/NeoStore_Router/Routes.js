@@ -16,6 +16,7 @@ import ChangePassword from "../Components/Pages/ChangePassword";
 import Order from "../Components/Pages/Order";
 import Cart from "../Components/Pages/Cart";
 import LocateUs from "../Components/Pages/LocateUs";
+import OrderPlaced from "../Components/Pages/OrderPlaced";
 
 function Routes(){
     return(
@@ -35,6 +36,7 @@ function Routes(){
                         <Route exact path="/cart" component={Cart} />
                         <Route exact path="/locateus" component={LocateUs} />
                         <ProtectedRoutesLogout exact path="/order" component={Order} />
+                        <Route exact path="/orderplaced" component={OrderPlaced} />
                     </Switch>
  
     )

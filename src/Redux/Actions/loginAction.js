@@ -1,6 +1,5 @@
 import axios from 'axios';
 import { LOGIN_FAILURE, LOGIN_REQUEST, LOGIN_SUCCESS, URL, LOGIN_AUTHENTICATION, LOGOUT_REQUEST } from '../Constants';
-
 const loginRequest = () => ({ type: LOGIN_REQUEST });
 const loginSuccess = data => ({ type: LOGIN_SUCCESS, payload: data });
 const loginFailure = error => ({ type: LOGIN_FAILURE, error: error });
