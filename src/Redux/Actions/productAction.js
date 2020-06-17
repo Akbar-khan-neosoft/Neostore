@@ -8,8 +8,7 @@ const ProductDataFailure = error => ({ type: PRODUCT_DATA_FAILURE, error: error 
 export const fetchProductData = () => async dispatch => {
 	dispatch(ProductDataRequest());
 	try {
-		const res = await axios.get(URL + 'commonProducts');
-
+		const res = await axios.get(URL + 'commonProducts');		
 		dispatch(ProductDataSuccess(res.data.product_details));
 	} catch (error) {
 		dispatch(ProductDataFailure({ error }));

@@ -11,7 +11,6 @@ import {
 } from '../../Components/Common/SocialLoginButtons/SocialLoginButtons';
 import { Link } from 'react-router-dom';
 
-// let errorMessage = '';
 class Login extends Component {
 	constructor() {
 		super();
@@ -21,7 +20,6 @@ class Login extends Component {
 				password: '',
 			},
 			disableButton: true,
-			// isAuth:false,
 			error: {
 				emailError: false,
 				passwordError: false,
@@ -46,15 +44,14 @@ class Login extends Component {
 		await this.props.onFetch(data);
 		localStorage.setItem('loginData', JSON.stringify(this.props.data));
 		await this.props.onFetchCart()
-		// const res = this.props.cartdata.map(res => {
-		// 	return res.product_id
-		// })
-		if(this.props.cartdata.length>0){
-			localStorage.setItem('cart', localCartData.concat(JSON.stringify(this.props.cartdata)));
+		const result = this.props.cartdata.map(res => {
+			const product_id = res.product_id
+			product_id.quantity = res.quantity
+			return product_id
+		})
+		if (this.props.cartdata.length > 0) {
+			localStorage.setItem('cart', JSON.stringify(localCartData.concat(result)));
 		}
-		console.log("a-",localCartData);
-		console.log("b-",this.props.cartdata);
-		// console.log("c-",localCartData.concat(JSON.stringify(this.props.cartdata)));
 		this.props.history.push('/');
 	};
 
@@ -172,12 +169,11 @@ class Login extends Component {
 }
 
 const mapStateToProps = state => {
-	console.log('aaaa - >', state.cartReducer.data);
-	// return { data: state.loginReducer || [] };
-	return { 
-		data: state.loginReducer.data || [], 
-		login: state.loginReducer.isAuthenticated, 
-		cartdata: state.cartReducer.data || [] };
+	return {
+		data: state.loginReducer.data || [],
+		login: state.loginReducer.isAuthenticated,
+		cartdata: state.cartReducer.data || []
+	};
 };
 
 const mapDispatchToProps = dispatch => ({

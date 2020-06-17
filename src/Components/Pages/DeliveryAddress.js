@@ -40,19 +40,9 @@ class DeliveryAddress extends Component{
         this.setState({addAddress:!this.state.addAddress})
     }
 
-    // deleteAddressHandle= async(add_id)=>{
-    //     const localData = JSON.parse(localStorage.getItem("loginData"))
-    //     const res = await axios.delete(URL + "deladdress/" + add_id, {headers : {"Authorization": "Brearer " + localData.token }})
-    //     alert(res.data.message)
-    //     // this.props.history.push('/myaccount');
-       
-    // }
-
     onClickPlaceOrder = async()=>{
         console.log("hit")
         console.log(this.props.data)
-       const res = await placeOrderAPI(this.props.data)
-        console.log("data",res)
     }
 
     render(){

@@ -9,11 +9,10 @@ import Searchbox from '../../Searchbox';
 class Header extends Component {
 
 	onLogoutHandle = async () => {
-
+		const localCartData = JSON.parse(localStorage.getItem("cart"))
 		await this.props.onFetch()
 		localStorage.clear();
 		this.props.history.push("/")
-
 	}
 	render() {
 		let success = false;
@@ -26,7 +25,7 @@ class Header extends Component {
 
 		return (
 			<nav className="navbar navbar-expand-lg navbar-dark bg-dark">
-				<div className="navbar-brand" style={{marginRight:"5%"}}>
+				<div className="navbar-brand" style={{ marginRight: "5%" }}>
 					<Link to="/" style={{ textDecoration: 'none' }}>
 						<h1 style={{ color: 'white', fontSize: '50px' }}>
 							Neo<span style={{ color: 'red' }}>Store</span>
@@ -96,9 +95,9 @@ class Header extends Component {
 								</div>
 							</button></div>
 					</div>
-				
+
 				</div>
-				</nav >
+			</nav >
 		);
 	}
 }
