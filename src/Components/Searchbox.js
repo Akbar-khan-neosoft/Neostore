@@ -13,7 +13,6 @@ class Seacrhbox extends Component {
     const index = this.props.data.findIndex(res => {
       return (res.product_name === itemname)
     })
-    console.log(itemname, index);
 
     if (index >= 0) {
       this.props.history.push({
@@ -22,7 +21,7 @@ class Seacrhbox extends Component {
           productid: this.props.data[index].product_id
         }
       })
-    } else {
+    } else if(itemname !== null && index < 0){
       this.props.history.push("/productnotavailable")
     }
 

@@ -9,7 +9,6 @@ import Searchbox from '../../Searchbox';
 class Header extends Component {
 
 	onLogoutHandle = async () => {
-		const localCartData = JSON.parse(localStorage.getItem("cart"))
 		await this.props.onFetch()
 		localStorage.clear();
 		this.props.history.push("/")

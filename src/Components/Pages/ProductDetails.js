@@ -49,7 +49,6 @@ class ProductDetails extends Component {
     }
 
     onSubmitRateProduct = async () => {
-        console.log(localData.token);
         const data = {
             product_id: this.props.location.state.productid,
             product_rating: this.state.rateProductValue

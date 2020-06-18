@@ -14,6 +14,8 @@ export const fetchPopularProductData = () => async dispatch => {
 	dispatch(popularProductDataRequest());
 	try {
 		const res = await axios.get(URL + 'defaultTopRatingProduct');
+		console.log("pp",res);
+		
 		dispatch(popularProductDataSuccess(res.data.product_details));
 	} catch (error) {
 		dispatch(popularProductDataFailure({ error }));

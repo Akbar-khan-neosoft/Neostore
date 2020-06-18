@@ -1,10 +1,13 @@
 import React, { Component } from "react"
+import axios from 'axios';
 import { connect } from 'react-redux';
 import "../../Assets/CSS/Cart.css"
 import { fetchCartData } from "../../Redux/Actions/cartAction"
 import DeliveryAddress from "./DeliveryAddress";
 import { cartitemcounthandle } from '../../Redux/Actions/cartItemCountAction'
 import NoProduct from "./NoProduct";
+import { URL } from '../../Redux/Constants'
+
 
 
 
@@ -35,7 +38,10 @@ class Cart extends Component {
     }
 
     onClickdeleteProductHandle = (prd_id) => {
-
+        const localData = JSON.parse(localStorage.getItem("loginData"));
+        if(localData){
+            axios.delete(URL + `deleteCustomerCart/${prd_id}`, { headers: { "Authorization": 'Bearer ' + localData.token } });
+        }
         const localCartData = JSON.parse(localStorage.getItem("cart"))
         const index = localCartData.findIndex(res => { return res._id === prd_id })
         localCartData.splice(index, 1)
