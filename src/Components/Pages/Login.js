@@ -42,17 +42,21 @@ class Login extends Component {
 		};
 
 		await this.props.onFetch(data);
-		localStorage.setItem('loginData', JSON.stringify(this.props.data));
-		await this.props.onFetchCart()
-		const result = this.props.cartdata.map(res => {
-			const product_id = res.product_id
-			product_id.quantity = res.quantity
-			return product_id
-		})
-		if (this.props.cartdata.length > 0) {
-			localStorage.setItem('cart', JSON.stringify(localCartData.concat(result)));
+		if (this.props.data.success) {
+			localStorage.setItem('loginData', JSON.stringify(this.props.data));
+			await this.props.onFetchCart()
+			const result = this.props.cartdata.map(res => {
+				const product_id = res.product_id
+				product_id.quantity = res.quantity
+				return product_id
+			})
+			if (this.props.cartdata.length > 0) {
+				localStorage.setItem('cart', JSON.stringify(localCartData.concat(result)));
+			}
+			this.props.history.push('/');
+		} else if (!this.props.loginError.success) {
+			alert(this.props.loginError.message)
 		}
-		this.props.history.push('/');
 	};
 
 	onChangeHandler = ({ target: input }) => {
@@ -172,7 +176,8 @@ const mapStateToProps = state => {
 	return {
 		data: state.loginReducer.data || [],
 		login: state.loginReducer.isAuthenticated,
-		cartdata: state.cartReducer.data || []
+		cartdata: state.cartReducer.data || [],
+		loginError: state.loginReducer.error || []
 	};
 };
 

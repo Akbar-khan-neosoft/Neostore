@@ -8,7 +8,7 @@ const Pagination = ({ totalPosts, cardsPerPage, paginate }) => {
 	}
 
 	return (
-		<nav>
+		<nav style={{width:"50%",marginLeft:"25%",marginRight:"25%"}}>
 			<ul className="pagination">
 				{pageNumber.map(res => (
 					<li key={totalPosts + res} className="page-item">

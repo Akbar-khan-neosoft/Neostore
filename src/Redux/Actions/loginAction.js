@@ -10,13 +10,13 @@ const logoutRequest = () => ({ type: LOGOUT_REQUEST });
 export const fetchlogout = () => async dispatch => {
 	const localData = JSON.parse(localStorage.getItem("loginData"));
 	const localcart = JSON.parse(localStorage.getItem("cart"));
-	const data = localcart ? localcart : null
-	data.push({ flag: "logout" })
-	try {
-		const res = await axios.post(URL + 'addProductToCartCheckout', data, { headers: { "Authorization": "Brearer " + localData.token } });
-	} catch (error) {
-		console.log("error", error);
-	}
+	const data = localcart ? localcart : []
+		data.push({ flag: "logout" })
+		try {
+			const res = await axios.post(URL + 'addProductToCartCheckout', data, { headers: { "Authorization": "Brearer " + localData.token } });
+		} catch (error) {
+			console.log("error", error);
+		}
 	dispatch(logoutRequest());
 };
 
@@ -28,7 +28,7 @@ export const fetchlogin = data => async dispatch => {
 		dispatch(loginSuccess(res.data));
 		dispatch(loginAuthetication());
 	} catch (error) {
-		dispatch(loginFailure({ error }));
+		dispatch(loginFailure(error.response.data));
 	}
 };
 

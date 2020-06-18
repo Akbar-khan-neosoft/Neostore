@@ -26,7 +26,7 @@ class ProductCard extends Component {
 						return (
 							<div className="card" key={d.product_id}>
 								<div className="product_card_thumbnail">
-									<img
+									<div><img
 										style={{
 											height: '120px',
 											width: '230px',
@@ -36,7 +36,7 @@ class ProductCard extends Component {
 										src={URL + d.product_image}
 										className="card-img-top"
 										alt="..."
-									/>
+									/></div>
 									<div className="card-body">
 										<div
 											style={{
