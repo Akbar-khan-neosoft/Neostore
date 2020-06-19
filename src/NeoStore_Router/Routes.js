@@ -19,6 +19,7 @@ import LocateUs from "../Components/Pages/LocateUs";
 import OrderPlaced from "../Components/Pages/OrderPlaced";
 import NoProductError from "../Components/Pages/NoProductError";
 import PageNotFound from "../Components/Pages/PageNotFound";
+import Subscriber from "../Components/Pages/Subscriber";
 
 function Routes(){
     return(
@@ -38,8 +39,9 @@ function Routes(){
                         <Route exact path="/cart" component={Cart} />
                         <Route exact path="/locateus" component={LocateUs} />
                         <ProtectedRoutesLogout exact path="/order" component={Order} />
-                        <ProtectedRoutesLogin exact path="/orderplaced" component={OrderPlaced} />
+                        <ProtectedRoutesLogout exact path="/orderplaced" component={OrderPlaced} />
                         <Route exact path="/productnotavailable" component={NoProductError} />
+                        <Route path="/subscriber" component={Subscriber} />
                         <Route component={PageNotFound}/>
 
                     </Switch>

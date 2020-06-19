@@ -70,7 +70,7 @@ class ForgotPassword extends Component {
 						<div className="contactformcontrol">
 							<FormControl component="fieldset">
 								<button
-									class="btn"
+									className="btn"
 									type="button"
 									disabled={this.state.disableButton}
 									style={{ backgroundColor: 'rgb(21, 103, 226)', color: 'white' }}

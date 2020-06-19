@@ -9,7 +9,6 @@ export const fetchProductData = () => async dispatch => {
 	dispatch(ProductDataRequest());
 	try {
 		const res = await axios.get(URL + 'commonProducts');
-		console.log("prd",res);		
 		dispatch(ProductDataSuccess(res.data.product_details));
 	} catch (error) {
 		dispatch(ProductDataFailure({ error }));

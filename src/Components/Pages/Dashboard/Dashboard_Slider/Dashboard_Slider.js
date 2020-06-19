@@ -12,7 +12,11 @@ class DashboardCarousel extends Component {
 	}
 
 	onSliderClickHandle = async (category_id) => {
-		this.props.history.push("/product/" + category_id);
+		// this.props.history.push("/product/" + category_id);
+		this.props.history.push({
+			pathname: '/product',
+			state: { category_id: category_id }
+		  })
 	}
 
 

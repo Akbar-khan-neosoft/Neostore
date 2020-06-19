@@ -32,8 +32,12 @@ class Product extends Component {
 
 	async componentDidMount() {
 		await this.props.onFetch();
-		this.setState({ post: this.props.data });
-
+		if(this.props.location.state){
+			this.allCategoriesHandler(this.props.location.state.category_id)
+		} else {
+			this.setState({ post: this.props.data });
+		}
+		
 		const categoriesData = await axios.get(URL + 'getAllCategories');
 		this.setState({ allCategories: categoriesData.data.category_details });
 
@@ -54,7 +58,7 @@ class Product extends Component {
 		const colorData = await axios.get(URL + 'getProductByColor/' + color_id);
 		Array.isArray(colorData.data.product_details)
 			? this.setState({ post: colorData.data.product_details, currentPage: 1, cardsPerPage: 9, heading: colorData.data.product_details[0].category_id.category_name })
-			: this.setState({ post: [], currentPage: 1, cardsPerPage: 9, heading: "" });
+			: this.setState({ post: [], currentPage: 0, cardsPerPage: 9, heading: "" });
 	};
 
 	onAllProductClickHandle = () => {
@@ -168,9 +172,10 @@ class Product extends Component {
 								</button>
 							</div>
 						</div>
-						{currentCard.length !== 0 ?
+						{this.state.post.length > 0 ? currentCard.length !== 0 ?
 							<ProductCard data={currentCard} />
-							: <ErrorPage />}
+							: <ErrorPage /> 
+						: <Loading />}
 					</div>
 				</div>
 				{(this.state.post.length > this.state.cardsPerPage) ?

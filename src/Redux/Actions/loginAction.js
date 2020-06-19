@@ -13,9 +13,9 @@ export const fetchlogout = () => async dispatch => {
 	const data = localcart ? localcart : []
 		data.push({ flag: "logout" })
 		try {
-			const res = await axios.post(URL + 'addProductToCartCheckout', data, { headers: { "Authorization": "Brearer " + localData.token } });
+			await axios.post(URL + 'addProductToCartCheckout', data, { headers: { "Authorization": "Brearer " + localData.token } });
 		} catch (error) {
-			console.log("error", error);
+			alert(error.response.data.message);
 		}
 	dispatch(logoutRequest());
 };

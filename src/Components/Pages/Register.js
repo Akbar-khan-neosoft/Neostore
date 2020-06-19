@@ -44,22 +44,26 @@ class Register extends Component {
 
 	handleSubmit = async e => {
 		e.preventDefault()
-			const { firstName, lastName, email, password, mobile, confirmPassword, gender } = this.state.data;
-			let registrationData = {
+		const { firstName, lastName, email, password, mobile, confirmPassword, gender } = this.state.data;
+		let registrationData = {
 
-				first_name: `${firstName}`,
-				last_name: `${lastName}`,
-				email: `${email}`,
-				pass: `${password}`,
-				phone_no: `${mobile}`,
-				confirmPass: `${confirmPassword}`,
-				gender: `${gender}`,
-			};
-
-			const res = await axios.post(URL + 'register', registrationData);
+			first_name: `${firstName}`,
+			last_name: `${lastName}`,
+			email: `${email}`,
+			pass: `${password}`,
+			phone_no: `${mobile}`,
+			confirmPass: `${confirmPassword}`,
+			gender: `${gender}`,
+		};
+		try {
+			var res = await axios.post(URL + 'register', registrationData);
 			alert(res.data.message);
 			this.props.history.push('login');
-		
+
+		} catch (error) {
+			alert(error.response.data.message);
+		}
+
 	};
 
 	handleClickShowPassword = (param) => {
@@ -75,7 +79,6 @@ class Register extends Component {
 	};
 
 	validate = (name) => {
-		// const { name, value } = e.target;
 		let formErrors = { ...this.state.formErrors };
 		const { firstName, lastName, email, password, confirmPassword, mobile, gender } = this.state.data
 		this.setState({ disableButton: true })
@@ -124,7 +127,7 @@ class Register extends Component {
 					formErrors.confirmPassword = '';
 				} else if (confirmPassword.length > 0 && password !== confirmPassword) {
 					formErrors.confirmPassword = 'Password and Confirm Password Mismatched';
-				}else {
+				} else {
 					formErrors.password = '';
 				}
 
@@ -165,8 +168,6 @@ class Register extends Component {
 				break;
 		}
 
-		console.log("test : ", name);
-
 		if (formErrors.firstName.length === 0 && formErrors.lastName.length === 0 && formErrors.email.length === 0 &&
 			formErrors.password.length === 0 && formErrors.confirmPassword.length === 0 && formErrors.mobile.length === 0 &&
 			formErrors.gender.length === 0) {
@@ -179,11 +180,7 @@ class Register extends Component {
 
 	render() {
 
-		const { firstName, lastName, email, password, confirmPassword, mobile, gender } = this.state.data
-		console.log("data==", firstName, lastName, email, password, confirmPassword, mobile, gender)
-
 		const { formErrors } = this.state;
-		console.log("err==",formErrors)
 		return (
 			<div className="register">
 				<div className="register_button">
@@ -191,7 +188,7 @@ class Register extends Component {
 					<GoogleButton />
 				</div>
 				<hr></hr>
-				<div class="form_card" style={{ width: '90%' }}>
+				<div className="form_card" style={{ width: '90%' }}>
 					<div className="register_form">
 						<form>
 							<h3 className="form_textfield">Register to NeoSTORE</h3>
@@ -211,7 +208,7 @@ class Register extends Component {
 											),
 										}}
 										onChange={this.handleChange}
-										onBlur={()=>this.validate("firstName")}
+										onBlur={() => this.validate("firstName")}
 									/>
 								</FormControl>
 								{formErrors.firstName.length > 0 && (
@@ -234,7 +231,7 @@ class Register extends Component {
 											),
 										}}
 										onChange={this.handleChange}
-										onBlur={()=>this.validate("lastName")}
+										onBlur={() => this.validate("lastName")}
 									/>
 								</FormControl>
 								{formErrors.lastName.length > 0 && (
@@ -257,7 +254,7 @@ class Register extends Component {
 											),
 										}}
 										onChange={this.handleChange}
-										onBlur={()=>this.validate("email")}
+										onBlur={() => this.validate("email")}
 									/>
 								</FormControl>
 								{formErrors.email.length > 0 && (
@@ -273,10 +270,10 @@ class Register extends Component {
 										placeholder="Password"
 										name="password"
 										inputProps={
-											{maxLength: 12} 
+											{ maxLength: 12 }
 										}
 										onChange={this.handleChange}
-										onBlur={()=>this.validate("password")} 
+										onBlur={() => this.validate("password")}
 										endAdornment={
 											<InputAdornment position="end">
 												<IconButton
@@ -305,7 +302,7 @@ class Register extends Component {
 											{ maxLength: 12 }
 										}
 										onChange={this.handleChange}
-										onBlur={()=>this.validate("confirmPassword")} endAdornment={
+										onBlur={() => this.validate("confirmPassword")} endAdornment={
 											<InputAdornment position="end">
 												<IconButton
 													aria-label="toggle password visibility"
@@ -340,7 +337,7 @@ class Register extends Component {
 											),
 										}}
 										onChange={this.handleChange}
-										onBlur={()=>this.validate("mobile")}
+										onBlur={() => this.validate("mobile")}
 									/>
 								</FormControl>
 								{formErrors.mobile.length > 0 && (
@@ -354,7 +351,7 @@ class Register extends Component {
 										name="gender"
 										defaultValue="male"
 										onChange={this.handleChange}
-										onBlur={()=>this.validate("gender")}
+										onBlur={() => this.validate("gender")}
 									>
 										<FormControlLabel value="male" control={<Radio />} label="Male" />
 										<FormControlLabel value="female" control={<Radio />} label="Female" />
@@ -364,7 +361,7 @@ class Register extends Component {
 							<div className="form_textfield">
 								<FormControl component="fieldset">
 									<button
-										class="btn btn-danger text-uppercase float-left"
+										className="btn btn-danger text-uppercase float-left"
 										onClick={this.handleSubmit}
 										type="submit"
 										disabled={this.state.disableButton}

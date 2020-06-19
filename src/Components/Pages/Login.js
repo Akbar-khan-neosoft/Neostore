@@ -109,10 +109,10 @@ class Login extends Component {
 					<div className="login_form">
 						<form>
 							<h3>Login to NeoSTORE</h3>
-							<div class="form-group" style={{ marginTop: '25px' }}>
+							<div className="form-group" style={{ marginTop: '25px' }}>
 								<input
 									type="email"
-									class="form-control"
+									className="form-control"
 									placeholder="Email Address"
 									value={email}
 									onChange={this.onChangeHandler}
@@ -125,10 +125,10 @@ class Login extends Component {
 									</span>
 								) : null}
 							</div>
-							<div class="form-group" style={{ marginTop: '25px' }}>
+							<div className="form-group" style={{ marginTop: '25px' }}>
 								<input
 									type="password"
-									class="form-control"
+									className="form-control"
 									placeholder="Password"
 									value={password}
 									onChange={this.onChangeHandler}
@@ -146,7 +146,7 @@ class Login extends Component {
 								type="button"
 								disabled={this.state.disableButton}
 								style={{ marginTop: '15px' }}
-								class="btn btn-primary"
+								className="btn btn-primary"
 								onClick={this.onSubmitHandler}
 							>
 								Login

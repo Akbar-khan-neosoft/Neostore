@@ -95,14 +95,14 @@ class Cart extends Component {
             <div className="cartcontainer">
                 <div className="cartheader">
                     <div onClick={this.onClickCartHandle} className="btn">{this.state.showCartDetail ?
-                        <i class="fa fa-check-square" aria-hidden="true">&nbsp;Cart</i>
-                        : <i class="fa fa-square" aria-hidden="true">&nbsp;Cart</i>
+                        <i className="fa fa-check-square" aria-hidden="true">&nbsp;Cart</i>
+                        : <i className="fa fa-square" aria-hidden="true">&nbsp;Cart</i>
 
                     }</div>
                     <hr></hr>
                     <div onClick={this.onClickAddressHandle} className="btn">{this.state.showAddressDetail ?
-                        <i class="fa fa-check-square" aria-hidden="true">&nbsp;Address</i>
-                        : <i class="fa fa-square" aria-hidden="true">&nbsp;Address</i>
+                        <i className="fa fa-check-square" aria-hidden="true">&nbsp;Address</i>
+                        : <i className="fa fa-square" aria-hidden="true">&nbsp;Address</i>
 
                     }</div>
                 </div>
@@ -132,13 +132,13 @@ class Cart extends Component {
                                                     </div></div>
                                                 </td>
                                                 <td><div>
-                                                    <button style={{ backgroundColor: "transparent", border: "none" }} onClick={() => this.onClickSubQuantityHandle(res._id)}><i class="fa fa-minus-circle" aria-hidden="true"></i>
+                                                    <button style={{ backgroundColor: "transparent", border: "none" }} onClick={() => this.onClickSubQuantityHandle(res._id)}><i className="fa fa-minus-circle" aria-hidden="true"></i>
                                                     </button>{res.quantity}
-                                                    <button style={{ backgroundColor: "transparent", border: "none" }} onClick={() => this.onClickAddQuantityHandle(res._id)}><i class="fa fa-plus-circle" aria-hidden="true"></i>
+                                                    <button style={{ backgroundColor: "transparent", border: "none" }} onClick={() => this.onClickAddQuantityHandle(res._id)}><i className="fa fa-plus-circle" aria-hidden="true"></i>
                                                     </button></div></td>
                                                 <td><div>{res.product_cost}</div></td>
                                                 <td>{res.product_cost * res.quantity}</td>
-                                                <td><button style={{ backgroundColor: "transparent", border: "none" }} onClick={() => this.onClickdeleteProductHandle(res._id)}><i class="fa fa-trash" aria-hidden="true"></i>
+                                                <td><button style={{ backgroundColor: "transparent", border: "none" }} onClick={() => this.onClickdeleteProductHandle(res._id)}><i className="fa fa-trash" aria-hidden="true"></i>
 
                                                 </button></td>
                                             </tr>
