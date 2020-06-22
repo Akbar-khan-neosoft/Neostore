@@ -20,16 +20,9 @@ export const addToCart = (data) => {
 
 };
 
-export const updateQuantityAPI = (prd_id, quantity) => {
-    const localData = JSON.parse(localStorage.getItem("loginData"))
-    console.log(prd_id, quantity, localData.token);
+export const getCommonProducts = (data) => {
+    return axios.get(URL + "commonProducts", { params: { "category_id": data.category_id, "color_id": data.color_id, "sortBy": data.sortBy, "sortIn": data.sortIn, "name": data.name, "pageNo": data.pageNo ? data.pageNo : 1, "perPage": data.perPage ? data.perPage : 9 } });
 
-    const data = {
-        product_id: prd_id,
-        quantity: quantity,
-    }
-
-    return (axios.post(URL + 'updateQuantityByCustId', data, { headers: { "Authorization": "Brearer " + localData.token } }));
 };
 
 

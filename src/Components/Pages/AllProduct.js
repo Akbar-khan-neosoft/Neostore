@@ -1,15 +1,14 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import '../../../Assets/CSS/Product.css';
-import { connect } from 'react-redux';
+import '../../Assets/CSS/Product.css';
 import { ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails, Typography } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import { fetchProductData } from '../../../Redux/Actions/productAction';
-import { URL } from '../../../Redux/Constants';
-import ProductCard from './ProductCard';
-import Pagination from './Pagination';
-import ErrorPage from "../../Common/ErrorPage"
-import Loading from "../../Common/Loading"
+import { URL } from '../../Redux/Constants/index';
+import ProductCard from '../../Components/Pages/Dashboard/ProductCard';
+import Pagination from '../../Components/Pages/Dashboard/Pagination';
+import ErrorPage from "../Common/ErrorPage"
+import Loading from "../Common/Loading"
+import {getCommonProducts} from '../../API/API'
 
 
 
@@ -17,7 +16,7 @@ let indexOfLastPost;
 let indexOfFirstPost;
 let currentCard;
 
-class Product extends Component {
+class AllProduct extends Component {
 	constructor() {
 		super();
 		this.state = {
@@ -26,16 +25,20 @@ class Product extends Component {
 			allColor: [],
 			currentPage: 1,
 			cardsPerPage: 9,
-			heading: "All Categories"
+            heading: "All Categories",
+            categoryId:'',
+            colorId:'',
+            totalCount:0,
 		};
 	}
 
 	async componentDidMount() {
-		await this.props.onFetch();
+        const data = await getCommonProducts({"category_id":""});
+        
 		if(this.props.location.state){
-			this.allCategoriesHandler(this.props.location.state.category_id)
+			this.allCategoriesHandler({"category_id":this.props.location.state.category_id})
 		} else {
-			this.setState({ post: this.props.data });
+			this.setState({ post: data.data.product_details,totalCount:data.data.total_count });
 		}
 		
 		const categoriesData = await axios.get(URL + 'getAllCategories');
@@ -45,43 +48,48 @@ class Product extends Component {
 		this.setState({ allColor: colorData.data.color_details });
 	}
 
-	handlePageChange = pageNumber => {
-		this.setState({ currentPage: pageNumber });
+	handlePageChange = async pageNumber => {
+        const data = await getCommonProducts({"category_id":"","pageNo":pageNumber});
+		this.setState({ post: data.data.product_details });
 	};
 
 	allCategoriesHandler = async category_id => {
-		const categoriesData = await axios.get(URL + 'getProductByCateg/' + category_id);
-		this.setState({ post: categoriesData.data.product_details, currentPage: 1, cardsPerPage: 9, heading: categoriesData.data.product_details[0].category_id.category_name });
+        const categoriesData = await getCommonProducts(category_id);
+		this.setState({ post: categoriesData.data.product_details, currentPage: 1, cardsPerPage: 9, heading: categoriesData.data.product_details[0].category_id.category_name,categoryId:category_id.category_id,colorId:'',totalCount:categoriesData.data.total_count });
 	};
 
 	allColorHandler = async color_id => {
-		const colorData = await axios.get(URL + 'getProductByColor/' + color_id);
+        const colorData = await getCommonProducts(color_id);
+        
 		Array.isArray(colorData.data.product_details)
-			? this.setState({ post: colorData.data.product_details, currentPage: 1, cardsPerPage: 9, heading: "All Categories" })
+			? this.setState({ post: colorData.data.product_details, currentPage: 1, cardsPerPage: 9, heading: "All Categories",colorId:color_id.color_id,categoryId:'',totalCount:colorData.data.total_count  })
 			: this.setState({ post: [], currentPage: 0, cardsPerPage: 9, heading: "" });
 	};
 
-	onAllProductClickHandle = () => {
-		this.setState({ post: this.props.data, currentPage: 1, cardsPerPage: 9, heading: "All Categories" });
+	onAllProductClickHandle = async () => {
+        const data = await getCommonProducts({"category_id":""});
+		this.setState({ post: data.data.product_details, currentPage: 1, cardsPerPage: 9, heading: "All Categories",totalCount:data.data.total_count });
 	};
 
-	sortByRating = async () => {
-		const ratingSortedData = await axios.get(URL + 'getAllProductsInHighestRating');
+	sortByRating = async data => {
+        const ratingSortedData = await getCommonProducts(data);
 		this.setState({ post: ratingSortedData.data.product_details, currentPage: 1, cardsPerPage: 9, heading: "All Categories" });
 	};
 
-	sortByAscending = async () => {
-		const ascSortedData = await axios.get(URL + 'getAllProductsInAscending');
+	sortByAscending = async data => {
+        const ascSortedData = await getCommonProducts(data);
 		this.setState({ post: ascSortedData.data.product_details, currentPage: 1, cardsPerPage: 9, heading: "All Categories" });
 	};
 
-	sortByDescending = async () => {
-		const desSortedData = await axios.get(URL + 'getAllProductsInDescending');
+	sortByDescending = async data => {
+        const desSortedData = await getCommonProducts(data);
 		this.setState({ post: desSortedData.data.product_details, currentPage: 1, cardsPerPage: 9, heading: "All Categories" });
 
 	};
 
 	render() {
+        console.log(this.state.totalCount);
+        
 		const heading = this.state.heading
 		const { allCategories, allColor } = this.state
 
@@ -91,7 +99,7 @@ class Product extends Component {
 
 		return (
 
-			this.props.data.length > 0 ? <div className="product_container">
+			this.state.totalCount > 0 ? <div className="product_container">
 				<div className="product">
 					<div className="side_filter">
 						<div className="allProductButton btn" onClick={this.onAllProductClickHandle}>
@@ -115,7 +123,7 @@ class Product extends Component {
 														className="btn"
 														style={{ textAlign: 'center', width: '100%' }}
 														key={res._id}
-														onClick={() => this.allCategoriesHandler(res.category_id)}
+														onClick={() => this.allCategoriesHandler({"category_id":res.category_id})}
 													>
 														{res.category_name}
 														<hr></hr>
@@ -145,7 +153,7 @@ class Product extends Component {
 														className="colorfilter btn"
 														style={{ backgroundColor: res.color_code }}
 														key={res._id}
-														onClick={() => this.allColorHandler(res.color_id)}
+														onClick={() => this.allColorHandler({"color_id":res.color_id})}
 													></span>
 												);
 											})
@@ -159,31 +167,31 @@ class Product extends Component {
 						<div className="all_product_header">
 							<div className="headingcontent"><h3>{heading}</h3></div>
 							<div className="sortingbuttoncontainer">Sort By:
-							<button className="sortingbutton" onClick={this.sortByRating}>
+							<button className="sortingbutton" onClick={()=>this.sortByRating({"category_id":this.state.categoryId, "color_id":this.state.colorId, sortBy:"product_rating",sortIn:true})}>
 									<i className="fa fa-star" aria-hidden="true"></i>
 								</button>
-								<button className="sortingbutton" onClick={this.sortByAscending}>
+								<button className="sortingbutton" onClick={()=>this.sortByAscending({"category_id":this.state.categoryId, "color_id":this.state.colorId, sortBy:"product_cost",sortIn:false})}>
 									<i className="fa fa-inr fa-lg" aria-hidden="true"></i>
 									<i className="fa fa-arrow-up" aria-hidden="true"></i>
 								</button>
-								<button className="sortingbutton" onClick={this.sortByDescending}>
+								<button className="sortingbutton" onClick={()=>this.sortByDescending({"category_id":this.state.categoryId, "color_id":this.state.colorId, sortBy:"product_cost",sortIn:true})}>
 									<i className="fa fa-inr fa-lg" aria-hidden="true"></i>
 									<i className="fa fa-arrow-down" aria-hidden="true"></i>
 								</button>
 							</div>
 						</div>
-						{this.state.post.length > 0 ? currentCard.length !== 0 ?
+						{this.state.totalCount > 0 ? currentCard.length !== 0 ?
 							<ProductCard data={currentCard} />
 							: <ErrorPage /> 
 						: <Loading />}
 					</div>
 				</div>
-				{(this.state.post.length > this.state.cardsPerPage) ?
+				{(this.state.totalCount > this.state.cardsPerPage) ?
 					<div className="product_pagination">
 						<Pagination
 							cardsPerPage={this.state.cardsPerPage}
 							// totalPosts={this.props.data.length}
-							totalPosts={this.state.post.length}
+							totalPosts={this.state.totalCount}
 							paginate={this.handlePageChange}
 						/>
 					</div> : null}
@@ -192,12 +200,12 @@ class Product extends Component {
 	}
 }
 
-const mapStateToProps = state => {
-	return { data: state.productReducer.data || [] };
-};
+// const mapStateToProps = state => {
+// 	return { data: state.productReducer.data || [] };
+// };
 
-const mapDispatchToProps = dispatch => ({
-	onFetch: () => dispatch(fetchProductData()),
-});
+// const mapDispatchToProps = dispatch => ({
+// 	onFetch: () => dispatch(fetchProductData()),
+// });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Product);
+export default AllProduct;
