@@ -48,3 +48,13 @@
     margin-top: 1%;
     /* margin-bottom: 1%; */
 }
+
+@media only screen and (max-width: 900px) {
+    .orderdata{
+        /* border: 1px solid red; */
+        width: 90%;
+        margin-left: 5%;
+        margin-right: 5%;
+        margin-top: 3%;
+    }
+}

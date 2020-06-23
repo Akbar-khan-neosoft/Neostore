@@ -19,11 +19,11 @@ class Order extends Component {
     }
 
     onClickDownloadReceipt = async (data) => {
-        
+
         const localData = JSON.parse(localStorage.getItem("loginData"))
         try {
             const res = await axios.post(URL + "getInvoiceOfOrder", data, { headers: { "Authorization": "Brearer " + localData.token } })
-            window.open(URL +  res.data.receipt , '_blank')
+            window.open(URL + res.data.receipt, '_blank')
         } catch (error) {
             alert('error ', error);
         }
@@ -51,7 +51,7 @@ class Order extends Component {
                                 })}  </div>
                             <div className="order_">Order Total : <i className="fa fa-inr" aria-hidden="true"></i>
                                 {res.product_details[0].total_cartCost}</div>
-                            <div className="order_"><button onClick={()=>this.onClickDownloadReceipt(res)} style={{backgroundColor:"rgb(70, 47, 170)",color:"white"}}>Download Invoice As PDF</button></div>
+                            <div className="order_"><button onClick={() => this.onClickDownloadReceipt(res)} style={{ backgroundColor: "rgb(70, 47, 170)", color: "white" }}>Download Invoice As PDF</button></div>
                         </div>
 
                         )

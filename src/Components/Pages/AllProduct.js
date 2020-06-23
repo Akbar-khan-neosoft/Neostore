@@ -200,12 +200,5 @@ class AllProduct extends Component {
 	}
 }
 
-// const mapStateToProps = state => {
-// 	return { data: state.productReducer.data || [] };
-// };
-
-// const mapDispatchToProps = dispatch => ({
-// 	onFetch: () => dispatch(fetchProductData()),
-// });
 
 export default AllProduct;

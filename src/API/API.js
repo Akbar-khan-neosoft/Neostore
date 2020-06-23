@@ -4,7 +4,6 @@ import { URL } from "../Redux/Constants"
 
 
 export const addToCart = (data) => {
-    console.log("hh", data);
 
     const cartData = JSON.parse(localStorage.getItem("cart")) || []
     const duplicateProduct = cartData.map(res => {
@@ -22,12 +21,10 @@ export const addToCart = (data) => {
 
 export const getCommonProducts = (data) => {
     return axios.get(URL + "commonProducts", { params: { "category_id": data.category_id, "color_id": data.color_id, "sortBy": data.sortBy, "sortIn": data.sortIn, "name": data.name, "pageNo": data.pageNo ? data.pageNo : 1, "perPage": data.perPage ? data.perPage : 9 } });
-
 };
 
 
 export const addToCartLogoutAPI = (prd_id) => {
-    // const localData = JSON.parse(localStorage.getItem("loginData")) 
     const data = {
         product_id: prd_id,
         quantity: 1

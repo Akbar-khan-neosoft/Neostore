@@ -31,7 +31,7 @@ function Routes(){
                         <ProtectedRoutesLogin exact path="/register" component={Register} />
                         <Route exact path="/contactus" component={ContactForm} />
                         <Route exact path="/forgotpassword" component={ForgotPassword} />
-                        <Route path="/product" component={Product} />
+                        <Route path="/product" component={AllProduct} />
                         <Route exact path="/recoverpassword" component={RecoverPassword} />
                         <Route exact path="/productdetails" component={ProductDetails} />
                         <ProtectedRoutesLogout exact path="/myaccount" component={Profile} />
@@ -43,8 +43,7 @@ function Routes(){
                         <ProtectedRoutesLogout exact path="/orderplaced" component={OrderPlaced} />
                         <Route exact path="/productnotavailable" component={NoProductError} />
                         <Route path="/subscriber" component={Subscriber} />
-                       
-                        <Route exact path="/allproduct" component={AllProduct} />
+                        <Route exact path="/allproduct" component={Product} />
                         <Route component={PageNotFound}/>
 
 

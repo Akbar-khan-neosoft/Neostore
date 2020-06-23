@@ -21,7 +21,7 @@ class EditProfile extends Component {
 			lastName: this.props.data.last_name,
 			_email: this.props.data.email,
 			_dob: this.props.data.dob,
-			profilePic: '',
+			profilePic: this.props.data.profile_img,
 			mobile: this.props.data.phone_no,
 			_gender: this.props.data.gender,
 			disablebutton: true,
@@ -32,7 +32,7 @@ class EditProfile extends Component {
 				email: '',
 				mobile: '',
 				gender: '',
-				dob: ''
+				dob: '',
 			},
 		};
 	}
@@ -40,23 +40,25 @@ class EditProfile extends Component {
 	handleSubmit = async e => {
 		e.preventDefault()
 		const localData = JSON.parse(localStorage.getItem("loginData"))
-		const { firstName, lastName, _gender, _email, mobile, _dob } = this.state
+		const { firstName, lastName, _gender, _email, mobile, _dob, profilePic } = this.state
+		let profileData = new FormData();
+			profileData.append("first_name", firstName);
+			profileData.append("last_name", lastName);
+			profileData.append("email", _email);
+			profileData.append("phone_no", mobile);
+			profileData.append("gender", _gender);
+			profileData.append("dob", _dob);
+			profileData.append("profile_img", profilePic);
 
-		let editProfileData = {
-			first_name: firstName,
-			last_name: lastName,
-			email: _email,
-			phone_no: mobile,
-			gender: _gender,
-			dob: _dob,
-		}
-		await axios.put(URL + "profile", editProfileData, { headers: { "Authorization": "Brearer " + localData.token } });
-
+		await axios.put(URL + "profile", profileData, { headers: { "Authorization": "Brearer " + localData.token } });
 		alert("Profile updated,Redirecting to dashboard")
 		this.props.history.push("/")
 	};
 
-
+	imageUploadHandle = (e) => {
+		const imagefile = e.target.files[0]
+		this.setState({ profilePic: imagefile })
+	}
 	handleChange = e => {
 		e.preventDefault();
 		const { name, value } = e.target;
@@ -114,13 +116,14 @@ class EditProfile extends Component {
 				break;
 			case '_dob':
 				if (_dob.length === 0) {
-					formErrors.dob = "Full DOB Required" 
+					formErrors.dob = "Full DOB Required"
 					this.setState({ disablebutton: true })
 				} else {
 					formErrors.dob = '';
 				}
 
 				break;
+
 			case '_gender':
 				if (_gender.length === 0) {
 					formErrors.gender = "Gender field can't be left blank";
@@ -134,13 +137,9 @@ class EditProfile extends Component {
 				break;
 		}
 
-		console.log("test : ", formErrors);
-
 		if (formErrors.firstName.length === 0 && formErrors.lastName.length === 0 && formErrors.email.length === 0 &&
 			formErrors.dob.length === 0 && formErrors.mobile.length === 0 &&
 			formErrors.gender.length === 0) {
-				console.log("kk",this.state.disablebutton);
-				
 			this.setState({ disablebutton: false })
 		}
 
@@ -151,7 +150,8 @@ class EditProfile extends Component {
 
 
 	render() {
-		const { first_name, last_name, gender, email, phone_no, dob } = this.props.data
+		const { firstName, lastName, _gender, _email, mobile, _dob,profilePic } = this.state
+
 		const { formErrors } = this.state;
 
 
@@ -167,7 +167,7 @@ class EditProfile extends Component {
 										id="outlined-firstName"
 										label="First Name"
 										name="firstName"
-										defaultValue={first_name}
+										defaultValue={firstName}
 										variant="outlined"
 										placeholder="First Name"
 										InputProps={{
@@ -178,10 +178,10 @@ class EditProfile extends Component {
 											),
 										}}
 										onChange={this.handleChange}
-										onBlur={()=>this.validate("firstName")}
+										onBlur={() => this.validate("firstName")}
 									/>
 								</FormControl>
-								{(formErrors.firstName.length > 0 ) && (
+								{(formErrors.firstName.length > 0) && (
 									<span className="errorMessage">{formErrors.firstName}</span>
 								)}
 							</div>
@@ -191,7 +191,7 @@ class EditProfile extends Component {
 										id="outlined-lastName"
 										label="Last Name"
 										name="lastName"
-										defaultValue={last_name}
+										defaultValue={lastName}
 										variant="outlined"
 										placeholder="Last Name"
 										InputProps={{
@@ -202,11 +202,11 @@ class EditProfile extends Component {
 											),
 										}}
 										onChange={this.handleChange}
-										onBlur={()=>this.validate("lastName")}
+										onBlur={() => this.validate("lastName")}
 
 									/>
 								</FormControl>
-								{(formErrors.lastName.length > 0 ) && (
+								{(formErrors.lastName.length > 0) && (
 									<span className="errorMessage">{formErrors.lastName}</span>
 								)}
 							</div>
@@ -216,9 +216,9 @@ class EditProfile extends Component {
 										//defaultValue="male"
 										aria-label="gender"
 										name="_gender"
-										defaultValue={gender}
+										defaultValue={_gender}
 										onChange={this.handleChange}
-										
+
 									>Gender :
 										<FormControlLabel value="male" control={<Radio />} label="Male" />
 										<FormControlLabel value="female" control={<Radio />} label="Female" />
@@ -234,9 +234,9 @@ class EditProfile extends Component {
 										type="date"
 										variant="outlined"
 										// placeholder=""
-										defaultValue={dob}
+										defaultValue={_dob}
 										onChange={this.handleChange}
-										onBlur={()=>this.validate("_dob")}
+										onBlur={() => this.validate("_dob")}
 										InputLabelProps={{
 											shrink: true,
 										}}
@@ -252,7 +252,7 @@ class EditProfile extends Component {
 										id="outlined-email"
 										label="Email Address"
 										name="_email"
-										defaultValue={email}
+										defaultValue={_email}
 										variant="outlined"
 										placeholder="Email Address"
 										InputProps={{
@@ -263,11 +263,11 @@ class EditProfile extends Component {
 											),
 										}}
 										onChange={this.handleChange}
-										onBlur={()=>this.validate("_email")}
+										onBlur={() => this.validate("_email")}
 
 									/>
 								</FormControl>
-								{(formErrors.email.length > 0 ) && (
+								{(formErrors.email.length > 0) && (
 									<span className="errorMessage">{formErrors.email}</span>
 								)}
 							</div>
@@ -280,6 +280,7 @@ class EditProfile extends Component {
 									id="raised-button-file"
 									multiple
 									type="file"
+									onChange={this.imageUploadHandle}
 								/>
 								<label htmlFor="raised-button-file">
 									<Button variant="raised" component="span">
@@ -294,7 +295,7 @@ class EditProfile extends Component {
 										label="Mobile Number"
 										name="mobile"
 										variant="outlined"
-										defaultValue={phone_no}
+										defaultValue={mobile}
 										placeholder="Mobile Number"
 										InputProps={{
 											endAdornment: (
@@ -304,10 +305,10 @@ class EditProfile extends Component {
 											),
 										}}
 										onChange={this.handleChange}
-										onBlur={()=>this.validate("mobile")}
+										onBlur={() => this.validate("mobile")}
 									/>
 								</FormControl>
-								{(formErrors.mobile.length > 0 ) && (
+								{(formErrors.mobile.length > 0) && (
 									<span className="errorMessage">{formErrors.mobile}</span>
 								)}
 							</div>
@@ -322,7 +323,7 @@ class EditProfile extends Component {
 									>
 										save
 									</button>
-								</FormControl>
+								</FormControl> &nbsp;&nbsp;&nbsp;&nbsp;
 								<FormControl component="fieldset">
 									<button
 										class="btn btn-danger text-uppercase float-left"
