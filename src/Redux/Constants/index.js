@@ -1,4 +1,7 @@
-export const URL = 'http://180.149.241.208:3022/';
+// export const URL = 'http://180.149.241.208:3022/';
+
+export const URL = 'https://7af29f57f71c.ngrok.io/';
+
 
 export const SLIDER_DATA_REQUEST = 'SLIDER_DATA_REQUEST';
 export const SLIDER_DATA_SUCCESS = 'SLIDER_DATA_SUCCESS';
