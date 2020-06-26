@@ -88,7 +88,6 @@ class AllProduct extends Component {
 	};
 
 	render() {
-        console.log(this.state.totalCount);
         
 		const heading = this.state.heading
 		const { allCategories, allColor } = this.state

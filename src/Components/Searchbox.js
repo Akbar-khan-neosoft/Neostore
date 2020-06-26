@@ -3,10 +3,16 @@ import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import { connect } from 'react-redux';
 import { withRouter } from "react-router";
+import { fetchProductData } from '../Redux/Actions/productAction';
+
 
 
 
 class Seacrhbox extends Component {
+  
+  async componentDidMount() {
+    await this.props.onFetch();
+  }
 
   onChangeHandle = (e, itemname) => {
     e.preventDefault()
@@ -49,4 +55,8 @@ const mapStateToProps = state => {
   return { data: state.productReducer.data || [] };
 };
 
-export default connect(mapStateToProps)(withRouter(Seacrhbox));
+const mapDispatchToProps = dispatch => ({
+	onFetch: () => dispatch(fetchProductData()),
+});
+
+export default connect(mapStateToProps,mapDispatchToProps)(withRouter(Seacrhbox));

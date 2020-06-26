@@ -165,7 +165,7 @@ class ProductDetails extends Component {
                             starCount={5}
                         /><hr></hr></div>
 
-                        <div><i class="fa fa-inr" aria-hidden="true"></i> {productData.product_cost}</div>
+                        <div><i className="fa fa-inr" aria-hidden="true"></i> {productData.product_cost}</div>
                         <div className="productcolorcontainer"><div style={{ paddingTop: "5px" }}>color :</div> {productData.color_id ? [productData.color_id].map((res) => {
                             return (<div className="colorbox" key={res.color_code} style={{ backgroundColor: res.color_code }}></div>)
                         }) : []}</div>

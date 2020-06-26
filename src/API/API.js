@@ -41,14 +41,12 @@ export const getOrderDetailsAPI = () => {
 
 export const deleteCustomerCartAPI = (prd_id) => {
     const localData = JSON.parse(localStorage.getItem("loginData"))
-    console.log(prd_id, localData.token);
 
     return (axios.delete(URL + 'deleteCustomerCart/' + prd_id, { headers: { "Authorization": "Brearer " + localData.token } }));
 };
 
 export const placeOrderAPI = (data) => {
     const localData = JSON.parse(localStorage.getItem("loginData"))
-    console.log(data, localData.token);
 
     return (axios.post(URL + 'addProductToCartCheckout', data, { headers: { "Authorization": "Brearer " + localData.token } }));
 };
