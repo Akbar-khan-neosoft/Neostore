@@ -35,6 +35,7 @@ class ProductDetails extends Component {
     }
 
     onClickRateProduct = () => {
+        const localData = JSON.parse(localStorage.getItem("loginData"));
         if (localData === null) {
             alert("Login First")
             this.props.history.push("/login")
@@ -63,8 +64,11 @@ class ProductDetails extends Component {
     async componentDidMount() {
         const res = await axios.get(URL + "getProductByProdId/" + this.props.location.state.productid)
         this.setState({ productDetails: res.data.product_details[0] })
+    }
 
-
+    async componentWillReceiveProps(nextProps){
+        const res = await axios.get(URL + "getProductByProdId/" + nextProps.location.state.productid)
+        this.setState({ productDetails: res.data.product_details[0] })
     }
 
     onDescriptionButtonhandle = (param) => {

@@ -34,38 +34,29 @@ class DeliveryAddress extends Component {
         this.setState({ address_id: event.target.value })
         const data = this.state.custAddress.map(res => {
             if (res.address_id == event.target.value) {
-                return {
-                    address: res.address,
-                    address_id: res.address_id,
-                    city: res.city,
-                    country: res.country,
-                    createdAt: res.createdAt,
-                    customer_id: res.customer_id,
-                    isDeliveryAddress: true,
-                    pincode: res.pincode,
-                    state: res.state,
-                    updatedAt: res.state,
-                }
-            } else {
-                return {
-                    address: res.address,
-                    address_id: res.address_id,
-                    city: res.city,
-                    country: res.country,
-                    createdAt: res.createdAt,
-                    customer_id: res.customer_id,
-                    isDeliveryAddress: false,
-                    pincode: res.pincode,
-                    state: res.state,
-                    updatedAt: res.state,
-                }
-            }
+            res.isDeliveryAddress = true
+            return res 
+            } 
+            // else {
+            //     return {
+            //         address: res.address,
+            //         address_id: res.address_id,
+            //         city: res.city,
+            //         country: res.country,
+            //         createdAt: res.createdAt,
+            //         customer_id: res.customer_id,
+            //         isDeliveryAddress: false,
+            //         pincode: res.pincode,
+            //         state: res.state,
+            //         updatedAt: res.state,
+            //     }
+            // }
         })
         const localData = JSON.parse(localStorage.getItem("loginData"))
-        const res = await axios.put(URL + "updateAddress", data, { headers: { "Authorization": "Brearer " + localData.token } })
+        const res = await axios.put(URL + "updateAddress", data[0], { headers: { "Authorization": "Brearer " + localData.token } })
         if (res.data.success === true) {
             alert("Delivery Address Updated")
-            this.setState({ disablePlaceOrderButton: false, custAddress: data })
+            this.setState({ disablePlaceOrderButton: false })
         } else {
             alert("Some Error Occured")
         }
@@ -95,7 +86,9 @@ class DeliveryAddress extends Component {
 
     render() {
         const { custAddress } = this.state
-
+        // console.log(custAddress);
+        
+        
         return (
             this.state.addAddress ? <AddNewAddress cancel={this.addNewAddressHandle} save={this.props.save} /> : this.state.editAddress ? <EditDeliveryAddress save={this.props.save} custAddress={custAddress} cancel={this.editAddressHandle} add_id={this.state.address_id} /> :
                 <div>

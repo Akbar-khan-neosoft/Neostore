@@ -22,33 +22,31 @@ import PageNotFound from "../Components/Pages/PageNotFound";
 import Subscriber from "../Components/Pages/Subscriber";
 import AllProduct from "../Components/Pages/AllProduct";
 
-function Routes(){
-    return(
+function Routes() {
+    return (
 
-                    <Switch>
-                        <Route exact path="/" component={Dashboard} />
-                        <ProtectedRoutesLogin exact path="/login" component={Login} />
-                        <ProtectedRoutesLogin exact path="/register" component={Register} />
-                        <Route exact path="/contactus" component={ContactForm} />
-                        <Route exact path="/forgotpassword" component={ForgotPassword} />
-                        <Route path="/product" component={AllProduct} />
-                        <Route exact path="/recoverpassword" component={RecoverPassword} />
-                        <Route exact path="/productdetails" component={ProductDetails} />
-                        <ProtectedRoutesLogout exact path="/myaccount" component={Profile} />
-                        <ProtectedRoutesLogout exact path="/address" component={AddNewAddress} />
-                        <ProtectedRoutesLogout exact path="/changepassword" component={ChangePassword} />
-                        <Route exact path="/cart" component={Cart} />
-                        <Route exact path="/locateus" component={LocateUs} />
-                        <ProtectedRoutesLogout exact path="/order" component={Order} />
-                        <ProtectedRoutesLogout exact path="/orderplaced" component={OrderPlaced} />
-                        <Route exact path="/productnotavailable" component={NoProductError} />
-                        <Route path="/subscriber" component={Subscriber} />
-                        <Route exact path="/allproduct" component={Product} />
-                        <Route component={PageNotFound}/>
+        <Switch>
+            <Route exact path="/" component={Dashboard} />
+            <ProtectedRoutesLogin exact path="/login" component={Login} />
+            <ProtectedRoutesLogin exact path="/register" component={Register} />
+            <Route exact path="/contactus" component={ContactForm} />
+            <Route exact path="/forgotpassword" component={ForgotPassword} />
+            <Route path="/product" component={AllProduct} />
+            <Route exact path="/recoverpassword" component={RecoverPassword} />
+            <Route exact path="/productdetails" component={ProductDetails} />
+            <ProtectedRoutesLogout exact path="/myaccount" component={Profile} />
+            <ProtectedRoutesLogout exact path="/address" component={AddNewAddress} />
+            <ProtectedRoutesLogout exact path="/changepassword" component={ChangePassword} />
+            <Route exact path="/cart" component={Cart} />
+            <Route exact path="/locateus" component={LocateUs} />
+            <ProtectedRoutesLogout exact path="/order" component={Order} />
+            <ProtectedRoutesLogout exact path="/orderplaced" component={OrderPlaced} />
+            <Route exact path="/productnotavailable" component={NoProductError} />
+            <Route path="/subscriber" component={Subscriber} />
+            <Route exact path="/allproduct" component={Product} />
+            <Route component={PageNotFound} />
+        </Switch>
 
-
-                    </Switch>
- 
     )
 }
 

@@ -31,7 +31,7 @@ class Profile extends Component {
     }
 
     profilePictureHandle = (src) => {
-        console.log("src", src);
+        // console.log("src", src);
         var img;
         if (src === null) {
             img = "https://www.pngkey.com/png/detail/230-2301779_best-classified-apps-default-user-profile.png"

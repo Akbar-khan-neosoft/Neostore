@@ -18,8 +18,8 @@ class MyProfile extends Component {
         const localData = JSON.parse(localStorage.getItem("loginData"))
 
         const res = await axios.get(URL + "getCustProfile", { headers: { "Authorization": "Brearer " + localData.token } })
-        console.log("res", res.data.customer_proile);
-        console.log(this.props.profilePicture(res.data.customer_proile.profile_img));
+        // console.log("res", res.data.customer_proile);
+        // console.log(this.props.profilePicture(res.data.customer_proile.profile_img));
 
         this.setState({ custData: res.data.customer_proile })
     }
@@ -38,17 +38,17 @@ class MyProfile extends Component {
                     <hr></hr>
                     <div className="profilebody">
                         <br></br>
-                        <div>First Name : {first_name} </div>
+                        <div><b>First Name </b>: {first_name} </div>
                         <br></br>
-                        <div>Last Name : {last_name} </div>
+                        <div><b>Last Name </b>: {last_name} </div>
                         <br></br>
-                        <div>Gender :  {gender} </div>
+                        <div><b>Gender </b>:  {gender} </div>
                         <br></br>
-                        <div>Date Of Birth :  {dob}</div>
+                        <div><b>Date Of Birth </b>:  {dob}</div>
                         <br></br>
-                        <div>Mobile Number :  {phone_no}</div>
+                        <div><b>Mobile Number </b>:  {phone_no}</div>
                         <br></br>
-                        <div>Email : {email} </div>
+                        <div><b>Email </b>: {email} </div>
                         <br></br>
                     </div>
                     <hr></hr>

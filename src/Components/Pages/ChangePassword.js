@@ -38,10 +38,6 @@ class ChangePassword extends Component {
         const data = { ...this.state.data };
         data[input.name] = input.value;
         this.setState({ data });
-        console.log(
-            data
-        )
-
     };
 
     handleClickShowPassword = (param) => {
@@ -56,20 +52,24 @@ class ChangePassword extends Component {
 
         if (this.validate()) {
             const localData = JSON.parse(localStorage.getItem("loginData"))
-            const {oldpassword,newpassword,confirmpassword} =this.state.data
+            const { oldpassword, newpassword, confirmpassword } = this.state.data
             const data = {
                 oldPass: oldpassword,
-                newPass:newpassword,
+                newPass: newpassword,
                 confirmPass: confirmpassword
             }
-            console.log("data>>", data);
-
-              const res = await axios.post(URL + 'changepassword' , data, {headers:{"Authorization": 'Bearer ' + localData.token}})        
-              alert(res.data.message + ",You Are Redirected To HomePage Now");
+            // console.log("data>>", data);
+            try {
+                const res = await axios.post(URL + 'changepassword', data, { headers: { "Authorization": 'Bearer ' + localData.token } })
+                alert(res.data.message + ",You Are Redirected To HomePage Now");
                 this.props.history.push("/")
+            } catch (error) {
+                // console.log(error.response.data.message);
+                alert(error.response.data.message);
+            }
         }
         else {
-            alert("error");
+            alert("error : check data which you have entered");
         }
 
     }
@@ -127,7 +127,7 @@ class ChangePassword extends Component {
 
     render() {
 
-        const { newpasswordError,oldpasswordError,confirmpasswordError,newpassworderrorMessage,oldpassworderrorMessage,confirmpassworderrorMessage } = this.state.error
+        const { newpasswordError, oldpasswordError, confirmpasswordError, newpassworderrorMessage, oldpassworderrorMessage, confirmpassworderrorMessage } = this.state.error
 
         return (
             <div className="changepassword">
