@@ -14,8 +14,8 @@ export const FacebookButton = () => {
 export const GoogleButton = () => {
 	return (
 		<button className="loginButton" style={{ backgroundColor: 'red' }}>
-			<i className=" fa fa-4x fa-google" aria-hidden="true"></i>
-			Login with Google
+			<i className=" fa fa-4x fa-google">    </i> 
+			<span>Login with Google</span>
 		</button>
 	);
 };

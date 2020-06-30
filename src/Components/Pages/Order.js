@@ -4,18 +4,24 @@ import axios from "axios"
 import "../../Assets/CSS/Order.css"
 import { URL } from '../../Redux/Constants/index'
 import NoOrder from "../NoOrder";
+import Loading from "../Common/Loading";
 
 class Order extends Component {
     constructor() {
         super()
         this.state = {
-            orderdata: []
+            orderdata: [],
+            orderLength:0,
         }
     }
 
     async componentDidMount() {
         const res = await getOrderDetailsAPI()
-        this.setState({ orderdata: res.data.product_details || [] })
+        if(res.data.product_details.length === 0){
+            this.setState({ orderdata: res.data.product_details || [],orderLength: -1 })
+        } else{
+            this.setState({ orderdata: res.data.product_details || [],orderLength: res.data.product_details.length})
+        }
     }
 
     onClickDownloadReceipt = async (data) => {
@@ -30,8 +36,9 @@ class Order extends Component {
     }
 
     render() {
+        
         return (
-            this.state.orderdata.length > 0 ?
+            this.state.orderLength === 0 ? <Loading/> : this.state.orderLength > 0 ? 
                 <div className="ordercontainer">
                     {this.state.orderdata.map((res) => {
                         return (<div className="orderdetails">
