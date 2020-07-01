@@ -250,17 +250,17 @@ class EditAddress extends Component {
                         <div className="addnewaddressformcontrol">
                             <FormControl component="fieldset">
                                 <button
-                                    class="btn"
+                                    className="btn"
                                     type="button"
                                     style={{ backgroundColor: 'rgb(21, 103, 226)', color: 'white' }}
                                     onClick={this.onSubmitHandle}
                                 >
                                     Save
 							</button>
-                            </FormControl>
+                            </FormControl> &nbsp;&nbsp;
                             <FormControl component="fieldset">
                                 <button
-                                    class="btn"
+                                    className="btn"
                                     type="button"
                                     style={{ backgroundColor: 'rgb(21, 103, 226)', color: 'white' }}
                                     onClick={this.props.cancel}

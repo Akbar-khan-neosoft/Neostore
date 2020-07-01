@@ -31,7 +31,6 @@ class Profile extends Component {
     }
 
     profilePictureHandle = (src) => {
-        // console.log("src", src);
         var img;
         if (src === null) {
             img = "https://www.pngkey.com/png/detail/230-2301779_best-classified-apps-default-user-profile.png"
@@ -43,7 +42,6 @@ class Profile extends Component {
 
 
     render() {
-
         const localData = JSON.parse(localStorage.getItem("loginData"))
 
         let component;
@@ -68,10 +66,10 @@ class Profile extends Component {
                     <div className="leftsidebox">
                         <div className="profilepiccontainer"><img className="profilepicture" alt="profilepicture" src={this.state.profilePic} /></div>
                         <div className="profilename "><h5 style={{ color: "red" }}>{localData.customer_details.first_name + " " + localData.customer_details.last_name}</h5></div>
-                        <div className="profileorder btn" onClick={() => this.onClickHandle("order")}><i class="fa fa-bars" aria-hidden="true"></i>Order</div>
-                        <div className="profiledata btn" onClick={() => this.onClickHandle("profile")}><i class="fa fa-user" aria-hidden="true"></i>Profile</div>
-                        <div className="profileaddress btn" onClick={() => this.onClickHandle("address")}><i class="fa fa-address-book" aria-hidden="true"></i>Address</div>
-                        <div className="changeprofilepassword btn" onClick={() => this.onClickHandle("changepassword")}><i class="fa fa-key" aria-hidden="true"></i>Change Password</div>
+                        <div className="profileorder btn" onClick={() => this.onClickHandle("order")}><i className="fa fa-bars" aria-hidden="true"></i>Order</div>
+                        <div className="profiledata btn" onClick={() => this.onClickHandle("profile")}><i className="fa fa-user" aria-hidden="true"></i>Profile</div>
+                        <div className="profileaddress btn" onClick={() => this.onClickHandle("address")}><i className="fa fa-address-book" aria-hidden="true"></i>Address</div>
+                        <div className="changeprofilepassword btn" onClick={() => this.onClickHandle("changepassword")}><i className="fa fa-key" aria-hidden="true"></i>Change Password</div>
                     </div>
                     <div className="rightsidebox">
                         {component}

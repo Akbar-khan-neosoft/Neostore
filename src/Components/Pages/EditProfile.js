@@ -143,7 +143,6 @@ class EditProfile extends Component {
 			this.setState({ disablebutton: false })
 		}
 
-
 		this.setState({ formErrors });
 	}
 
@@ -151,10 +150,7 @@ class EditProfile extends Component {
 
 	render() {
 		const { firstName, lastName, _gender, _email, mobile, _dob,profilePic } = this.state
-
 		const { formErrors } = this.state;
-
-
 		return (
 			<div className="register">
 				<div class="form_card" style={{ width: '90%' }}>

@@ -92,8 +92,6 @@ class DeliveryAddress extends Component {
 
     render() {
         const { custAddress } = this.state
-        console.log(custAddress);
-
 
         return (
             this.state.addAddress ? <AddNewAddress cancel={this.addNewAddressHandle} save={this.props.save} /> : this.state.editAddress ? <EditDeliveryAddress save={this.props.save} custAddress={custAddress} cancel={this.editAddressHandle} add_id={this.state.address_id} /> :

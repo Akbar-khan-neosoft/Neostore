@@ -4,6 +4,7 @@ import { withRouter } from "react-router-dom"
 import AddNewAddress from "./AddNewAddress"
 import EditAddress from "./EditAddress"
 import { URL } from "../../Redux/Constants"
+import Loading from "../Common/Loading"
 
 
 class MyAddress extends Component {
@@ -13,14 +14,19 @@ class MyAddress extends Component {
             custAddress: [],
             editAddress: false,
             addAddress: false,
-            address_id: ""
+            address_id: "",
+            addressLength: 0
         }
     }
 
     async componentDidMount() {
         const localData = JSON.parse(localStorage.getItem("loginData"))
-        const res = await axios.get(URL + "getCustAddress", { headers: { "Authorization": "Brearer " + localData.token } })
-        this.setState({ custAddress: res.data.customer_address })
+        try {
+            const res = await axios.get(URL + "getCustAddress", { headers: { "Authorization": "Brearer " + localData.token } })
+            this.setState({ custAddress: res.data.customer_address, addressLength: res.data.customer_address.length })
+        } catch (error) {
+            this.setState({ custAddress: [], addressLength: -1 })
+        }
     }
 
     editAddressHandle = (add_id) => {
@@ -34,16 +40,15 @@ class MyAddress extends Component {
     deleteAddressHandle = async (add_id) => {
         const localData = JSON.parse(localStorage.getItem("loginData"))
         const res = await axios.delete(URL + "deladdress/" + add_id, { headers: { "Authorization": "Brearer " + localData.token } })
-        alert(res.data.message)
+        alert(res.data.data.message)
         this.props.history.push('/');
-
     }
 
     render() {
         const { custAddress } = this.state
 
         return (
-            custAddress.length !== 0 ?
+            this.state.addressLength === 0 ? <Loading /> : this.state.addressLength > 0 ?
                 this.state.addAddress ? <AddNewAddress cancel={this.addNewAddressHandle} /> : this.state.editAddress ? <EditAddress custAddress={custAddress} cancel={this.editAddressHandle} add_id={this.state.address_id} /> :
                     <div>
                         <div>Addresses :</div>

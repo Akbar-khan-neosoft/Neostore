@@ -1,6 +1,6 @@
 // export const URL = 'http://180.149.241.208:3022/';
 
-export const URL = 'https://1c23e7cef0cd.ngrok.io/';
+export const URL = 'https://7c2130c36efd.ngrok.io/';
 
 
 

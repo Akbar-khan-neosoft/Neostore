@@ -95,6 +95,7 @@ class ProductDetails extends Component {
 
     render() {
         const productData = this.state.productDetails
+        
         let descriptionData, imageData;
 
         this.state.showDescription ? descriptionData = productData.product_desc : descriptionData = <div>
