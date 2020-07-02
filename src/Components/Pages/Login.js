@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { fetchlogin } from '../../Redux/Actions/loginAction';
 import { fetchCartData } from '../../Redux/Actions/cartAction'
+import Swal from "sweetalert2"
 import '../../Assets/CSS/Login.css';
 import { EMAIL_REGEX, customErrorMessages } from '../../Utils/validation'
 import {
@@ -55,7 +56,12 @@ class Login extends Component {
 			}
 			this.props.history.push('/');
 		} else if (!this.props.loginError.success) {
-			alert(this.props.loginError.message)
+			Swal.fire({
+				icon: 'error',
+				title: this.props.loginError.message,
+				showConfirmButton: false,
+				timer: 2000
+			})
 		}
 	};
 

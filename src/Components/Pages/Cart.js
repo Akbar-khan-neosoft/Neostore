@@ -1,4 +1,5 @@
 import React, { Component } from "react"
+import Swal from "sweetalert2"
 import axios from 'axios';
 import { connect } from 'react-redux';
 import "../../Assets/CSS/Cart.css"
@@ -39,15 +40,36 @@ class Cart extends Component {
 
     onClickdeleteProductHandle = (prd_id) => {
         const localData = JSON.parse(localStorage.getItem("loginData"));
-        if(localData){
-            axios.delete(URL + `deleteCustomerCart/${prd_id}`, { headers: { "Authorization": 'Bearer ' + localData.token } });
-        }
-        const localCartData = JSON.parse(localStorage.getItem("cart"))
-        const index = localCartData.findIndex(res => { return res._id === prd_id })
-        localCartData.splice(index, 1)
-        localStorage.setItem('cart', JSON.stringify(localCartData));
-        this.setState({ cartData: JSON.parse(localStorage.getItem("cart")) })
-        this.props.cartItemCount()
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.value) {
+                if (localData) {
+                    axios.delete(URL + `deleteCustomerCart/${prd_id}`, { headers: { "Authorization": 'Bearer ' + localData.token } });
+                }
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Done',
+                    text:  'Item has been removed from cart.',
+                    showConfirmButton: false,
+                    timer: 2000
+                })
+                const localCartData = JSON.parse(localStorage.getItem("cart"))
+                const index = localCartData.findIndex(res => { return res._id === prd_id })
+                localCartData.splice(index, 1)
+                localStorage.setItem('cart', JSON.stringify(localCartData));
+                this.setState({ cartData: JSON.parse(localStorage.getItem("cart")) })
+                this.props.cartItemCount()
+
+            }
+        })
+
     }
 
 
@@ -58,9 +80,7 @@ class Cart extends Component {
         console.log(localCartData[index].quantity)
 
         if (localCartData[index].quantity <= 1) {
-            console.log("you are here");
 
-            window.confirm("Are you sure,to remove this item from cart")
             this.onClickdeleteProductHandle(prd_id);
         }
         else {

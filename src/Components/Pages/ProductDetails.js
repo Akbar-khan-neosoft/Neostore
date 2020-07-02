@@ -1,6 +1,7 @@
 import React, { Component } from "react"
 import StarRatingComponent from "react-star-rating-component"
 import Rating from '@material-ui/lab/Rating';
+import Swal from "sweetalert2"
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import { connect } from 'react-redux';
@@ -38,7 +39,13 @@ class ProductDetails extends Component {
     onClickRateProduct = () => {
         const localData = JSON.parse(localStorage.getItem("loginData"));
         if (localData === null) {
-            alert("Login First")
+            Swal.fire({
+				icon: 'info',
+				title: 'Login First',
+				text:  "You need to logged-In,Before rating a product",
+                showConfirmButton: false,
+                timer: 1500
+			})
             this.props.history.push("/login")
         }
         else {
@@ -57,7 +64,12 @@ class ProductDetails extends Component {
         }
 
         const res = await axios.put(URL + "updateProductRatingByCustomer", data, { headers: { "Authorization": "Brearer " + localData.token } })
-        alert(res.data.message)
+        Swal.fire({
+            icon: 'success',
+            title: res.data.message,
+            showConfirmButton: false,
+            timer: 2000
+        })
         this.setState({ showRateProduct: false })
     }
 

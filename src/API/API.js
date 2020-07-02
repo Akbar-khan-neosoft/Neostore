@@ -1,5 +1,6 @@
 import axios from "axios";
 import { URL } from "../Redux/Constants"
+import Swal from "sweetalert2"
 
 
 
@@ -11,10 +12,20 @@ export const addToCart = (data) => {
     }).find((id) => { return id === data._id })
 
     if (duplicateProduct === data._id) {
-        alert("Product already available  in cart")
+        Swal.fire({
+            icon: 'error',
+            title: 'Product already available  in cart',
+            showConfirmButton: false,
+            timer: 2000
+          })
     } else {
         localStorage.setItem('cart', JSON.stringify(cartData.concat(data)));
-        alert("Product added to cart")
+        Swal.fire({
+            icon: 'success',
+            title: 'Product added to cart',
+            showConfirmButton: false,
+            timer: 2000
+          })
     }
 
 };

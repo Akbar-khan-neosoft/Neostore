@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import Swal from "sweetalert2"
 import { URL } from '../../Redux/Constants/index';
 import '../../Assets/CSS/Register.css';
 import { TextField, FormControl, OutlinedInput, InputLabel, IconButton, InputAdornment } from '@material-ui/core';
@@ -57,11 +58,21 @@ class Register extends Component {
 		};
 		try {
 			var res = await axios.post(URL + 'register', registrationData);
-			alert(res.data.message);
+			Swal.fire({
+				icon: 'success',
+				title: res.data.message,
+				showConfirmButton: false,
+				timer: 2000
+			})
 			this.props.history.push('login');
 
 		} catch (error) {
-			alert(error.response.data.message);
+			Swal.fire({
+				icon: 'error',
+				title: 'Registration Failed',
+				text:  error.response.data.message,
+				showConfirmButton: true,
+			})
 		}
 
 	};

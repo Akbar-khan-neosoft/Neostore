@@ -1,3 +1,4 @@
+import Swal from "sweetalert2"
 import axios from 'axios';
 import { LOGIN_FAILURE, LOGIN_REQUEST, LOGIN_SUCCESS, URL, LOGIN_AUTHENTICATION, LOGOUT_REQUEST } from '../Constants';
 const loginRequest = () => ({ type: LOGIN_REQUEST });
@@ -15,7 +16,12 @@ export const fetchlogout = () => async dispatch => {
 		try {
 			await axios.post(URL + 'addProductToCartCheckout', data, { headers: { "Authorization": "Brearer " + localData.token } });
 		} catch (error) {
-			alert(error);
+			Swal.fire({
+				icon: 'error',
+				title: error,
+				showConfirmButton: false,
+				timer: 2000
+			})
 		}
 	dispatch(logoutRequest());
 };
@@ -24,7 +30,12 @@ export const fetchlogin = data => async dispatch => {
 	dispatch(loginRequest());
 	try {
 		const res = await axios.post(URL + 'login', data);
-		alert(res.data.message);
+		Swal.fire({
+			icon: 'success',
+			title: res.data.message,
+			showConfirmButton: false,
+			timer: 2000
+		})
 		dispatch(loginSuccess(res.data));
 		dispatch(loginAuthetication());
 	} catch (error) {
